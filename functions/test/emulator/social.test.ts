@@ -77,6 +77,8 @@ describe("social on the emulator", () => {
     expect(friends.top.map((r) => [r.pseudo, r.late])).toEqual([["Cid", true], ["Bob", false], ["Ann", false]]);
     const country = await s.leaderboard(db, "ann", { scope: "country" }, now);
     expect(country.top.map((r) => r.pseudo)).toEqual(["Ann", "Dee"]);
+    const language = await s.leaderboard(db, "ann", { scope: "language" }, now);
+    expect(language.top.map((r) => r.pseudo)).toEqual(["Bob", "Ann", "Dee"]); // all "fr"
     const weekly = await s.leaderboard(db, "bob", { scope: "weekly" }, now);
     expect(weekly.me).toMatchObject({ rank: 1 });
 

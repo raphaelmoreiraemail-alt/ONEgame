@@ -318,6 +318,19 @@
       }
     },
     {
+      "id": "motflash",
+      "category": "reflexion",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [],
+      "scoreMin": 0,
+      "scoreMax": 60000,
+      "name": {
+        "fr": "Mot éclair",
+        "en": "Word Flash"
+      }
+    },
+    {
       "id": "memory",
       "category": "reflexion",
       "rulesVersion": 1,

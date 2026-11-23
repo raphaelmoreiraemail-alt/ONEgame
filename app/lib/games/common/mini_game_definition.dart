@@ -38,6 +38,10 @@ abstract class MiniGameDefinition {
     Map<String, num> stats,
   );
 
+  /// Loads data needed before [createSim] (e.g. a dictionary). Called by
+  /// the play screen during the 3-2-1 intro.
+  Future<void> prepare(GameContext ctx) async {}
+
   GameSim createSim(GameContext ctx);
 
   /// Fingerprint of the level generated from a seed (determinism tests).

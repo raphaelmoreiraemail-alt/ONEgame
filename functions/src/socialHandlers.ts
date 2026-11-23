@@ -181,6 +181,8 @@ export async function leaderboard(db: Firestore, uid: string, data: { scope?: un
   if (scope !== "weekly") q = q.where("onTime", "==", true);
   if (scope === "region") q = q.where("region", "==", region);
   if (scope === "country") q = q.where("country", "==", me.country ?? "??");
+  // Mot éclair: each language has its own word list (section 7.22).
+  if (scope === "language") q = q.where("lang", "==", me.lang ?? "fr");
   const topSnap = await q.orderBy("score", "desc").limit(TOP).get();
   const top = rankEntries(topSnap.docs.map(map));
   const mine = await coll.doc(uid).get();

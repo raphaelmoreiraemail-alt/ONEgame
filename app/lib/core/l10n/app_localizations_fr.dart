@@ -1264,4 +1264,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get highlightStreak10 => '10 D\'AFFILÉE !';
+
+  @override
+  String get gameMotflashName => 'Mot éclair';
+
+  @override
+  String get gameMotflashRule =>
+      'Forme un maximum de mots avec ces 7 lettres. Un mot de 7 lettres existe !';
+
+  @override
+  String gameMotflashShare(Object longest, Object words) {
+    return '🔤 $words mots · le plus long : $longest lettres';
+  }
+
+  @override
+  String get statWords => 'Mots trouvés';
+
+  @override
+  String get statLongest => 'Mot le plus long';
+
+  @override
+  String get highlightFullWord => 'LE MOT DE 7 LETTRES !';
+
+  @override
+  String get lbLanguage => 'Langue';
 }

@@ -2292,6 +2292,48 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'10 D\'AFFILÉE !'**
   String get highlightStreak10;
+
+  /// No description provided for @gameMotflashName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot éclair'**
+  String get gameMotflashName;
+
+  /// No description provided for @gameMotflashRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Forme un maximum de mots avec ces 7 lettres. Un mot de 7 lettres existe !'**
+  String get gameMotflashRule;
+
+  /// No description provided for @gameMotflashShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🔤 {words} mots · le plus long : {longest} lettres'**
+  String gameMotflashShare(Object longest, Object words);
+
+  /// No description provided for @statWords.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mots trouvés'**
+  String get statWords;
+
+  /// No description provided for @statLongest.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot le plus long'**
+  String get statLongest;
+
+  /// No description provided for @highlightFullWord.
+  ///
+  /// In fr, this message translates to:
+  /// **'LE MOT DE 7 LETTRES !'**
+  String get highlightFullWord;
+
+  /// No description provided for @lbLanguage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Langue'**
+  String get lbLanguage;
 }
 
 class _AppLocalizationsDelegate

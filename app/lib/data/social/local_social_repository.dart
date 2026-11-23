@@ -23,6 +23,7 @@ class LocalSocialRepository implements SocialRepository {
   static const _kFriends = 'local.friends';
   static const _kReactions = 'local.reactions';
   static const meUid = 'me';
+  static const _frenchSpeaking = {'FR', 'BE', 'CH', 'CA', 'MA', 'SN'};
   static const _countries = [
     'FR',
     'FR',
@@ -326,6 +327,9 @@ class LocalSocialRepository implements SocialRepository {
         if (scope == Scope.friends && !friends.contains(d.uid)) continue;
         if (scope == Scope.country && d.country != myCountry) continue;
         if (scope == Scope.region && d.region != myRegion) continue;
+        if (scope == Scope.language && !_frenchSpeaking.contains(d.country)) {
+          continue;
+        }
         final s = _demoScore(i, dayKey);
         if (s == null || (scope != Scope.friends && !s.onTime)) continue;
         rows.add(

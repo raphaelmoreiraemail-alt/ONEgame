@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../app/locale_controller.dart';
 import '../../app/router.dart';
 import '../../core/audio/feedback.dart';
 import '../../core/config/tuning.dart';
@@ -59,13 +60,16 @@ class PlayScreen extends ConsumerStatefulWidget {
 class _PlayScreenState extends ConsumerState<PlayScreen>
     with WidgetsBindingObserver {
   late final MiniGameDefinition _def;
-  late final MiniGame _game;
+  MiniGame? _gameOrNull;
+  late final Future<void> _prepared;
   _Phase _phase = _Phase.intro;
   int _count = 3;
   Timer? _timer;
   DateTime? _backgroundedAt;
   int _lastTick = 999;
   bool _showGo = false;
+
+  MiniGame get _game => _gameOrNull!;
 
   FeedbackService get _fx => ref.read(feedbackProvider);
 
@@ -74,20 +78,33 @@ class _PlayScreenState extends ConsumerState<PlayScreen>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _def = GameRegistry.byId(widget.request.gameId)!;
+    final lang =
+        (ref.read(localeProvider) ??
+                    WidgetsBinding.instance.platformDispatcher.locale)
+                .languageCode ==
+            'en'
+        ? 'en'
+        : 'fr';
     final ctx = GameContext(
       seed: widget.request.seed,
       modifierId: widget.request.modifierId,
       official: widget.request.official,
       tuning: ref.read(tuningProvider).forGame(_def.id),
+      lang: lang,
     );
-    _game = MiniGame(
-      sim: _def.createSim(ctx),
-      maxDuration: _def.maxDuration,
-      showDebug: widget.request.debug,
-      onCue: (c) => _fx.cue(c),
-      onFinished: _onFinished,
-    );
-    _game.remainingSeconds.addListener(_onSecond);
+    // Some games load data first (dictionaries); the 3-2-1 intro hides it.
+    _prepared = _def.prepare(ctx).then((_) {
+      if (!mounted) return;
+      setState(() {
+        _gameOrNull = MiniGame(
+          sim: _def.createSim(ctx),
+          maxDuration: _def.maxDuration,
+          showDebug: widget.request.debug,
+          onCue: (c) => _fx.cue(c),
+          onFinished: _onFinished,
+        )..remainingSeconds.addListener(_onSecond);
+      });
+    });
     unawaited(FeedbackService.preload());
     _fx.play(Sfx.countdown);
     _timer = Timer.periodic(const Duration(seconds: 1), (_) => _countdown());
@@ -101,6 +118,15 @@ class _PlayScreenState extends ConsumerState<PlayScreen>
       return;
     }
     _timer?.cancel();
+    if (_gameOrNull == null) {
+      unawaited(_prepared.then((_) => _start()));
+    } else {
+      _start();
+    }
+  }
+
+  void _start() {
+    if (!mounted) return;
     _fx
       ..play(Sfx.go)
       ..vibrate(Haptic.medium);
@@ -186,7 +212,7 @@ class _PlayScreenState extends ConsumerState<PlayScreen>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _timer?.cancel();
-    _game.remainingSeconds.removeListener(_onSecond);
+    _gameOrNull?.remainingSeconds.removeListener(_onSecond);
     super.dispose();
   }
 

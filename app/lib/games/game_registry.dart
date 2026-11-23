@@ -12,6 +12,7 @@ import 'flappy/flappy.dart';
 import 'freekick/freekick.dart';
 import 'memory/memory.dart';
 import 'minigolf/minigolf.dart';
+import 'motflash/motflash.dart';
 import 'parking/parking.dart';
 import 'penalty/penalty.dart';
 import 'petanque/petanque.dart';
@@ -48,6 +49,7 @@ abstract final class GameRegistry {
     RunnerGame(),
     SnakeGame(),
     RacingGame(),
+    MotflashGame(),
     MemoryGame(),
     CalculGame(),
   ];

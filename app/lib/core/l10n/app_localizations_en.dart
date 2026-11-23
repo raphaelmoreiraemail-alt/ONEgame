@@ -1259,4 +1259,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get highlightStreak10 => '10 IN A ROW!';
+
+  @override
+  String get gameMotflashName => 'Word Flash';
+
+  @override
+  String get gameMotflashRule =>
+      'Make as many words as you can from these 7 letters. A 7-letter word exists!';
+
+  @override
+  String gameMotflashShare(Object longest, Object words) {
+    return '🔤 $words words · longest: $longest letters';
+  }
+
+  @override
+  String get statWords => 'Words found';
+
+  @override
+  String get statLongest => 'Longest word';
+
+  @override
+  String get highlightFullWord => 'THE 7-LETTER WORD!';
+
+  @override
+  String get lbLanguage => 'Language';
 }

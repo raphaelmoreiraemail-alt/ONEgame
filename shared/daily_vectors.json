@@ -62,7 +62,7 @@
   },
   {
    "dayKey": "2026-11-06",
-   "gameId": "runner",
+   "gameId": "racing",
    "seed": 3245233698,
    "modifierId": null,
    "alertAt": {
@@ -158,7 +158,7 @@
   },
   {
    "dayKey": "2026-11-14",
-   "gameId": "parking",
+   "gameId": "motflash",
    "seed": 2768182335,
    "modifierId": null,
    "alertAt": {
@@ -230,7 +230,7 @@
   },
   {
    "dayKey": "2026-11-20",
-   "gameId": "minigolf",
+   "gameId": "parking",
    "seed": 4062551053,
    "modifierId": null,
    "alertAt": {
@@ -242,7 +242,7 @@
   },
   {
    "dayKey": "2026-11-21",
-   "gameId": "memory",
+   "gameId": "freekick",
    "seed": 815570035,
    "modifierId": null,
    "alertAt": {
@@ -266,7 +266,7 @@
   },
   {
    "dayKey": "2026-11-23",
-   "gameId": "darts",
+   "gameId": "flappy",
    "seed": 174421183,
    "modifierId": null,
    "alertAt": {
@@ -278,7 +278,7 @@
   },
   {
    "dayKey": "2026-11-24",
-   "gameId": "racing",
+   "gameId": "penalty",
    "seed": 1930044078,
    "modifierId": null,
    "alertAt": {
@@ -290,7 +290,7 @@
   },
   {
    "dayKey": "2026-11-25",
-   "gameId": "flappy",
+   "gameId": "memory",
    "seed": 828717353,
    "modifierId": null,
    "alertAt": {
@@ -326,7 +326,7 @@
   },
   {
    "dayKey": "2026-11-28",
-   "gameId": "stack",
+   "gameId": "snake",
    "seed": 470452505,
    "modifierId": null,
    "alertAt": {
@@ -398,7 +398,7 @@
   },
   {
    "dayKey": "2026-12-04",
-   "gameId": "parking",
+   "gameId": "motflash",
    "seed": 503748569,
    "modifierId": null,
    "alertAt": {
@@ -434,7 +434,7 @@
   },
   {
    "dayKey": "2026-12-07",
-   "gameId": "survival",
+   "gameId": "stack",
    "seed": 3835146632,
    "modifierId": "turbo",
    "alertAt": {
@@ -458,9 +458,9 @@
   },
   {
    "dayKey": "2026-12-09",
-   "gameId": "fishing",
+   "gameId": "flappy",
    "seed": 3310936632,
-   "modifierId": null,
+   "modifierId": "turbo",
    "alertAt": {
     "europe": 1796818579000,
     "americas": 1796863733000,
@@ -482,7 +482,7 @@
   },
   {
    "dayKey": "2026-12-11",
-   "gameId": "penalty",
+   "gameId": "parking",
    "seed": 1571341825,
    "modifierId": null,
    "alertAt": {
@@ -494,7 +494,7 @@
   },
   {
    "dayKey": "2026-12-12",
-   "gameId": "racing",
+   "gameId": "penalty",
    "seed": 1988957871,
    "modifierId": null,
    "alertAt": {
@@ -518,7 +518,7 @@
   },
   {
    "dayKey": "2026-12-14",
-   "gameId": "bowling",
+   "gameId": "darts",
    "seed": 2342646831,
    "modifierId": null,
    "alertAt": {
@@ -530,7 +530,7 @@
   },
   {
    "dayKey": "2026-12-15",
-   "gameId": "memory",
+   "gameId": "fishing",
    "seed": 602891727,
    "modifierId": null,
    "alertAt": {
@@ -542,7 +542,7 @@
   },
   {
    "dayKey": "2026-12-16",
-   "gameId": "runner",
+   "gameId": "racing",
    "seed": 2019834,
    "modifierId": null,
    "alertAt": {
@@ -554,7 +554,7 @@
   },
   {
    "dayKey": "2026-12-17",
-   "gameId": "fishing",
+   "gameId": "memory",
    "seed": 1189851095,
    "modifierId": null,
    "alertAt": {
@@ -566,7 +566,7 @@
   },
   {
    "dayKey": "2026-12-18",
-   "gameId": "darts",
+   "gameId": "curling",
    "seed": 334448227,
    "modifierId": null,
    "alertAt": {
@@ -650,7 +650,7 @@
   },
   {
    "dayKey": "2026-12-25",
-   "gameId": "freekick",
+   "gameId": "memory",
    "seed": 1838041754,
    "modifierId": null,
    "alertAt": {
@@ -674,7 +674,7 @@
   },
   {
    "dayKey": "2026-12-27",
-   "gameId": "bowling",
+   "gameId": "curling",
    "seed": 1936425877,
    "modifierId": null,
    "alertAt": {
@@ -722,9 +722,9 @@
   },
   {
    "dayKey": "2026-12-31",
-   "gameId": "flappy",
+   "gameId": "freekick",
    "seed": 2302352723,
-   "modifierId": "turbo",
+   "modifierId": "wind",
    "alertAt": {
     "europe": 1798739317000,
     "americas": 1798740604000,
@@ -734,7 +734,7 @@
   },
   {
    "dayKey": "2027-01-01",
-   "gameId": "darts",
+   "gameId": "fishing",
    "seed": 134504363,
    "modifierId": null,
    "alertAt": {
@@ -758,7 +758,7 @@
   },
   {
    "dayKey": "2027-01-03",
-   "gameId": "freekick",
+   "gameId": "curling",
    "seed": 1017943531,
    "modifierId": null,
    "alertAt": {
@@ -770,7 +770,7 @@
   },
   {
    "dayKey": "2027-01-04",
-   "gameId": "fishing",
+   "gameId": "flappy",
    "seed": 369035776,
    "modifierId": null,
    "alertAt": {
@@ -782,7 +782,7 @@
   },
   {
    "dayKey": "2027-01-05",
-   "gameId": "penalty",
+   "gameId": "parking",
    "seed": 2369284358,
    "modifierId": null,
    "alertAt": {
@@ -806,9 +806,9 @@
   },
   {
    "dayKey": "2027-01-07",
-   "gameId": "racing",
+   "gameId": "petanque",
    "seed": 790606063,
-   "modifierId": "ice",
+   "modifierId": "wind",
    "alertAt": {
     "europe": 1799334213000,
     "americas": 1799335055000,
@@ -818,7 +818,7 @@
   },
   {
    "dayKey": "2027-01-08",
-   "gameId": "darts",
+   "gameId": "freekick",
    "seed": 1241532464,
    "modifierId": null,
    "alertAt": {
@@ -830,7 +830,7 @@
   },
   {
    "dayKey": "2027-01-09",
-   "gameId": "snake",
+   "gameId": "stack",
    "seed": 3150245053,
    "modifierId": null,
    "alertAt": {
@@ -854,7 +854,7 @@
   },
   {
    "dayKey": "2027-01-11",
-   "gameId": "curling",
+   "gameId": "darts",
    "seed": 1480186359,
    "modifierId": null,
    "alertAt": {
@@ -866,7 +866,7 @@
   },
   {
    "dayKey": "2027-01-12",
-   "gameId": "stack",
+   "gameId": "snake",
    "seed": 3037139216,
    "modifierId": null,
    "alertAt": {
@@ -878,7 +878,7 @@
   },
   {
    "dayKey": "2027-01-13",
-   "gameId": "minigolf",
+   "gameId": "motflash",
    "seed": 3898049104,
    "modifierId": null,
    "alertAt": {
@@ -914,7 +914,7 @@
   },
   {
    "dayKey": "2027-01-16",
-   "gameId": "penalty",
+   "gameId": "minigolf",
    "seed": 464156646,
    "modifierId": null,
    "alertAt": {
@@ -962,7 +962,7 @@
   },
   {
    "dayKey": "2027-01-20",
-   "gameId": "ski",
+   "gameId": "runner",
    "seed": 2772268682,
    "modifierId": null,
    "alertAt": {
@@ -974,7 +974,7 @@
   },
   {
    "dayKey": "2027-01-21",
-   "gameId": "petanque",
+   "gameId": "motflash",
    "seed": 4044509438,
    "modifierId": null,
    "alertAt": {
@@ -986,9 +986,9 @@
   },
   {
    "dayKey": "2027-01-22",
-   "gameId": "parking",
+   "gameId": "freekick",
    "seed": 1488762288,
-   "modifierId": null,
+   "modifierId": "wind",
    "alertAt": {
     "europe": 1800614231000,
     "americas": 1800665800000,
@@ -998,9 +998,9 @@
   },
   {
    "dayKey": "2027-01-23",
-   "gameId": "snake",
+   "gameId": "stack",
    "seed": 509954502,
-   "modifierId": "turbo",
+   "modifierId": "night",
    "alertAt": {
     "europe": 1800702111000,
     "americas": 1800718138000,
@@ -1010,9 +1010,9 @@
   },
   {
    "dayKey": "2027-01-24",
-   "gameId": "minigolf",
+   "gameId": "petanque",
    "seed": 3688835467,
-   "modifierId": "night",
+   "modifierId": "wind",
    "alertAt": {
     "europe": 1800818414000,
     "americas": 1800827288000,
@@ -1034,7 +1034,7 @@
   },
   {
    "dayKey": "2027-01-26",
-   "gameId": "racing",
+   "gameId": "parking",
    "seed": 3711375620,
    "modifierId": null,
    "alertAt": {
@@ -1058,7 +1058,7 @@
   },
   {
    "dayKey": "2027-01-28",
-   "gameId": "memory",
+   "gameId": "motflash",
    "seed": 1132701807,
    "modifierId": null,
    "alertAt": {
@@ -1106,9 +1106,9 @@
   },
   {
    "dayKey": "2027-02-01",
-   "gameId": "runner",
+   "gameId": "racing",
    "seed": 1799449277,
-   "modifierId": "turbo",
+   "modifierId": "mirror",
    "alertAt": {
     "europe": 1801486477000,
     "americas": 1801518850000,
@@ -1118,7 +1118,7 @@
   },
   {
    "dayKey": "2027-02-02",
-   "gameId": "stack",
+   "gameId": "snake",
    "seed": 2360976682,
    "modifierId": "turbo",
    "alertAt": {
@@ -1130,7 +1130,7 @@
   },
   {
    "dayKey": "2027-02-03",
-   "gameId": "snake",
+   "gameId": "stack",
    "seed": 617621712,
    "modifierId": null,
    "alertAt": {
@@ -1286,7 +1286,7 @@
   },
   {
    "dayKey": "2027-02-16",
-   "gameId": "parking",
+   "gameId": "motflash",
    "seed": 283843308,
    "modifierId": null,
    "alertAt": {
@@ -1310,7 +1310,7 @@
   },
   {
    "dayKey": "2027-02-18",
-   "gameId": "petanque",
+   "gameId": "penalty",
    "seed": 3667019928,
    "modifierId": null,
    "alertAt": {
@@ -1322,9 +1322,9 @@
   },
   {
    "dayKey": "2027-02-19",
-   "gameId": "racing",
+   "gameId": "parking",
    "seed": 4105464607,
-   "modifierId": "mirror",
+   "modifierId": null,
    "alertAt": {
     "europe": 1803054833000,
     "americas": 1803050214000,
@@ -1358,9 +1358,9 @@
   },
   {
    "dayKey": "2027-02-22",
-   "gameId": "freekick",
+   "gameId": "memory",
    "seed": 1209225792,
-   "modifierId": "wind",
+   "modifierId": null,
    "alertAt": {
     "europe": 1803298961000,
     "americas": 1803347138000,
@@ -1370,7 +1370,7 @@
   },
   {
    "dayKey": "2027-02-23",
-   "gameId": "calcul",
+   "gameId": "airhockey",
    "seed": 576949065,
    "modifierId": null,
    "alertAt": {
@@ -1382,7 +1382,7 @@
   },
   {
    "dayKey": "2027-02-24",
-   "gameId": "runner",
+   "gameId": "racing",
    "seed": 2567680942,
    "modifierId": null,
    "alertAt": {
@@ -1394,7 +1394,7 @@
   },
   {
    "dayKey": "2027-02-25",
-   "gameId": "bowling",
+   "gameId": "calcul",
    "seed": 3242538901,
    "modifierId": null,
    "alertAt": {
@@ -1406,9 +1406,9 @@
   },
   {
    "dayKey": "2027-02-26",
-   "gameId": "airhockey",
+   "gameId": "archery",
    "seed": 1222334867,
-   "modifierId": "giant",
+   "modifierId": "wind",
    "alertAt": {
     "europe": 1803648487000,
     "americas": 1803685608000,

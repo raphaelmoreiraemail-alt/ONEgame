@@ -26,6 +26,7 @@ String scopeLabel(AppLocalizations l, Scope s) => switch (s) {
   Scope.region => l.lbRegion,
   Scope.world => l.lbWorld,
   Scope.weekly => l.lbWeekly,
+  Scope.language => l.lbLanguage,
 };
 
 /// Leaderboards (section 9.5): friends / country / region / world for
@@ -37,21 +38,24 @@ class LeaderboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final dayKey = currentDayKey(ref);
+    // The per-language board only makes sense for Mot éclair (section 7.22).
+    final scopes = [
+      ...Scope.values.where((s) => s != Scope.language),
+      if (ref.watch(todayProvider).value?.gameId == 'motflash') Scope.language,
+    ];
     return DefaultTabController(
-      length: Scope.values.length,
+      length: scopes.length,
       child: Scaffold(
         appBar: AppBar(
           title: Text(l10n.lbTitle),
           bottom: TabBar(
             isScrollable: true,
-            tabs: [
-              for (final s in Scope.values) Tab(text: scopeLabel(l10n, s)),
-            ],
+            tabs: [for (final s in scopes) Tab(text: scopeLabel(l10n, s))],
           ),
         ),
         body: TabBarView(
           children: [
-            for (final s in Scope.values) _BoardView(scope: s, dayKey: dayKey),
+            for (final s in scopes) _BoardView(scope: s, dayKey: dayKey),
           ],
         ),
       ),

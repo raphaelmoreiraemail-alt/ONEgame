@@ -10,10 +10,10 @@ export function friendshipId(a: string, b: string): string {
   return a < b ? `${a}_${b}` : `${b}_${a}`;
 }
 
-export type Scope = "friends" | "country" | "region" | "world" | "weekly";
+export type Scope = "friends" | "country" | "region" | "world" | "weekly" | "language";
 
 export function isScope(s: unknown): s is Scope {
-  return s === "friends" || s === "country" || s === "region" || s === "world" || s === "weekly";
+  return s === "friends" || s === "country" || s === "region" || s === "world" || s === "weekly" || s === "language";
 }
 
 export interface Ranked {

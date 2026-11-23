@@ -1,4 +1,4 @@
-enum Scope { friends, country, region, world, weekly }
+enum Scope { friends, country, region, world, weekly, language }
 
 class BoardRow {
   const BoardRow({

@@ -821,5 +821,22 @@
   },
   "statCorrect": "Bonnes réponses",
   "statWrong": "Erreurs",
-  "highlightStreak10": "10 D'AFFILÉE !"
+  "highlightStreak10": "10 D'AFFILÉE !",
+  "gameMotflashName": "Mot éclair",
+  "gameMotflashRule": "Forme un maximum de mots avec ces 7 lettres. Un mot de 7 lettres existe !",
+  "gameMotflashShare": "🔤 {words} mots · le plus long : {longest} lettres",
+  "@gameMotflashShare": {
+    "placeholders": {
+      "longest": {
+        "type": "Object"
+      },
+      "words": {
+        "type": "Object"
+      }
+    }
+  },
+  "statWords": "Mots trouvés",
+  "statLongest": "Mot le plus long",
+  "highlightFullWord": "LE MOT DE 7 LETTRES !",
+  "lbLanguage": "Langue"
 }

@@ -22,7 +22,7 @@
 - [x] 16. Onboarding (3 écrans), pseudos, amis (pseudo, lien / QR, contacts hachés), classements (amis / pays / région / monde / hebdo), fil + réactions, carte de partage image, compte (liaison, suppression).
 
 ## Phase 5 — Reste du catalogue
-- [ ] 17. 18 jeux restants + modificateurs.
+- [x] 17. Les 17 jeux restants (catalogue complet : 24 jeux) + les 6 modificateurs (vent, nuit, turbo, miroir, glace, géant) sur tous les jeux listés en section 8.
 
 ## Phase 6 — Production
 - [ ] 18. App Check, Crashlytics, Analytics.

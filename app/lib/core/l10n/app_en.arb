@@ -364,5 +364,12 @@
   "gameCalculShare": "➗ {correct} correct · best streak {streak}",
   "statCorrect": "Correct",
   "statWrong": "Wrong",
-  "highlightStreak10": "10 IN A ROW!"
+  "highlightStreak10": "10 IN A ROW!",
+  "gameMotflashName": "Word Flash",
+  "gameMotflashRule": "Make as many words as you can from these 7 letters. A 7-letter word exists!",
+  "gameMotflashShare": "🔤 {words} words · longest: {longest} letters",
+  "statWords": "Words found",
+  "statLongest": "Longest word",
+  "highlightFullWord": "THE 7-LETTER WORD!",
+  "lbLanguage": "Language"
 }
