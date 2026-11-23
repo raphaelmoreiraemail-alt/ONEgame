@@ -120,7 +120,7 @@ Future<BackendServices> createBackend({
   if (kind == BackendKind.emulator) {
     final host = _emulatorHost.isNotEmpty
         ? _emulatorHost
-        : (Platform.isAndroid ? '10.0.2.2' : 'localhost');
+        : (!kIsWeb && Platform.isAndroid ? '10.0.2.2' : 'localhost');
     await auth.useAuthEmulator(host, 9099);
     firestore.useFirestoreEmulator(host, 8080);
     functions.useFunctionsEmulator(host, 5001);

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,9 +16,8 @@ class FeedbackService {
   final AppSettings Function() _settings;
 
   /// Audio plugins are unavailable in unit / widget tests.
-  static final bool _audioAvailable = !Platform.environment.containsKey(
-    'FLUTTER_TEST',
-  );
+  static final bool _audioAvailable =
+      kIsWeb || !Platform.environment.containsKey('FLUTTER_TEST');
   static bool _preloaded = false;
 
   static Future<void> preload() async {

@@ -17,6 +17,8 @@ import '../play/play_request.dart';
 final trainingGamesProvider = FutureProvider<List<MiniGameDefinition>>((
   ref,
 ) async {
+  // Browser demo (`--dart-define=ONEGAME_DEMO=true`): every game.
+  if (const bool.fromEnvironment('ONEGAME_DEMO')) return GameRegistry.all;
   final released = await ref.watch(dailyRepositoryProvider).releasedGames();
   return [
     for (final g in GameRegistry.all)

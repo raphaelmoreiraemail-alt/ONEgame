@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui' show PlatformDispatcher;
 
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:material_ui/material_ui.dart';
@@ -18,7 +19,11 @@ import 'core/time/regions.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   tzdata.initializeTimeZones();
-  await initializeForge2D();
+  await initializeForge2D(
+    wasmUri: kIsWeb
+        ? Uri.parse('assets/packages/forge2d/lib/src/backend/wasm/box2d.wasm')
+        : null,
+  );
   final prefs = await SharedPreferences.getInstance();
 
   var iana = 'Europe/Paris';
@@ -36,7 +41,8 @@ Future<void> main() async {
     lang: locale.languageCode == 'en' ? 'en' : 'fr',
     country: locale.countryCode,
   );
-  final notifications = AlarmNotifications();
+  // No scheduled alarms in the browser demo.
+  final notifications = AlarmNotifications(enabled: !kIsWeb);
 
   runApp(
     ProviderScope(

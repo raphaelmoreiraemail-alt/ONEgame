@@ -105,12 +105,12 @@ class _Pill extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     constraints: const BoxConstraints(minHeight: 44, minWidth: 44),
-    alignment: Alignment.center,
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
     decoration: BoxDecoration(
       color: color.withValues(alpha: 0.85),
       borderRadius: BorderRadius.circular(22),
     ),
-    child: child,
+    // Center with factors 1: never expand to the available height.
+    child: Center(widthFactor: 1, heightFactor: 1, child: child),
   );
 }
