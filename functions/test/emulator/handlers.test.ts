@@ -53,6 +53,7 @@ describe("daily flow on the emulator", () => {
     const played = await h.getToday(db, "alice", alert + 90_000);
     expect(played.state === "open" && played.attempt?.status).toBe("finished");
     expect(played.profile.streak).toBe(1);
+    expect((await h.releasedGames(db, "alice", alert + 90_000)).games).toEqual([daily.gameId]);
   });
 
   it("late start breaks the streak and stays out of the weekly board; lost attempt = partial score", async () => {

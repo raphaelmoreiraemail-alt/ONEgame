@@ -816,6 +816,366 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'ONE HUNDRED AND EIGHTY !'**
   String get highlightOneEighty;
+
+  /// No description provided for @homeRingingTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'C\'EST L\'HEURE !'**
+  String get homeRingingTitle;
+
+  /// No description provided for @homePlay.
+  ///
+  /// In fr, this message translates to:
+  /// **'JOUER'**
+  String get homePlay;
+
+  /// No description provided for @homeRingingLeft.
+  ///
+  /// In fr, this message translates to:
+  /// **'Encore {time} pour lancer à l\'heure'**
+  String homeRingingLeft(Object time);
+
+  /// No description provided for @homeLateTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tu es en retard'**
+  String get homeLateTitle;
+
+  /// No description provided for @homeLateBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'alarme a sonné à {time}. Tu peux encore jouer : ton score comptera chez tes amis (marqué « en retard »), mais pas dans les classements mondiaux, et ta série repartira de zéro.'**
+  String homeLateBody(Object time);
+
+  /// No description provided for @homePlayAnyway.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jouer quand même'**
+  String get homePlayAnyway;
+
+  /// No description provided for @homePlayedTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partie jouée'**
+  String get homePlayedTitle;
+
+  /// No description provided for @homePlayedLate.
+  ///
+  /// In fr, this message translates to:
+  /// **'en retard'**
+  String get homePlayedLate;
+
+  /// No description provided for @homePlayedOnTime.
+  ///
+  /// In fr, this message translates to:
+  /// **'à l\'heure'**
+  String get homePlayedOnTime;
+
+  /// No description provided for @homeNextAlarm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Prochaine alarme demain, entre 10h et 21h.'**
+  String get homeNextAlarm;
+
+  /// No description provided for @homeLostTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partie interrompue'**
+  String get homeLostTitle;
+
+  /// No description provided for @homeLostBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'application a été fermée pendant la partie : la tentative est perdue. Score retenu : {score}.'**
+  String homeLostBody(Object score);
+
+  /// No description provided for @homeUnavailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le défi du jour n\'est pas encore prêt.'**
+  String get homeUnavailable;
+
+  /// No description provided for @homeRetry.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réessayer'**
+  String get homeRetry;
+
+  /// No description provided for @homeError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion impossible. Vérifie ton réseau.'**
+  String get homeError;
+
+  /// No description provided for @homeStreak.
+  ///
+  /// In fr, this message translates to:
+  /// **'Série'**
+  String get homeStreak;
+
+  /// No description provided for @homeBestStreak.
+  ///
+  /// In fr, this message translates to:
+  /// **'Record : {n}'**
+  String homeBestStreak(Object n);
+
+  /// No description provided for @homeJokers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jokers'**
+  String get homeJokers;
+
+  /// No description provided for @homeUseJoker.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sauver ma série avec un joker'**
+  String get homeUseJoker;
+
+  /// No description provided for @homeJokerUsed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Série sauvée !'**
+  String get homeJokerUsed;
+
+  /// No description provided for @homeAlreadyPlayed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tu as déjà lancé ta partie officielle aujourd\'hui.'**
+  String get homeAlreadyPlayed;
+
+  /// No description provided for @homeShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partager'**
+  String get homeShare;
+
+  /// No description provided for @homeTodayGame.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jeu du jour : {game}'**
+  String homeTodayGame(Object game);
+
+  /// No description provided for @notifTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'⏰ C\'est l\'heure du OneGame !'**
+  String get notifTitle;
+
+  /// No description provided for @notifBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le jeu du jour : {game}. 2 minutes pour lancer.'**
+  String notifBody(Object game);
+
+  /// No description provided for @notifChannel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Alarme du jour'**
+  String get notifChannel;
+
+  /// No description provided for @resultsStreak.
+  ///
+  /// In fr, this message translates to:
+  /// **'🔥 Série : {n}'**
+  String resultsStreak(Object n);
+
+  /// No description provided for @resultsNewBadges.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouveaux badges'**
+  String get resultsNewBadges;
+
+  /// No description provided for @resultsOfficialLate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partie jouée en retard : visible chez tes amis seulement.'**
+  String get resultsOfficialLate;
+
+  /// No description provided for @profileStreak.
+  ///
+  /// In fr, this message translates to:
+  /// **'Série actuelle'**
+  String get profileStreak;
+
+  /// No description provided for @profileBest.
+  ///
+  /// In fr, this message translates to:
+  /// **'Record'**
+  String get profileBest;
+
+  /// No description provided for @profileCalendar.
+  ///
+  /// In fr, this message translates to:
+  /// **'Calendrier'**
+  String get profileCalendar;
+
+  /// No description provided for @profileLegendOnTime.
+  ///
+  /// In fr, this message translates to:
+  /// **'À l\'heure'**
+  String get profileLegendOnTime;
+
+  /// No description provided for @profileLegendLate.
+  ///
+  /// In fr, this message translates to:
+  /// **'En retard'**
+  String get profileLegendLate;
+
+  /// No description provided for @profileLegendMissed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Raté'**
+  String get profileLegendMissed;
+
+  /// No description provided for @profileLegendSaved.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sauvé (joker)'**
+  String get profileLegendSaved;
+
+  /// No description provided for @profileRecords.
+  ///
+  /// In fr, this message translates to:
+  /// **'Records par jeu'**
+  String get profileRecords;
+
+  /// No description provided for @profileNoRecords.
+  ///
+  /// In fr, this message translates to:
+  /// **'Joue ta première partie officielle pour établir un record.'**
+  String get profileNoRecords;
+
+  /// No description provided for @profileBadges.
+  ///
+  /// In fr, this message translates to:
+  /// **'Badges'**
+  String get profileBadges;
+
+  /// No description provided for @badgeFirstDay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Premier pas'**
+  String get badgeFirstDay;
+
+  /// No description provided for @badgeWeek.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une semaine'**
+  String get badgeWeek;
+
+  /// No description provided for @badgeMonth.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un mois'**
+  String get badgeMonth;
+
+  /// No description provided for @badgeAce.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ace'**
+  String get badgeAce;
+
+  /// No description provided for @badgePanenka.
+  ///
+  /// In fr, this message translates to:
+  /// **'Panenka'**
+  String get badgePanenka;
+
+  /// No description provided for @badgeCarreau.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carreau'**
+  String get badgeCarreau;
+
+  /// No description provided for @badgeOneEighty.
+  ///
+  /// In fr, this message translates to:
+  /// **'180'**
+  String get badgeOneEighty;
+
+  /// No description provided for @badgeEarlyBird.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lève-tôt'**
+  String get badgeEarlyBird;
+
+  /// No description provided for @badgeAllGames.
+  ///
+  /// In fr, this message translates to:
+  /// **'Touche-à-tout'**
+  String get badgeAllGames;
+
+  /// No description provided for @settingsRegion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Région'**
+  String get settingsRegion;
+
+  /// No description provided for @settingsRegionHelp.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'alarme sonne à la même heure pour toute ta région. Modifiable une fois par 30 jours.'**
+  String get settingsRegionHelp;
+
+  /// No description provided for @settingsRegionCooldown.
+  ///
+  /// In fr, this message translates to:
+  /// **'Changement possible à partir du {date}.'**
+  String settingsRegionCooldown(Object date);
+
+  /// No description provided for @regionEurope.
+  ///
+  /// In fr, this message translates to:
+  /// **'Europe & Afrique'**
+  String get regionEurope;
+
+  /// No description provided for @regionAmericas.
+  ///
+  /// In fr, this message translates to:
+  /// **'Amériques (Est)'**
+  String get regionAmericas;
+
+  /// No description provided for @regionAsia.
+  ///
+  /// In fr, this message translates to:
+  /// **'Asie & Océanie'**
+  String get regionAsia;
+
+  /// No description provided for @regionWest.
+  ///
+  /// In fr, this message translates to:
+  /// **'Amériques (Ouest)'**
+  String get regionWest;
+
+  /// No description provided for @settingsSound.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sons'**
+  String get settingsSound;
+
+  /// No description provided for @settingsHaptics.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vibrations'**
+  String get settingsHaptics;
+
+  /// No description provided for @settingsReduceMotion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réduire les animations'**
+  String get settingsReduceMotion;
+
+  /// No description provided for @settingsNotifications.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autoriser les notifications'**
+  String get settingsNotifications;
+
+  /// No description provided for @settingsBackend.
+  ///
+  /// In fr, this message translates to:
+  /// **'Serveur : {name}'**
+  String settingsBackend(Object name);
 }
 
 class _AppLocalizationsDelegate

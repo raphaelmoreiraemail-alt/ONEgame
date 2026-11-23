@@ -5,20 +5,76 @@ import 'package:material_ui/material_ui.dart';
 import '../theme/app_colors.dart';
 
 /// The OneGame red twin-bell alarm clock (section 11), drawn in code.
-class AlarmClock extends StatelessWidget {
-  const AlarmClock({super.key, this.size = 220, required this.semanticLabel});
+/// When [ringing], it shakes (unless [reduceMotion]).
+class AlarmClock extends StatefulWidget {
+  const AlarmClock({
+    super.key,
+    this.size = 220,
+    required this.semanticLabel,
+    this.ringing = false,
+    this.reduceMotion = false,
+  });
 
   final double size;
   final String semanticLabel;
+  final bool ringing;
+  final bool reduceMotion;
+
+  @override
+  State<AlarmClock> createState() => _AlarmClockState();
+}
+
+class _AlarmClockState extends State<AlarmClock>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _shake = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 110),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _sync();
+  }
+
+  @override
+  void didUpdateWidget(AlarmClock old) {
+    super.didUpdateWidget(old);
+    _sync();
+  }
+
+  void _sync() {
+    final animate = widget.ringing && !widget.reduceMotion;
+    if (animate && !_shake.isAnimating) {
+      _shake.repeat(reverse: true);
+    } else if (!animate && _shake.isAnimating) {
+      _shake
+        ..stop()
+        ..value = 0.5;
+    }
+  }
+
+  @override
+  void dispose() {
+    _shake.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: semanticLabel,
+      label: widget.semanticLabel,
       image: true,
-      child: SizedBox.square(
-        dimension: size,
-        child: CustomPaint(painter: _AlarmClockPainter()),
+      child: AnimatedBuilder(
+        animation: _shake,
+        builder: (context, child) => Transform.rotate(
+          angle: _shake.isAnimating ? (_shake.value - 0.5) * 0.18 : 0,
+          child: child,
+        ),
+        child: SizedBox.square(
+          dimension: widget.size,
+          child: CustomPaint(painter: _AlarmClockPainter()),
+        ),
       ),
     );
   }

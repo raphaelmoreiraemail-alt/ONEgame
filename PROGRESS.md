@@ -14,9 +14,9 @@
 - [x] 7. `minigolf` · [x] 8. `penalty` · [x] 9. `basket` · [x] 10. `bowling` · [x] 11. `stack` · [x] 12. `darts`
 
 ## Phase 3 — Le quotidien
-- [ ] 13. Functions `createDaily`, `getToday`, `startAttempt`, `submitScore`, `pickGame`.
-- [ ] 14. Accueil 5 états, FCM, son d'alarme.
-- [ ] 15. Série, joker, calendrier.
+- [x] 13. Functions `createDaily`, `getToday`, `startAttempt`, `submitScore`, `pickGame`.
+- [x] 14. Accueil 5 états, FCM (topics) + alarmes locales, son d'alarme.
+- [x] 15. Série, joker, calendrier, records, badges.
 
 ## Phase 4 — Social
 - [ ] 16. Pseudos, amis, invitations, classements, fil + réactions, carte de partage.

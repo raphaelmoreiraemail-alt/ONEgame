@@ -233,5 +233,128 @@
   "statTriples": "Triples",
   "statBulls": "Bulls",
   "statBestTurn": "Meilleure volée",
-  "highlightOneEighty": "ONE HUNDRED AND EIGHTY !"
+  "highlightOneEighty": "ONE HUNDRED AND EIGHTY !",
+  "homeRingingTitle": "C'EST L'HEURE !",
+  "homePlay": "JOUER",
+  "homeRingingLeft": "Encore {time} pour lancer à l'heure",
+  "@homeRingingLeft": {
+    "placeholders": {
+      "time": {
+        "type": "Object"
+      }
+    }
+  },
+  "homeLateTitle": "Tu es en retard",
+  "homeLateBody": "L'alarme a sonné à {time}. Tu peux encore jouer : ton score comptera chez tes amis (marqué « en retard »), mais pas dans les classements mondiaux, et ta série repartira de zéro.",
+  "@homeLateBody": {
+    "placeholders": {
+      "time": {
+        "type": "Object"
+      }
+    }
+  },
+  "homePlayAnyway": "Jouer quand même",
+  "homePlayedTitle": "Partie jouée",
+  "homePlayedLate": "en retard",
+  "homePlayedOnTime": "à l'heure",
+  "homeNextAlarm": "Prochaine alarme demain, entre 10h et 21h.",
+  "homeLostTitle": "Partie interrompue",
+  "homeLostBody": "L'application a été fermée pendant la partie : la tentative est perdue. Score retenu : {score}.",
+  "@homeLostBody": {
+    "placeholders": {
+      "score": {
+        "type": "Object"
+      }
+    }
+  },
+  "homeUnavailable": "Le défi du jour n'est pas encore prêt.",
+  "homeRetry": "Réessayer",
+  "homeError": "Connexion impossible. Vérifie ton réseau.",
+  "homeStreak": "Série",
+  "homeBestStreak": "Record : {n}",
+  "@homeBestStreak": {
+    "placeholders": {
+      "n": {
+        "type": "Object"
+      }
+    }
+  },
+  "homeJokers": "Jokers",
+  "homeUseJoker": "Sauver ma série avec un joker",
+  "homeJokerUsed": "Série sauvée !",
+  "homeAlreadyPlayed": "Tu as déjà lancé ta partie officielle aujourd'hui.",
+  "homeShare": "Partager",
+  "homeTodayGame": "Jeu du jour : {game}",
+  "@homeTodayGame": {
+    "placeholders": {
+      "game": {
+        "type": "Object"
+      }
+    }
+  },
+  "notifTitle": "⏰ C'est l'heure du OneGame !",
+  "notifBody": "Le jeu du jour : {game}. 2 minutes pour lancer.",
+  "@notifBody": {
+    "placeholders": {
+      "game": {
+        "type": "Object"
+      }
+    }
+  },
+  "notifChannel": "Alarme du jour",
+  "resultsStreak": "🔥 Série : {n}",
+  "@resultsStreak": {
+    "placeholders": {
+      "n": {
+        "type": "Object"
+      }
+    }
+  },
+  "resultsNewBadges": "Nouveaux badges",
+  "resultsOfficialLate": "Partie jouée en retard : visible chez tes amis seulement.",
+  "profileStreak": "Série actuelle",
+  "profileBest": "Record",
+  "profileCalendar": "Calendrier",
+  "profileLegendOnTime": "À l'heure",
+  "profileLegendLate": "En retard",
+  "profileLegendMissed": "Raté",
+  "profileLegendSaved": "Sauvé (joker)",
+  "profileRecords": "Records par jeu",
+  "profileNoRecords": "Joue ta première partie officielle pour établir un record.",
+  "profileBadges": "Badges",
+  "badgeFirstDay": "Premier pas",
+  "badgeWeek": "Une semaine",
+  "badgeMonth": "Un mois",
+  "badgeAce": "Ace",
+  "badgePanenka": "Panenka",
+  "badgeCarreau": "Carreau",
+  "badgeOneEighty": "180",
+  "badgeEarlyBird": "Lève-tôt",
+  "badgeAllGames": "Touche-à-tout",
+  "settingsRegion": "Région",
+  "settingsRegionHelp": "L'alarme sonne à la même heure pour toute ta région. Modifiable une fois par 30 jours.",
+  "settingsRegionCooldown": "Changement possible à partir du {date}.",
+  "@settingsRegionCooldown": {
+    "placeholders": {
+      "date": {
+        "type": "Object"
+      }
+    }
+  },
+  "regionEurope": "Europe & Afrique",
+  "regionAmericas": "Amériques (Est)",
+  "regionAsia": "Asie & Océanie",
+  "regionWest": "Amériques (Ouest)",
+  "settingsSound": "Sons",
+  "settingsHaptics": "Vibrations",
+  "settingsReduceMotion": "Réduire les animations",
+  "settingsNotifications": "Autoriser les notifications",
+  "settingsBackend": "Serveur : {name}",
+  "@settingsBackend": {
+    "placeholders": {
+      "name": {
+        "type": "Object"
+      }
+    }
+  }
 }

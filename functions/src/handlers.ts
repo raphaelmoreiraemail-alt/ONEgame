@@ -293,6 +293,17 @@ async function recordOfficialResult(db: Firestore, uid: string, p: Profile, a: A
   return { streak: streakState.streak, bestStreak: streakState.bestStreak, newBadges: earned };
 }
 
+/** Games already released as a daily game (training, section 9.9). */
+export async function releasedGames(db: Firestore, uid: string, now: number) {
+  const p = await loadProfile(db, uid);
+  const today = dayKeyFor(now, p.region);
+  const snap = await db.collection("daily").where("dayKey", "<", today).select("gameId").get();
+  const games = new Set(snap.docs.map((d) => d.get("gameId") as string));
+  const attempt = await db.doc(`attempts/${uid}_${today}`).get();
+  if (attempt.exists && attempt.get("status") !== "started") games.add(attempt.get("gameId"));
+  return { games: [...games].sort() };
+}
+
 export async function spendJoker(db: Firestore, uid: string, now: number) {
   const p = await loadProfile(db, uid);
   const today = dayKeyFor(now, p.region);

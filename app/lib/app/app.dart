@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../core/l10n/l10n.dart';
 import '../core/theme/app_theme.dart';
+import '../features/home/alarm_scheduler.dart';
 import 'locale_controller.dart';
 import 'router.dart';
 
@@ -21,6 +22,7 @@ class OneGameApp extends ConsumerWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: appLocalizationsDelegates,
       routerConfig: ref.watch(routerProvider),
+      builder: (context, child) => AlarmScheduler(child: child!),
     );
   }
 }

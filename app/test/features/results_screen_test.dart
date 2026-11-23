@@ -1,8 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:onegame/core/backend/backend.dart';
 import 'package:onegame/core/l10n/l10n.dart';
 import 'package:onegame/core/theme/app_theme.dart';
+import 'package:onegame/data/daily/daily_repository.dart';
 import 'package:onegame/features/play/play_request.dart';
 import 'package:onegame/features/results/results_screen.dart';
 import 'package:onegame/games/common/game_types.dart';
@@ -23,6 +25,11 @@ GameResult _result({List<String> highlights = const []}) => GameResult(
 
 Widget _wrap(Widget child, {Locale locale = const Locale('fr')}) =>
     ProviderScope(
+      overrides: [
+        backendProvider.overrideWithValue(
+          BackendServices(daily: _NoRepo(), kind: BackendKind.local),
+        ),
+      ],
       child: MaterialApp(
         locale: locale,
         theme: AppTheme.light(),
@@ -71,4 +78,9 @@ void main() {
     expect(find.text('SURVIVOR!'), findsOneWidget);
     expect(find.textContaining('OneGame · 2026-11-24'), findsOneWidget);
   });
+}
+
+class _NoRepo implements DailyRepository {
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

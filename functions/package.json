@@ -15,7 +15,8 @@
     "prelint": "node scripts/copyShared.mjs",
     "pretest": "node scripts/copyShared.mjs",
     "test:emulators": "firebase emulators:exec --only firestore --project demo-onegame \"vitest run --config vitest.emulator.config.ts\"",
-    "pretest:emulators": "node scripts/copyShared.mjs"
+    "pretest:emulators": "node scripts/copyShared.mjs",
+    "gen:daily-vectors": "node scripts/copyShared.mjs && tsx scripts/genDailyVectors.ts"
   },
   "dependencies": {
     "firebase-admin": "^14.5.1",

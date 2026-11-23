@@ -10,6 +10,7 @@ import '../features/leaderboard/leaderboard_screen.dart';
 import '../features/play/play_request.dart';
 import '../features/play/play_screen.dart';
 import '../features/profile/profile_screen.dart';
+import '../features/results/official_outcome_panel.dart';
 import '../features/results/results_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/training/training_screen.dart';
@@ -48,7 +49,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.results,
         builder: (context, state) {
           final (req, result) = state.extra! as (PlayRequest, GameResult);
-          return ResultsScreen(request: req, result: result);
+          return ResultsScreen(
+            request: req,
+            result: result,
+            extra: req.official ? OfficialOutcomePanel(result: result) : null,
+          );
         },
       ),
       GoRoute(

@@ -5,16 +5,24 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../app/router.dart';
+import '../../core/backend/backend.dart';
 import '../../core/l10n/l10n.dart';
 import '../../games/common/game_strings.dart';
 import '../../games/common/mini_game_definition.dart';
 import '../../games/game_registry.dart';
 import '../play/play_request.dart';
 
-/// Games available in training. Phase 3 restricts this to released games.
-final trainingGamesProvider = Provider<List<MiniGameDefinition>>(
-  (ref) => GameRegistry.all,
-);
+/// Games available in training: those already released as a daily game
+/// (section 9.9).
+final trainingGamesProvider = FutureProvider<List<MiniGameDefinition>>((
+  ref,
+) async {
+  final released = await ref.watch(dailyRepositoryProvider).releasedGames();
+  return [
+    for (final g in GameRegistry.all)
+      if (released.contains(g.id)) g,
+  ];
+});
 
 /// Training (section 9.9): released games, random seed, local score only.
 class TrainingScreen extends ConsumerWidget {
@@ -23,7 +31,7 @@ class TrainingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final games = ref.watch(trainingGamesProvider);
+    final games = ref.watch(trainingGamesProvider).value ?? const [];
     return Scaffold(
       appBar: AppBar(title: Text(l10n.trainingTitle)),
       body: ListView(

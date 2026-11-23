@@ -410,4 +410,205 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get highlightOneEighty => 'ONE HUNDRED AND EIGHTY!';
+
+  @override
+  String get homeRingingTitle => 'IT\'S TIME!';
+
+  @override
+  String get homePlay => 'PLAY';
+
+  @override
+  String homeRingingLeft(Object time) {
+    return '$time left to start on time';
+  }
+
+  @override
+  String get homeLateTitle => 'You\'re late';
+
+  @override
+  String homeLateBody(Object time) {
+    return 'The alarm rang at $time. You can still play: your score will count among friends (marked \"late\") but not in world rankings, and your streak will restart from zero.';
+  }
+
+  @override
+  String get homePlayAnyway => 'Play anyway';
+
+  @override
+  String get homePlayedTitle => 'Game played';
+
+  @override
+  String get homePlayedLate => 'late';
+
+  @override
+  String get homePlayedOnTime => 'on time';
+
+  @override
+  String get homeNextAlarm => 'Next alarm tomorrow, between 10 AM and 9 PM.';
+
+  @override
+  String get homeLostTitle => 'Game interrupted';
+
+  @override
+  String homeLostBody(Object score) {
+    return 'The app was closed during the game: the attempt is lost. Score kept: $score.';
+  }
+
+  @override
+  String get homeUnavailable => 'Today\'s challenge isn\'t ready yet.';
+
+  @override
+  String get homeRetry => 'Retry';
+
+  @override
+  String get homeError => 'Can\'t connect. Check your network.';
+
+  @override
+  String get homeStreak => 'Streak';
+
+  @override
+  String homeBestStreak(Object n) {
+    return 'Best: $n';
+  }
+
+  @override
+  String get homeJokers => 'Jokers';
+
+  @override
+  String get homeUseJoker => 'Save my streak with a joker';
+
+  @override
+  String get homeJokerUsed => 'Streak saved!';
+
+  @override
+  String get homeAlreadyPlayed => 'You already started today\'s official game.';
+
+  @override
+  String get homeShare => 'Share';
+
+  @override
+  String homeTodayGame(Object game) {
+    return 'Today\'s game: $game';
+  }
+
+  @override
+  String get notifTitle => '⏰ It\'s OneGame time!';
+
+  @override
+  String notifBody(Object game) {
+    return 'Today\'s game: $game. 2 minutes to start.';
+  }
+
+  @override
+  String get notifChannel => 'Daily alarm';
+
+  @override
+  String resultsStreak(Object n) {
+    return '🔥 Streak: $n';
+  }
+
+  @override
+  String get resultsNewBadges => 'New badges';
+
+  @override
+  String get resultsOfficialLate =>
+      'Played late: visible to your friends only.';
+
+  @override
+  String get profileStreak => 'Current streak';
+
+  @override
+  String get profileBest => 'Best';
+
+  @override
+  String get profileCalendar => 'Calendar';
+
+  @override
+  String get profileLegendOnTime => 'On time';
+
+  @override
+  String get profileLegendLate => 'Late';
+
+  @override
+  String get profileLegendMissed => 'Missed';
+
+  @override
+  String get profileLegendSaved => 'Saved (joker)';
+
+  @override
+  String get profileRecords => 'Records per game';
+
+  @override
+  String get profileNoRecords =>
+      'Play your first official game to set a record.';
+
+  @override
+  String get profileBadges => 'Badges';
+
+  @override
+  String get badgeFirstDay => 'First step';
+
+  @override
+  String get badgeWeek => 'One week';
+
+  @override
+  String get badgeMonth => 'One month';
+
+  @override
+  String get badgeAce => 'Ace';
+
+  @override
+  String get badgePanenka => 'Panenka';
+
+  @override
+  String get badgeCarreau => 'Carreau';
+
+  @override
+  String get badgeOneEighty => '180';
+
+  @override
+  String get badgeEarlyBird => 'Early bird';
+
+  @override
+  String get badgeAllGames => 'Jack of all trades';
+
+  @override
+  String get settingsRegion => 'Region';
+
+  @override
+  String get settingsRegionHelp =>
+      'The alarm rings at the same time for your whole region. Can be changed once every 30 days.';
+
+  @override
+  String settingsRegionCooldown(Object date) {
+    return 'You can change it again from $date.';
+  }
+
+  @override
+  String get regionEurope => 'Europe & Africa';
+
+  @override
+  String get regionAmericas => 'Americas (East)';
+
+  @override
+  String get regionAsia => 'Asia & Oceania';
+
+  @override
+  String get regionWest => 'Americas (West)';
+
+  @override
+  String get settingsSound => 'Sounds';
+
+  @override
+  String get settingsHaptics => 'Vibrations';
+
+  @override
+  String get settingsReduceMotion => 'Reduce motion';
+
+  @override
+  String get settingsNotifications => 'Allow notifications';
+
+  @override
+  String settingsBackend(Object name) {
+    return 'Server: $name';
+  }
 }

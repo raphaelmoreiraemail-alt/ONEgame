@@ -19,6 +19,7 @@ import '../../games/common/game_types.dart';
 import '../../games/common/mini_game.dart';
 import '../../games/common/mini_game_definition.dart';
 import '../../games/game_registry.dart';
+import '../home/today_controller.dart';
 import 'hud.dart';
 import 'play_request.dart';
 import 'rule_intro.dart';
@@ -27,7 +28,21 @@ import 'rule_intro.dart';
 /// submitted to the server by the daily feature, Phase 3).
 typedef ResultSink = Future<void> Function(PlayRequest req, GameResult result);
 
-final resultSinkProvider = Provider<ResultSink>((ref) => (_, _) async {});
+final resultSinkProvider = Provider<ResultSink>(
+  (ref) => (req, result) async {
+    if (req.official) await ref.read(todayProvider.notifier).submit(result);
+  },
+);
+
+/// Called when an official game goes to background: the current score is
+/// sent so that a killed app keeps it (section 4.4, `in_progress_lost`).
+final partialSinkProvider = Provider<ResultSink>(
+  (ref) => (req, result) async {
+    if (req.official) {
+      await ref.read(todayProvider.notifier).submit(result, partial: true);
+    }
+  },
+);
 
 enum _Phase { intro, playing, ending }
 
@@ -119,12 +134,10 @@ class _PlayScreenState extends ConsumerState<PlayScreen>
     _timer = Timer(const Duration(seconds: 1), _goToResults);
   }
 
-  Future<void> _goToResults() async {
-    if (!mounted) return;
-    final l10n = context.l10n;
+  GameResult _buildResult(AppLocalizations l10n) {
     final sim = _game.sim;
     final stats = sim.stats;
-    final result = GameResult(
+    return GameResult(
       gameId: _def.id,
       seed: widget.request.seed,
       modifierId: widget.request.modifierId,
@@ -137,6 +150,11 @@ class _PlayScreenState extends ConsumerState<PlayScreen>
       shareLine: _def.shareLine(l10n, stats),
       timedOut: _game.timedOut,
     );
+  }
+
+  Future<void> _goToResults() async {
+    if (!mounted) return;
+    final result = _buildResult(context.l10n);
     final sink = ref.read(resultSinkProvider);
     unawaited(sink(widget.request, result));
     if (!mounted) return;
@@ -149,6 +167,14 @@ class _PlayScreenState extends ConsumerState<PlayScreen>
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.hidden) {
       _backgroundedAt ??= DateTime.now();
+      if (widget.request.official) {
+        unawaited(
+          ref.read(partialSinkProvider)(
+            widget.request,
+            _buildResult(context.l10n),
+          ),
+        );
+      }
     } else if (state == AppLifecycleState.resumed && _backgroundedAt != null) {
       // No pause: the timer kept running while away (section 5.2 step 5).
       _game.fastForward(DateTime.now().difference(_backgroundedAt!));

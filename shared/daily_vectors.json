@@ -1,0 +1,1730 @@
+{
+ "schedule": [
+  {
+   "dayKey": "2026-11-01",
+   "gameId": "basket",
+   "seed": 884682973,
+   "modifierId": "giant",
+   "alertAt": {
+    "europe": 1793529974000,
+    "americas": 1793571250000,
+    "asia": 1793515328000,
+    "west": 1793580800000
+   }
+  },
+  {
+   "dayKey": "2026-11-02",
+   "gameId": "survival",
+   "seed": 857361751,
+   "modifierId": "mirror",
+   "alertAt": {
+    "europe": 1793648146000,
+    "americas": 1793652224000,
+    "asia": 1793597708000,
+    "west": 1793643855000
+   }
+  },
+  {
+   "dayKey": "2026-11-03",
+   "gameId": "stack",
+   "seed": 3338700851,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1793708361000,
+    "americas": 1793747097000,
+    "asia": 1793679614000,
+    "west": 1793759643000
+   }
+  },
+  {
+   "dayKey": "2026-11-04",
+   "gameId": "darts",
+   "seed": 3160232314,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1793784616000,
+    "americas": 1793838265000,
+    "asia": 1793754019000,
+    "west": 1793817132000
+   }
+  },
+  {
+   "dayKey": "2026-11-05",
+   "gameId": "minigolf",
+   "seed": 2961517061,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1793897565000,
+    "americas": 1793903657000,
+    "asia": 1793875369000,
+    "west": 1793905299000
+   }
+  },
+  {
+   "dayKey": "2026-11-06",
+   "gameId": "penalty",
+   "seed": 3245233698,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1793983385000,
+    "americas": 1793991530000,
+    "asia": 1793964131000,
+    "west": 1794008395000
+   }
+  },
+  {
+   "dayKey": "2026-11-07",
+   "gameId": "survival",
+   "seed": 4274225756,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1794071482000,
+    "americas": 1794099265000,
+    "asia": 1794041042000,
+    "west": 1794086462000
+   }
+  },
+  {
+   "dayKey": "2026-11-08",
+   "gameId": "bowling",
+   "seed": 1437122388,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1794167023000,
+    "americas": 1794164982000,
+    "asia": 1794121128000,
+    "west": 1794185139000
+   }
+  },
+  {
+   "dayKey": "2026-11-09",
+   "gameId": "basket",
+   "seed": 4090996782,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1794217258000,
+    "americas": 1794265979000,
+    "asia": 1794201305000,
+    "west": 1794258166000
+   }
+  },
+  {
+   "dayKey": "2026-11-10",
+   "gameId": "stack",
+   "seed": 293179086,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1794309021000,
+    "americas": 1794357121000,
+    "asia": 1794306583000,
+    "west": 1794343447000
+   }
+  },
+  {
+   "dayKey": "2026-11-11",
+   "gameId": "darts",
+   "seed": 19914261,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1794412460000,
+    "americas": 1794420667000,
+    "asia": 1794382752000,
+    "west": 1794449899000
+   }
+  },
+  {
+   "dayKey": "2026-11-12",
+   "gameId": "minigolf",
+   "seed": 3248931974,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1794491150000,
+    "americas": 1794522047000,
+    "asia": 1794447087000,
+    "west": 1794508178000
+   }
+  },
+  {
+   "dayKey": "2026-11-13",
+   "gameId": "penalty",
+   "seed": 404124427,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1794592575000,
+    "americas": 1794619614000,
+    "asia": 1794561234000,
+    "west": 1794623121000
+   }
+  },
+  {
+   "dayKey": "2026-11-14",
+   "gameId": "survival",
+   "seed": 2768182335,
+   "modifierId": "night",
+   "alertAt": {
+    "europe": 1794659177000,
+    "americas": 1794683124000,
+    "asia": 1794631426000,
+    "west": 1794690733000
+   }
+  },
+  {
+   "dayKey": "2026-11-15",
+   "gameId": "bowling",
+   "seed": 1791456307,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1794740224000,
+    "americas": 1794776740000,
+    "asia": 1794741091000,
+    "west": 1794767097000
+   }
+  },
+  {
+   "dayKey": "2026-11-16",
+   "gameId": "basket",
+   "seed": 2911873343,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1794849311000,
+    "americas": 1794854966000,
+    "asia": 1794825770000,
+    "west": 1794857386000
+   }
+  },
+  {
+   "dayKey": "2026-11-17",
+   "gameId": "stack",
+   "seed": 2029579716,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1794943831000,
+    "americas": 1794958462000,
+    "asia": 1794893717000,
+    "west": 1794948111000
+   }
+  },
+  {
+   "dayKey": "2026-11-18",
+   "gameId": "darts",
+   "seed": 2709743893,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1794996899000,
+    "americas": 1795024863000,
+    "asia": 1794973006000,
+    "west": 1795035314000
+   }
+  },
+  {
+   "dayKey": "2026-11-19",
+   "gameId": "minigolf",
+   "seed": 1298457925,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1795082832000,
+    "americas": 1795114970000,
+    "asia": 1795053721000,
+    "west": 1795123027000
+   }
+  },
+  {
+   "dayKey": "2026-11-20",
+   "gameId": "penalty",
+   "seed": 4062551053,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1795194085000,
+    "americas": 1795226138000,
+    "asia": 1795140930000,
+    "west": 1795225122000
+   }
+  },
+  {
+   "dayKey": "2026-11-21",
+   "gameId": "survival",
+   "seed": 815570035,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1795274406000,
+    "americas": 1795273510000,
+    "asia": 1795250641000,
+    "west": 1795300912000
+   }
+  },
+  {
+   "dayKey": "2026-11-22",
+   "gameId": "bowling",
+   "seed": 3550369882,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1795374807000,
+    "americas": 1795392397000,
+    "asia": 1795318728000,
+    "west": 1795381218000
+   }
+  },
+  {
+   "dayKey": "2026-11-23",
+   "gameId": "basket",
+   "seed": 174421183,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1795443998000,
+    "americas": 1795450362000,
+    "asia": 1795407566000,
+    "west": 1795493306000
+   }
+  },
+  {
+   "dayKey": "2026-11-24",
+   "gameId": "stack",
+   "seed": 1930044078,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1795528138000,
+    "americas": 1795560284000,
+    "asia": 1795520128000,
+    "west": 1795546139000
+   }
+  },
+  {
+   "dayKey": "2026-11-25",
+   "gameId": "darts",
+   "seed": 828717353,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1795633710000,
+    "americas": 1795649826000,
+    "asia": 1795586011000,
+    "west": 1795631168000
+   }
+  },
+  {
+   "dayKey": "2026-11-26",
+   "gameId": "minigolf",
+   "seed": 2044424964,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1795708667000,
+    "americas": 1795735894000,
+    "asia": 1795688028000,
+    "west": 1795742138000
+   }
+  },
+  {
+   "dayKey": "2026-11-27",
+   "gameId": "penalty",
+   "seed": 3466532727,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1795776379000,
+    "americas": 1795794809000,
+    "asia": 1795746979000,
+    "west": 1795802545000
+   }
+  },
+  {
+   "dayKey": "2026-11-28",
+   "gameId": "survival",
+   "seed": 470452505,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1795865312000,
+    "americas": 1795895999000,
+    "asia": 1795855897000,
+    "west": 1795926547000
+   }
+  },
+  {
+   "dayKey": "2026-11-29",
+   "gameId": "bowling",
+   "seed": 967110584,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1795956304000,
+    "americas": 1795998082000,
+    "asia": 1795919669000,
+    "west": 1796006020000
+   }
+  },
+  {
+   "dayKey": "2026-11-30",
+   "gameId": "basket",
+   "seed": 647783354,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1796038190000,
+    "americas": 1796061154000,
+    "asia": 1796004488000,
+    "west": 1796082427000
+   }
+  },
+  {
+   "dayKey": "2026-12-01",
+   "gameId": "stack",
+   "seed": 423009219,
+   "modifierId": "night",
+   "alertAt": {
+    "europe": 1796133321000,
+    "americas": 1796146539000,
+    "asia": 1796113801000,
+    "west": 1796160184000
+   }
+  },
+  {
+   "dayKey": "2026-12-02",
+   "gameId": "darts",
+   "seed": 2758048539,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1796238350000,
+    "americas": 1796251506000,
+    "asia": 1796189525000,
+    "west": 1796267176000
+   }
+  },
+  {
+   "dayKey": "2026-12-03",
+   "gameId": "minigolf",
+   "seed": 419531192,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1796317722000,
+    "americas": 1796335681000,
+    "asia": 1796267288000,
+    "west": 1796351722000
+   }
+  },
+  {
+   "dayKey": "2026-12-04",
+   "gameId": "penalty",
+   "seed": 503748569,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1796405694000,
+    "americas": 1796430012000,
+    "asia": 1796385429000,
+    "west": 1796424952000
+   }
+  },
+  {
+   "dayKey": "2026-12-05",
+   "gameId": "survival",
+   "seed": 2802313692,
+   "modifierId": "turbo",
+   "alertAt": {
+    "europe": 1796469941000,
+    "americas": 1796513558000,
+    "asia": 1796435363000,
+    "west": 1796501098000
+   }
+  },
+  {
+   "dayKey": "2026-12-06",
+   "gameId": "bowling",
+   "seed": 394641064,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1796563507000,
+    "americas": 1796595424000,
+    "asia": 1796551321000,
+    "west": 1796619423000
+   }
+  },
+  {
+   "dayKey": "2026-12-07",
+   "gameId": "basket",
+   "seed": 3835146632,
+   "modifierId": "wind",
+   "alertAt": {
+    "europe": 1796670819000,
+    "americas": 1796662736000,
+    "asia": 1796620467000,
+    "west": 1796680961000
+   }
+  },
+  {
+   "dayKey": "2026-12-08",
+   "gameId": "stack",
+   "seed": 2466561366,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1796753927000,
+    "americas": 1796749188000,
+    "asia": 1796698401000,
+    "west": 1796769299000
+   }
+  },
+  {
+   "dayKey": "2026-12-09",
+   "gameId": "darts",
+   "seed": 3310936632,
+   "modifierId": "wind",
+   "alertAt": {
+    "europe": 1796818579000,
+    "americas": 1796863733000,
+    "asia": 1796779039000,
+    "west": 1796875424000
+   }
+  },
+  {
+   "dayKey": "2026-12-10",
+   "gameId": "minigolf",
+   "seed": 773838104,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1796895447000,
+    "americas": 1796915513000,
+    "asia": 1796866923000,
+    "west": 1796955043000
+   }
+  },
+  {
+   "dayKey": "2026-12-11",
+   "gameId": "penalty",
+   "seed": 1571341825,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1797003247000,
+    "americas": 1797011611000,
+    "asia": 1796978154000,
+    "west": 1797046890000
+   }
+  },
+  {
+   "dayKey": "2026-12-12",
+   "gameId": "survival",
+   "seed": 1988957871,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1797101290000,
+    "americas": 1797119582000,
+    "asia": 1797051172000,
+    "west": 1797137701000
+   }
+  },
+  {
+   "dayKey": "2026-12-13",
+   "gameId": "bowling",
+   "seed": 3407683866,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1797176398000,
+    "americas": 1797184223000,
+    "asia": 1797135433000,
+    "west": 1797211164000
+   }
+  },
+  {
+   "dayKey": "2026-12-14",
+   "gameId": "basket",
+   "seed": 2342646831,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1797243897000,
+    "americas": 1797286747000,
+    "asia": 1797242869000,
+    "west": 1797290285000
+   }
+  },
+  {
+   "dayKey": "2026-12-15",
+   "gameId": "stack",
+   "seed": 602891727,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1797327553000,
+    "americas": 1797352368000,
+    "asia": 1797334813000,
+    "west": 1797372852000
+   }
+  },
+  {
+   "dayKey": "2026-12-16",
+   "gameId": "darts",
+   "seed": 2019834,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1797443358000,
+    "americas": 1797470826000,
+    "asia": 1797421621000,
+    "west": 1797480333000
+   }
+  },
+  {
+   "dayKey": "2026-12-17",
+   "gameId": "minigolf",
+   "seed": 1189851095,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1797503936000,
+    "americas": 1797521386000,
+    "asia": 1797475268000,
+    "west": 1797565665000
+   }
+  },
+  {
+   "dayKey": "2026-12-18",
+   "gameId": "penalty",
+   "seed": 334448227,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1797596772000,
+    "americas": 1797626482000,
+    "asia": 1797563037000,
+    "west": 1797630900000
+   }
+  },
+  {
+   "dayKey": "2026-12-19",
+   "gameId": "survival",
+   "seed": 2986006421,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1797678620000,
+    "americas": 1797722815000,
+    "asia": 1797659106000,
+    "west": 1797717421000
+   }
+  },
+  {
+   "dayKey": "2026-12-20",
+   "gameId": "bowling",
+   "seed": 1117510905,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1797795616000,
+    "americas": 1797799544000,
+    "asia": 1797763110000,
+    "west": 1797821506000
+   }
+  },
+  {
+   "dayKey": "2026-12-21",
+   "gameId": "basket",
+   "seed": 2949214897,
+   "modifierId": "giant",
+   "alertAt": {
+    "europe": 1797854779000,
+    "americas": 1797891528000,
+    "asia": 1797821117000,
+    "west": 1797880828000
+   }
+  },
+  {
+   "dayKey": "2026-12-22",
+   "gameId": "stack",
+   "seed": 1213737258,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1797930860000,
+    "americas": 1797954854000,
+    "asia": 1797931791000,
+    "west": 1797972550000
+   }
+  },
+  {
+   "dayKey": "2026-12-23",
+   "gameId": "darts",
+   "seed": 307144998,
+   "modifierId": "night",
+   "alertAt": {
+    "europe": 1798054263000,
+    "americas": 1798072580000,
+    "asia": 1798021287000,
+    "west": 1798070110000
+   }
+  },
+  {
+   "dayKey": "2026-12-24",
+   "gameId": "minigolf",
+   "seed": 241101406,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1798131932000,
+    "americas": 1798127818000,
+    "asia": 1798096339000,
+    "west": 1798166978000
+   }
+  },
+  {
+   "dayKey": "2026-12-25",
+   "gameId": "penalty",
+   "seed": 1838041754,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1798190409000,
+    "americas": 1798223430000,
+    "asia": 1798162595000,
+    "west": 1798258107000
+   }
+  },
+  {
+   "dayKey": "2026-12-26",
+   "gameId": "survival",
+   "seed": 537806864,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1798313000000,
+    "americas": 1798323665000,
+    "asia": 1798279993000,
+    "west": 1798323850000
+   }
+  },
+  {
+   "dayKey": "2026-12-27",
+   "gameId": "bowling",
+   "seed": 1936425877,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1798374826000,
+    "americas": 1798414045000,
+    "asia": 1798362551000,
+    "west": 1798399476000
+   }
+  },
+  {
+   "dayKey": "2026-12-28",
+   "gameId": "basket",
+   "seed": 3252188385,
+   "modifierId": "wind",
+   "alertAt": {
+    "europe": 1798473230000,
+    "americas": 1798508642000,
+    "asia": 1798445015000,
+    "west": 1798483431000
+   }
+  },
+  {
+   "dayKey": "2026-12-29",
+   "gameId": "stack",
+   "seed": 527424644,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1798542683000,
+    "americas": 1798578772000,
+    "asia": 1798535478000,
+    "west": 1798573021000
+   }
+  },
+  {
+   "dayKey": "2026-12-30",
+   "gameId": "darts",
+   "seed": 540502325,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1798658121000,
+    "americas": 1798660477000,
+    "asia": 1798620814000,
+    "west": 1798677315000
+   }
+  },
+  {
+   "dayKey": "2026-12-31",
+   "gameId": "minigolf",
+   "seed": 2302352723,
+   "modifierId": "night",
+   "alertAt": {
+    "europe": 1798739317000,
+    "americas": 1798740604000,
+    "asia": 1798684758000,
+    "west": 1798757451000
+   }
+  },
+  {
+   "dayKey": "2027-01-01",
+   "gameId": "penalty",
+   "seed": 134504363,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1798805927000,
+    "americas": 1798834685000,
+    "asia": 1798766970000,
+    "west": 1798847489000
+   }
+  },
+  {
+   "dayKey": "2027-01-02",
+   "gameId": "survival",
+   "seed": 1738685964,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1798904150000,
+    "americas": 1798908320000,
+    "asia": 1798853517000,
+    "west": 1798934158000
+   }
+  },
+  {
+   "dayKey": "2027-01-03",
+   "gameId": "bowling",
+   "seed": 1017943531,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1798987335000,
+    "americas": 1799003483000,
+    "asia": 1798941932000,
+    "west": 1799030718000
+   }
+  },
+  {
+   "dayKey": "2027-01-04",
+   "gameId": "basket",
+   "seed": 369035776,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1799092039000,
+    "americas": 1799113552000,
+    "asia": 1799055546000,
+    "west": 1799107650000
+   }
+  },
+  {
+   "dayKey": "2027-01-05",
+   "gameId": "stack",
+   "seed": 2369284358,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1799177231000,
+    "americas": 1799169935000,
+    "asia": 1799128096000,
+    "west": 1799172008000
+   }
+  },
+  {
+   "dayKey": "2027-01-06",
+   "gameId": "darts",
+   "seed": 633684408,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1799265029000,
+    "americas": 1799272214000,
+    "asia": 1799202503000,
+    "west": 1799269948000
+   }
+  },
+  {
+   "dayKey": "2027-01-07",
+   "gameId": "minigolf",
+   "seed": 790606063,
+   "modifierId": "ice",
+   "alertAt": {
+    "europe": 1799334213000,
+    "americas": 1799335055000,
+    "asia": 1799296966000,
+    "west": 1799359993000
+   }
+  },
+  {
+   "dayKey": "2027-01-08",
+   "gameId": "penalty",
+   "seed": 1241532464,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1799437007000,
+    "americas": 1799438993000,
+    "asia": 1799380978000,
+    "west": 1799437889000
+   }
+  },
+  {
+   "dayKey": "2027-01-09",
+   "gameId": "survival",
+   "seed": 3150245053,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1799496019000,
+    "americas": 1799543702000,
+    "asia": 1799462753000,
+    "west": 1799526818000
+   }
+  },
+  {
+   "dayKey": "2027-01-10",
+   "gameId": "bowling",
+   "seed": 1374070046,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1799599213000,
+    "americas": 1799612259000,
+    "asia": 1799557656000,
+    "west": 1799625837000
+   }
+  },
+  {
+   "dayKey": "2027-01-11",
+   "gameId": "basket",
+   "seed": 1480186359,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1799664707000,
+    "americas": 1799702919000,
+    "asia": 1799650744000,
+    "west": 1799729308000
+   }
+  },
+  {
+   "dayKey": "2027-01-12",
+   "gameId": "stack",
+   "seed": 3037139216,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1799748692000,
+    "americas": 1799774144000,
+    "asia": 1799724549000,
+    "west": 1799791433000
+   }
+  },
+  {
+   "dayKey": "2027-01-13",
+   "gameId": "darts",
+   "seed": 3898049104,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1799841059000,
+    "americas": 1799873089000,
+    "asia": 1799805146000,
+    "west": 1799897555000
+   }
+  },
+  {
+   "dayKey": "2027-01-14",
+   "gameId": "minigolf",
+   "seed": 409451334,
+   "modifierId": "wind",
+   "alertAt": {
+    "europe": 1799933459000,
+    "americas": 1799959674000,
+    "asia": 1799904961000,
+    "west": 1799978406000
+   }
+  },
+  {
+   "dayKey": "2027-01-15",
+   "gameId": "penalty",
+   "seed": 822488239,
+   "modifierId": "giant",
+   "alertAt": {
+    "europe": 1800007057000,
+    "americas": 1800031352000,
+    "asia": 1800000402000,
+    "west": 1800039183000
+   }
+  },
+  {
+   "dayKey": "2027-01-16",
+   "gameId": "survival",
+   "seed": 464156646,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1800109170000,
+    "americas": 1800148929000,
+    "asia": 1800085252000,
+    "west": 1800125626000
+   }
+  },
+  {
+   "dayKey": "2027-01-17",
+   "gameId": "bowling",
+   "seed": 1270191975,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1800215315000,
+    "americas": 1800218187000,
+    "asia": 1800174867000,
+    "west": 1800210767000
+   }
+  },
+  {
+   "dayKey": "2027-01-18",
+   "gameId": "basket",
+   "seed": 2934279860,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1800280670000,
+    "americas": 1800305707000,
+    "asia": 1800249731000,
+    "west": 1800331532000
+   }
+  },
+  {
+   "dayKey": "2027-01-19",
+   "gameId": "stack",
+   "seed": 3365593220,
+   "modifierId": "turbo",
+   "alertAt": {
+    "europe": 1800353753000,
+    "americas": 1800381525000,
+    "asia": 1800352138000,
+    "west": 1800405061000
+   }
+  },
+  {
+   "dayKey": "2027-01-20",
+   "gameId": "darts",
+   "seed": 2772268682,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1800457581000,
+    "americas": 1800495719000,
+    "asia": 1800429813000,
+    "west": 1800476471000
+   }
+  },
+  {
+   "dayKey": "2027-01-21",
+   "gameId": "minigolf",
+   "seed": 4044509438,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1800538737000,
+    "americas": 1800551107000,
+    "asia": 1800514993000,
+    "west": 1800590941000
+   }
+  },
+  {
+   "dayKey": "2027-01-22",
+   "gameId": "penalty",
+   "seed": 1488762288,
+   "modifierId": "night",
+   "alertAt": {
+    "europe": 1800614231000,
+    "americas": 1800665800000,
+    "asia": 1800580314000,
+    "west": 1800673823000
+   }
+  },
+  {
+   "dayKey": "2027-01-23",
+   "gameId": "survival",
+   "seed": 509954502,
+   "modifierId": "night",
+   "alertAt": {
+    "europe": 1800702111000,
+    "americas": 1800718138000,
+    "asia": 1800680302000,
+    "west": 1800730152000
+   }
+  },
+  {
+   "dayKey": "2027-01-24",
+   "gameId": "bowling",
+   "seed": 3688835467,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1800818414000,
+    "americas": 1800827288000,
+    "asia": 1800779564000,
+    "west": 1800841904000
+   }
+  },
+  {
+   "dayKey": "2027-01-25",
+   "gameId": "basket",
+   "seed": 462282065,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1800886153000,
+    "americas": 1800892962000,
+    "asia": 1800862724000,
+    "west": 1800910327000
+   }
+  },
+  {
+   "dayKey": "2027-01-26",
+   "gameId": "stack",
+   "seed": 3711375620,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1800964713000,
+    "americas": 1800991549000,
+    "asia": 1800947940000,
+    "west": 1801021822000
+   }
+  },
+  {
+   "dayKey": "2027-01-27",
+   "gameId": "darts",
+   "seed": 3438200435,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1801053675000,
+    "americas": 1801081974000,
+    "asia": 1801042237000,
+    "west": 1801080458000
+   }
+  },
+  {
+   "dayKey": "2027-01-28",
+   "gameId": "minigolf",
+   "seed": 1132701807,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1801147266000,
+    "americas": 1801167593000,
+    "asia": 1801132278000,
+    "west": 1801198055000
+   }
+  },
+  {
+   "dayKey": "2027-01-29",
+   "gameId": "penalty",
+   "seed": 1702138096,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1801222860000,
+    "americas": 1801264050000,
+    "asia": 1801218492000,
+    "west": 1801279614000
+   }
+  },
+  {
+   "dayKey": "2027-01-30",
+   "gameId": "survival",
+   "seed": 2658748539,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1801328373000,
+    "americas": 1801339944000,
+    "asia": 1801289355000,
+    "west": 1801352246000
+   }
+  },
+  {
+   "dayKey": "2027-01-31",
+   "gameId": "bowling",
+   "seed": 211009633,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1801405380000,
+    "americas": 1801434191000,
+    "asia": 1801377612000,
+    "west": 1801430077000
+   }
+  },
+  {
+   "dayKey": "2027-02-01",
+   "gameId": "basket",
+   "seed": 1799449277,
+   "modifierId": "wind",
+   "alertAt": {
+    "europe": 1801486477000,
+    "americas": 1801518850000,
+    "asia": 1801449211000,
+    "west": 1801543683000
+   }
+  },
+  {
+   "dayKey": "2027-02-02",
+   "gameId": "stack",
+   "seed": 2360976682,
+   "modifierId": "turbo",
+   "alertAt": {
+    "europe": 1801579644000,
+    "americas": 1801604487000,
+    "asia": 1801551020000,
+    "west": 1801604150000
+   }
+  },
+  {
+   "dayKey": "2027-02-03",
+   "gameId": "darts",
+   "seed": 617621712,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1801670891000,
+    "americas": 1801682457000,
+    "asia": 1801639244000,
+    "west": 1801707505000
+   }
+  },
+  {
+   "dayKey": "2027-02-04",
+   "gameId": "minigolf",
+   "seed": 427885250,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1801750740000,
+    "americas": 1801785438000,
+    "asia": 1801735610000,
+    "west": 1801775690000
+   }
+  },
+  {
+   "dayKey": "2027-02-05",
+   "gameId": "penalty",
+   "seed": 2289362660,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1801830697000,
+    "americas": 1801851470000,
+    "asia": 1801795159000,
+    "west": 1801863697000
+   }
+  },
+  {
+   "dayKey": "2027-02-06",
+   "gameId": "survival",
+   "seed": 3566468919,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1801922952000,
+    "americas": 1801939027000,
+    "asia": 1801880120000,
+    "west": 1801965266000
+   }
+  },
+  {
+   "dayKey": "2027-02-07",
+   "gameId": "bowling",
+   "seed": 2328606256,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1802020614000,
+    "americas": 1802020175000,
+    "asia": 1801972523000,
+    "west": 1802023748000
+   }
+  },
+  {
+   "dayKey": "2027-02-08",
+   "gameId": "basket",
+   "seed": 1260329893,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1802103373000,
+    "americas": 1802119302000,
+    "asia": 1802063433000,
+    "west": 1802132665000
+   }
+  },
+  {
+   "dayKey": "2027-02-09",
+   "gameId": "stack",
+   "seed": 2104455324,
+   "modifierId": "turbo",
+   "alertAt": {
+    "europe": 1802183377000,
+    "americas": 1802218393000,
+    "asia": 1802137974000,
+    "west": 1802205950000
+   }
+  },
+  {
+   "dayKey": "2027-02-10",
+   "gameId": "darts",
+   "seed": 3194397210,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1802255534000,
+    "americas": 1802299650000,
+    "asia": 1802231780000,
+    "west": 1802302475000
+   }
+  },
+  {
+   "dayKey": "2027-02-11",
+   "gameId": "minigolf",
+   "seed": 3045403988,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1802346339000,
+    "americas": 1802372839000,
+    "asia": 1802343867000,
+    "west": 1802405316000
+   }
+  },
+  {
+   "dayKey": "2027-02-12",
+   "gameId": "penalty",
+   "seed": 1280147978,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1802426682000,
+    "americas": 1802483942000,
+    "asia": 1802429020000,
+    "west": 1802494224000
+   }
+  },
+  {
+   "dayKey": "2027-02-13",
+   "gameId": "survival",
+   "seed": 4240362186,
+   "modifierId": "night",
+   "alertAt": {
+    "europe": 1802509950000,
+    "americas": 1802534938000,
+    "asia": 1802509275000,
+    "west": 1802579669000
+   }
+  },
+  {
+   "dayKey": "2027-02-14",
+   "gameId": "bowling",
+   "seed": 2959036244,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1802599130000,
+    "americas": 1802624594000,
+    "asia": 1802598634000,
+    "west": 1802662079000
+   }
+  },
+  {
+   "dayKey": "2027-02-15",
+   "gameId": "basket",
+   "seed": 2628714294,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1802706677000,
+    "americas": 1802709625000,
+    "asia": 1802659734000,
+    "west": 1802717307000
+   }
+  },
+  {
+   "dayKey": "2027-02-16",
+   "gameId": "stack",
+   "seed": 283843308,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1802778451000,
+    "americas": 1802823451000,
+    "asia": 1802754217000,
+    "west": 1802837521000
+   }
+  },
+  {
+   "dayKey": "2027-02-17",
+   "gameId": "darts",
+   "seed": 2101532603,
+   "modifierId": "night",
+   "alertAt": {
+    "europe": 1802863667000,
+    "americas": 1802915980000,
+    "asia": 1802856397000,
+    "west": 1802900255000
+   }
+  },
+  {
+   "dayKey": "2027-02-18",
+   "gameId": "minigolf",
+   "seed": 3667019928,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1802961474000,
+    "americas": 1802978091000,
+    "asia": 1802937179000,
+    "west": 1803008675000
+   }
+  },
+  {
+   "dayKey": "2027-02-19",
+   "gameId": "penalty",
+   "seed": 4105464607,
+   "modifierId": "night",
+   "alertAt": {
+    "europe": 1803054833000,
+    "americas": 1803050214000,
+    "asia": 1803038122000,
+    "west": 1803097397000
+   }
+  },
+  {
+   "dayKey": "2027-02-20",
+   "gameId": "survival",
+   "seed": 2839023367,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1803143110000,
+    "americas": 1803152697000,
+    "asia": 1803111110000,
+    "west": 1803146776000
+   }
+  },
+  {
+   "dayKey": "2027-02-21",
+   "gameId": "bowling",
+   "seed": 3925172736,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1803218393000,
+    "americas": 1803249666000,
+    "asia": 1803204752000,
+    "west": 1803242490000
+   }
+  },
+  {
+   "dayKey": "2027-02-22",
+   "gameId": "basket",
+   "seed": 1209225792,
+   "modifierId": "giant",
+   "alertAt": {
+    "europe": 1803298961000,
+    "americas": 1803347138000,
+    "asia": 1803268218000,
+    "west": 1803339957000
+   }
+  },
+  {
+   "dayKey": "2027-02-23",
+   "gameId": "stack",
+   "seed": 576949065,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1803397935000,
+    "americas": 1803401642000,
+    "asia": 1803378771000,
+    "west": 1803438199000
+   }
+  },
+  {
+   "dayKey": "2027-02-24",
+   "gameId": "darts",
+   "seed": 2567680942,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1803465190000,
+    "americas": 1803492625000,
+    "asia": 1803462513000,
+    "west": 1803519631000
+   }
+  },
+  {
+   "dayKey": "2027-02-25",
+   "gameId": "minigolf",
+   "seed": 3242538901,
+   "modifierId": "ice",
+   "alertAt": {
+    "europe": 1803580577000,
+    "americas": 1803589786000,
+    "asia": 1803540574000,
+    "west": 1803616166000
+   }
+  },
+  {
+   "dayKey": "2027-02-26",
+   "gameId": "penalty",
+   "seed": 1222334867,
+   "modifierId": "night",
+   "alertAt": {
+    "europe": 1803648487000,
+    "americas": 1803685608000,
+    "asia": 1803642085000,
+    "west": 1803691556000
+   }
+  },
+  {
+   "dayKey": "2027-02-27",
+   "gameId": "survival",
+   "seed": 608619566,
+   "modifierId": "night",
+   "alertAt": {
+    "europe": 1803757062000,
+    "americas": 1803750514000,
+    "asia": 1803715081000,
+    "west": 1803774796000
+   }
+  },
+  {
+   "dayKey": "2027-02-28",
+   "gameId": "bowling",
+   "seed": 3564347115,
+   "modifierId": null,
+   "alertAt": {
+    "europe": 1803828489000,
+    "americas": 1803829484000,
+    "asia": 1803787060000,
+    "west": 1803856328000
+   }
+  }
+ ],
+ "streaks": [
+  {
+   "ops": [
+    [
+     "play",
+     "2026-11-01",
+     true
+    ],
+    [
+     "play",
+     "2026-11-02",
+     true
+    ],
+    [
+     "play",
+     "2026-11-04",
+     true
+    ]
+   ],
+   "states": [
+    {
+     "streak": 1,
+     "bestStreak": 1,
+     "lastOnTimeDay": "2026-11-01",
+     "jokers": 1,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 0,
+     "brokenDay": null,
+     "savedDays": []
+    },
+    {
+     "streak": 2,
+     "bestStreak": 2,
+     "lastOnTimeDay": "2026-11-02",
+     "jokers": 1,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 0,
+     "brokenDay": null,
+     "savedDays": []
+    },
+    {
+     "streak": 1,
+     "bestStreak": 2,
+     "lastOnTimeDay": "2026-11-04",
+     "jokers": 1,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 2,
+     "brokenDay": "2026-11-03",
+     "savedDays": []
+    }
+   ]
+  },
+  {
+   "ops": [
+    [
+     "play",
+     "2026-11-01",
+     true
+    ],
+    [
+     "play",
+     "2026-11-02",
+     true
+    ],
+    [
+     "joker",
+     "2026-11-04"
+    ],
+    [
+     "play",
+     "2026-11-04",
+     true
+    ]
+   ],
+   "states": [
+    {
+     "streak": 1,
+     "bestStreak": 1,
+     "lastOnTimeDay": "2026-11-01",
+     "jokers": 1,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 0,
+     "brokenDay": null,
+     "savedDays": []
+    },
+    {
+     "streak": 2,
+     "bestStreak": 2,
+     "lastOnTimeDay": "2026-11-02",
+     "jokers": 1,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 0,
+     "brokenDay": null,
+     "savedDays": []
+    },
+    {
+     "streak": 2,
+     "bestStreak": 2,
+     "lastOnTimeDay": "2026-11-03",
+     "jokers": 0,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 0,
+     "brokenDay": null,
+     "savedDays": [
+      "2026-11-03"
+     ]
+    },
+    {
+     "streak": 3,
+     "bestStreak": 3,
+     "lastOnTimeDay": "2026-11-04",
+     "jokers": 0,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 0,
+     "brokenDay": null,
+     "savedDays": [
+      "2026-11-03"
+     ]
+    }
+   ]
+  },
+  {
+   "ops": [
+    [
+     "play",
+     "2026-11-10",
+     true
+    ],
+    [
+     "play",
+     "2026-11-11",
+     true
+    ],
+    [
+     "play",
+     "2026-11-12",
+     false
+    ],
+    [
+     "joker",
+     "2026-11-12"
+    ],
+    [
+     "play",
+     "2026-11-13",
+     true
+    ]
+   ],
+   "states": [
+    {
+     "streak": 1,
+     "bestStreak": 1,
+     "lastOnTimeDay": "2026-11-10",
+     "jokers": 1,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 0,
+     "brokenDay": null,
+     "savedDays": []
+    },
+    {
+     "streak": 2,
+     "bestStreak": 2,
+     "lastOnTimeDay": "2026-11-11",
+     "jokers": 1,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 0,
+     "brokenDay": null,
+     "savedDays": []
+    },
+    {
+     "streak": 0,
+     "bestStreak": 2,
+     "lastOnTimeDay": "2026-11-11",
+     "jokers": 1,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 2,
+     "brokenDay": "2026-11-12",
+     "savedDays": []
+    },
+    {
+     "streak": 2,
+     "bestStreak": 2,
+     "lastOnTimeDay": "2026-11-12",
+     "jokers": 0,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 0,
+     "brokenDay": null,
+     "savedDays": [
+      "2026-11-12"
+     ]
+    },
+    {
+     "streak": 3,
+     "bestStreak": 3,
+     "lastOnTimeDay": "2026-11-13",
+     "jokers": 0,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 0,
+     "brokenDay": null,
+     "savedDays": [
+      "2026-11-12"
+     ]
+    }
+   ]
+  },
+  {
+   "ops": [
+    [
+     "play",
+     "2026-11-29",
+     true
+    ],
+    [
+     "play",
+     "2026-11-30",
+     true
+    ],
+    [
+     "play",
+     "2026-12-01",
+     false
+    ],
+    [
+     "play",
+     "2026-12-02",
+     true
+    ],
+    [
+     "joker",
+     "2026-12-02"
+    ]
+   ],
+   "states": [
+    {
+     "streak": 1,
+     "bestStreak": 1,
+     "lastOnTimeDay": "2026-11-29",
+     "jokers": 1,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 0,
+     "brokenDay": null,
+     "savedDays": []
+    },
+    {
+     "streak": 2,
+     "bestStreak": 2,
+     "lastOnTimeDay": "2026-11-30",
+     "jokers": 1,
+     "jokerMonth": "2026-11",
+     "streakBeforeBreak": 0,
+     "brokenDay": null,
+     "savedDays": []
+    },
+    {
+     "streak": 0,
+     "bestStreak": 2,
+     "lastOnTimeDay": "2026-11-30",
+     "jokers": 1,
+     "jokerMonth": "2026-12",
+     "streakBeforeBreak": 2,
+     "brokenDay": "2026-12-01",
+     "savedDays": []
+    },
+    {
+     "streak": 1,
+     "bestStreak": 2,
+     "lastOnTimeDay": "2026-12-02",
+     "jokers": 1,
+     "jokerMonth": "2026-12",
+     "streakBeforeBreak": 0,
+     "brokenDay": "2026-12-01",
+     "savedDays": []
+    },
+    {
+     "streak": 1,
+     "bestStreak": 2,
+     "lastOnTimeDay": "2026-12-02",
+     "jokers": 1,
+     "jokerMonth": "2026-12",
+     "streakBeforeBreak": 0,
+     "brokenDay": "2026-12-01",
+     "savedDays": []
+    }
+   ]
+  }
+ ]
+}

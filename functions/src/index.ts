@@ -96,6 +96,7 @@ export const setRegion = callable((uid, data, now) => h.setRegion(db, uid, (data
 export const getToday = callable((uid, _data, now) => h.getToday(db, uid, now));
 export const startAttempt = callable((uid, _data, now) => h.startAttempt(db, uid, now));
 export const submitScore = callable((uid, data, now) => h.submitScore(db, uid, data, now));
+export const releasedGames = callable((uid, _data, now) => h.releasedGames(db, uid, now));
 export const useJoker = callable((uid, _data, now) => h.spendJoker(db, uid, now));
 
 /** Account deletion requested from the app (store requirement). */

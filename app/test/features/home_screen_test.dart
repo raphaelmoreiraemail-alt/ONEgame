@@ -1,54 +1,81 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:onegame/app/app.dart';
-import 'package:onegame/app/locale_controller.dart';
-import 'package:onegame/core/settings/settings.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:onegame/core/time/regions.dart';
+import 'package:onegame/features/home/today_controller.dart';
 
-Future<void> _pumpApp(WidgetTester tester, Locale locale) async {
-  SharedPreferences.setMockInitialValues({});
-  final prefs = await SharedPreferences.getInstance();
-  await tester.pumpWidget(
-    ProviderScope(
-      overrides: [
-        localeProvider.overrideWithBuild((ref, _) => locale),
-        sharedPrefsProvider.overrideWithValue(prefs),
-      ],
-      child: const OneGameApp(),
-    ),
-  );
-  await tester.pumpAndSettle();
-}
+import '../helpers/harness.dart';
 
 void main() {
-  testWidgets('home shows the waiting state in French', (tester) async {
-    await _pumpApp(tester, const Locale('fr'));
+  final daily = localDaily('2026-11-24');
+  final alert = daily.alertAt[Region.europe]!;
+
+  testWidgets('waiting (FR): no game revealed, training available', (t) async {
+    await pumpApp(t, now: alert.subtract(const Duration(hours: 1)));
     expect(find.text("L'alarme n'a pas encore sonné."), findsOneWidget);
+    expect(find.text('Elle tombera entre 10h et 21h.'), findsOneWidget);
     expect(find.text('Entraînement'), findsOneWidget);
     expect(find.bySemanticsLabel('Réveil OneGame'), findsOneWidget);
+    expect(find.text('JOUER'), findsNothing);
+    await unmount(t);
   });
 
-  testWidgets('home shows the waiting state in English', (tester) async {
-    await _pumpApp(tester, const Locale('en'));
+  testWidgets('waiting (EN)', (t) async {
+    await pumpApp(
+      t,
+      locale: const Locale('en'),
+      now: alert.subtract(const Duration(hours: 1)),
+    );
     expect(find.text("The alarm hasn't rung yet."), findsOneWidget);
     expect(find.text('Training'), findsOneWidget);
+    await unmount(t);
   });
 
-  testWidgets('language can be switched from settings', (tester) async {
-    await _pumpApp(tester, const Locale('fr'));
-    await tester.tap(find.text('Réglages'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('English'));
-    await tester.pumpAndSettle();
+  testWidgets('ringing: big PLAY button and a 2:00 → 0:00 countdown', (
+    t,
+  ) async {
+    await pumpApp(t, now: alert.add(const Duration(seconds: 30)));
+    expect(find.text('JOUER'), findsOneWidget);
+    expect(find.text("C'EST L'HEURE !"), findsOneWidget);
+    expect(find.text('1:30'), findsOneWidget);
+    await unmount(t);
+  });
+
+  testWidgets('late: play anyway', (t) async {
+    await pumpApp(t, now: alert.add(const Duration(minutes: 5)));
+    expect(find.text('Tu es en retard'), findsOneWidget);
+    expect(find.text('Jouer quand même'), findsOneWidget);
+    await unmount(t);
+  });
+
+  testWidgets('played and interrupted states', (t) async {
+    final h = await pumpApp(t, now: alert.add(const Duration(seconds: 10)));
+    await h.repo.startAttempt();
+    // Attempt started but the app "died": after the time limit it is lost.
+    h.clock.advance(const Duration(minutes: 3));
+    await h.container.read(todayProvider.notifier).refresh();
+    await settle(t);
+    expect(find.text('Partie interrompue'), findsOneWidget);
+    await unmount(t);
+  });
+
+  testWidgets('language can be switched from settings', (t) async {
+    await pumpApp(t, now: alert.subtract(const Duration(hours: 1)));
+    await t.tap(find.text('Réglages'));
+    await settle(t);
+    await t.tap(find.text('English'));
+    await settle(t);
     expect(find.text('Settings'), findsWidgets);
+    await unmount(t);
   });
 
-  testWidgets('training opens from home', (tester) async {
-    await _pumpApp(tester, const Locale('fr'));
-    await tester.tap(find.text('Entraînement'));
-    await tester.pumpAndSettle();
+  testWidgets('training lists released games only', (t) async {
+    await pumpApp(t, now: alert.subtract(const Duration(hours: 1)));
+    await t.ensureVisible(find.text('Entraînement'));
+    await settle(t, 3);
+    await t.tap(find.text('Entraînement'));
+    await settle(t);
     expect(find.textContaining('Rejoue les jeux'), findsOneWidget);
-    expect(find.text('Survie 2:00'), findsOneWidget);
+    expect(find.byType(ListTile), findsWidgets);
+    await unmount(t);
   });
 }
