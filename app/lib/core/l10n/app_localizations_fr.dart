@@ -360,4 +360,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get highlightTurkey => 'TURKEY !';
+
+  @override
+  String get gameStackName => 'Tour infinie';
+
+  @override
+  String get gameStackRule =>
+      'Tape pour poser le bloc. Ce qui dépasse est coupé !';
+
+  @override
+  String gameStackShare(Object height, Object perfects) {
+    return '🧱 hauteur $height · $perfects poses parfaites';
+  }
+
+  @override
+  String get statHeight => 'Hauteur';
+
+  @override
+  String get statPerfects => 'Poses parfaites';
+
+  @override
+  String get statMaxCombo => 'Combo max';
+
+  @override
+  String get highlightPerfectStreak => '5 PARFAITS !';
 }

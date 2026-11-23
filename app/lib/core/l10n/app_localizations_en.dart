@@ -359,4 +359,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get highlightTurkey => 'TURKEY!';
+
+  @override
+  String get gameStackName => 'Endless Tower';
+
+  @override
+  String get gameStackRule =>
+      'Tap to drop the block. Whatever hangs over gets cut!';
+
+  @override
+  String gameStackShare(Object height, Object perfects) {
+    return '🧱 height $height · $perfects perfect drops';
+  }
+
+  @override
+  String get statHeight => 'Height';
+
+  @override
+  String get statPerfects => 'Perfect drops';
+
+  @override
+  String get statMaxCombo => 'Best combo';
+
+  @override
+  String get highlightPerfectStreak => '5 PERFECT!';
 }

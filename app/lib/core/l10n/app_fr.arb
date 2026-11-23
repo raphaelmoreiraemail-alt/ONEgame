@@ -195,5 +195,22 @@
   "statStrikes": "Strikes",
   "statSpares": "Spares",
   "highlightStrike": "STRIKE !",
-  "highlightTurkey": "TURKEY !"
+  "highlightTurkey": "TURKEY !",
+  "gameStackName": "Tour infinie",
+  "gameStackRule": "Tape pour poser le bloc. Ce qui dépasse est coupé !",
+  "gameStackShare": "🧱 hauteur {height} · {perfects} poses parfaites",
+  "@gameStackShare": {
+    "placeholders": {
+      "height": {
+        "type": "Object"
+      },
+      "perfects": {
+        "type": "Object"
+      }
+    }
+  },
+  "statHeight": "Hauteur",
+  "statPerfects": "Poses parfaites",
+  "statMaxCombo": "Combo max",
+  "highlightPerfectStreak": "5 PARFAITS !"
 }

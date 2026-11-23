@@ -103,5 +103,12 @@
   "statStrikes": "Strikes",
   "statSpares": "Spares",
   "highlightStrike": "STRIKE!",
-  "highlightTurkey": "TURKEY!"
+  "highlightTurkey": "TURKEY!",
+  "gameStackName": "Endless Tower",
+  "gameStackRule": "Tap to drop the block. Whatever hangs over gets cut!",
+  "gameStackShare": "🧱 height {height} · {perfects} perfect drops",
+  "statHeight": "Height",
+  "statPerfects": "Perfect drops",
+  "statMaxCombo": "Best combo",
+  "highlightPerfectStreak": "5 PERFECT!"
 }

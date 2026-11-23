@@ -3,6 +3,7 @@ import 'bowling/bowling.dart';
 import 'common/mini_game_definition.dart';
 import 'minigolf/minigolf.dart';
 import 'penalty/penalty.dart';
+import 'stack/stack.dart';
 import 'survival/survival.dart';
 
 /// All mini-games. Adding a game = create its folder + add it here.
@@ -13,6 +14,7 @@ abstract final class GameRegistry {
     PenaltyGame(),
     BasketGame(),
     BowlingGame(),
+    StackGame(),
   ];
 
   static MiniGameDefinition? byId(String id) {

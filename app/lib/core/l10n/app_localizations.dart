@@ -726,6 +726,48 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'TURKEY !'**
   String get highlightTurkey;
+
+  /// No description provided for @gameStackName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tour infinie'**
+  String get gameStackName;
+
+  /// No description provided for @gameStackRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tape pour poser le bloc. Ce qui dépasse est coupé !'**
+  String get gameStackRule;
+
+  /// No description provided for @gameStackShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🧱 hauteur {height} · {perfects} poses parfaites'**
+  String gameStackShare(Object height, Object perfects);
+
+  /// No description provided for @statHeight.
+  ///
+  /// In fr, this message translates to:
+  /// **'Hauteur'**
+  String get statHeight;
+
+  /// No description provided for @statPerfects.
+  ///
+  /// In fr, this message translates to:
+  /// **'Poses parfaites'**
+  String get statPerfects;
+
+  /// No description provided for @statMaxCombo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Combo max'**
+  String get statMaxCombo;
+
+  /// No description provided for @highlightPerfectStreak.
+  ///
+  /// In fr, this message translates to:
+  /// **'5 PARFAITS !'**
+  String get highlightPerfectStreak;
 }
 
 class _AppLocalizationsDelegate
