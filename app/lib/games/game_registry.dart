@@ -6,11 +6,14 @@ import 'bowling/bowling.dart';
 import 'common/mini_game_definition.dart';
 import 'curling/curling.dart';
 import 'darts/darts.dart';
+import 'flappy/flappy.dart';
 import 'freekick/freekick.dart';
 import 'minigolf/minigolf.dart';
 import 'penalty/penalty.dart';
 import 'petanque/petanque.dart';
+import 'runner/runner.dart';
 import 'ski/ski.dart';
+import 'snake/snake.dart';
 import 'stack/stack.dart';
 import 'survival/survival.dart';
 import 'tennis/tennis.dart';
@@ -34,6 +37,9 @@ abstract final class GameRegistry {
     DartsGame(),
     StackGame(),
     SurvivalGame(),
+    FlappyGame(),
+    RunnerGame(),
+    SnakeGame(),
   ];
 
   static MiniGameDefinition? byId(String id) {

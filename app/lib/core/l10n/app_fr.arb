@@ -688,5 +688,57 @@
   "statTime": "Temps",
   "statGatesMissed": "Portes manquées (+3 s)",
   "statCrashes": "Chutes",
-  "highlightCleanRun": "SANS FAUTE !"
+  "highlightCleanRun": "SANS FAUTE !",
+  "gameFlappyName": "Vol",
+  "gameFlappyRule": "Tape pour battre des ailes et passe entre les tuyaux.",
+  "gameFlappyShare": "🐦 {pipes} tuyaux · {perfect} pile au centre",
+  "@gameFlappyShare": {
+    "placeholders": {
+      "perfect": {
+        "type": "Object"
+      },
+      "pipes": {
+        "type": "Object"
+      }
+    }
+  },
+  "statPipes": "Tuyaux passés",
+  "statCenterPasses": "Passages au centre",
+  "highlightPerfectFlight": "VOL PARFAIT !",
+  "gameRunnerName": "Course",
+  "gameRunnerRule": "Tape = saut, swipe bas = glissade, swipe gauche/droite = changer de voie.",
+  "gameRunnerShare": "🏃 {meters} m · {coins} pièces",
+  "@gameRunnerShare": {
+    "placeholders": {
+      "coins": {
+        "type": "Object"
+      },
+      "meters": {
+        "type": "Object"
+      }
+    }
+  },
+  "statDistance": "Distance",
+  "statCoins": "Pièces",
+  "highlightMarathon": "MARATHONIEN !",
+  "gameSnakeName": "Serpent",
+  "gameSnakeRule": "Swipe pour tourner. Mange les fruits, évite les murs et ta queue !",
+  "gameSnakeShare": "🐍 {fruits} fruits · {golden} dorés · longueur {length}",
+  "@gameSnakeShare": {
+    "placeholders": {
+      "fruits": {
+        "type": "Object"
+      },
+      "golden": {
+        "type": "Object"
+      },
+      "length": {
+        "type": "Object"
+      }
+    }
+  },
+  "statFruits": "Fruits",
+  "statGolden": "Fruits dorés",
+  "statLength": "Longueur",
+  "highlightBigSnake": "SERPENT GÉANT !"
 }

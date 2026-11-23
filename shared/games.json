@@ -228,6 +228,52 @@
         "fr": "Survie 2:00",
         "en": "Survive 2:00"
       }
+    },
+    {
+      "id": "flappy",
+      "category": "arcade",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "turbo"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 20000,
+      "name": {
+        "fr": "Vol",
+        "en": "Flap"
+      }
+    },
+    {
+      "id": "runner",
+      "category": "arcade",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "night",
+        "turbo"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 12000,
+      "name": {
+        "fr": "Course",
+        "en": "Run"
+      }
+    },
+    {
+      "id": "snake",
+      "category": "arcade",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "turbo"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 40000,
+      "name": {
+        "fr": "Serpent",
+        "en": "Snake"
+      }
     }
   ],
   "modifiers": {

@@ -1081,4 +1081,70 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get highlightCleanRun => 'SANS FAUTE !';
+
+  @override
+  String get gameFlappyName => 'Vol';
+
+  @override
+  String get gameFlappyRule =>
+      'Tape pour battre des ailes et passe entre les tuyaux.';
+
+  @override
+  String gameFlappyShare(Object perfect, Object pipes) {
+    return '🐦 $pipes tuyaux · $perfect pile au centre';
+  }
+
+  @override
+  String get statPipes => 'Tuyaux passés';
+
+  @override
+  String get statCenterPasses => 'Passages au centre';
+
+  @override
+  String get highlightPerfectFlight => 'VOL PARFAIT !';
+
+  @override
+  String get gameRunnerName => 'Course';
+
+  @override
+  String get gameRunnerRule =>
+      'Tape = saut, swipe bas = glissade, swipe gauche/droite = changer de voie.';
+
+  @override
+  String gameRunnerShare(Object coins, Object meters) {
+    return '🏃 $meters m · $coins pièces';
+  }
+
+  @override
+  String get statDistance => 'Distance';
+
+  @override
+  String get statCoins => 'Pièces';
+
+  @override
+  String get highlightMarathon => 'MARATHONIEN !';
+
+  @override
+  String get gameSnakeName => 'Serpent';
+
+  @override
+  String get gameSnakeRule =>
+      'Swipe pour tourner. Mange les fruits, évite les murs et ta queue !';
+
+  @override
+  String gameSnakeShare(Object fruits, Object golden, Object length) {
+    return '🐍 $fruits fruits · $golden dorés · longueur $length';
+  }
+
+  @override
+  String get statFruits => 'Fruits';
+
+  @override
+  String get statGolden => 'Fruits dorés';
+
+  @override
+  String get statLength => 'Longueur';
+
+  @override
+  String get highlightBigSnake => 'SERPENT GÉANT !';
 }

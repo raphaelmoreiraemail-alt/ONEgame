@@ -1974,6 +1974,120 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'SANS FAUTE !'**
   String get highlightCleanRun;
+
+  /// No description provided for @gameFlappyName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vol'**
+  String get gameFlappyName;
+
+  /// No description provided for @gameFlappyRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tape pour battre des ailes et passe entre les tuyaux.'**
+  String get gameFlappyRule;
+
+  /// No description provided for @gameFlappyShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🐦 {pipes} tuyaux · {perfect} pile au centre'**
+  String gameFlappyShare(Object perfect, Object pipes);
+
+  /// No description provided for @statPipes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tuyaux passés'**
+  String get statPipes;
+
+  /// No description provided for @statCenterPasses.
+  ///
+  /// In fr, this message translates to:
+  /// **'Passages au centre'**
+  String get statCenterPasses;
+
+  /// No description provided for @highlightPerfectFlight.
+  ///
+  /// In fr, this message translates to:
+  /// **'VOL PARFAIT !'**
+  String get highlightPerfectFlight;
+
+  /// No description provided for @gameRunnerName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Course'**
+  String get gameRunnerName;
+
+  /// No description provided for @gameRunnerRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tape = saut, swipe bas = glissade, swipe gauche/droite = changer de voie.'**
+  String get gameRunnerRule;
+
+  /// No description provided for @gameRunnerShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🏃 {meters} m · {coins} pièces'**
+  String gameRunnerShare(Object coins, Object meters);
+
+  /// No description provided for @statDistance.
+  ///
+  /// In fr, this message translates to:
+  /// **'Distance'**
+  String get statDistance;
+
+  /// No description provided for @statCoins.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pièces'**
+  String get statCoins;
+
+  /// No description provided for @highlightMarathon.
+  ///
+  /// In fr, this message translates to:
+  /// **'MARATHONIEN !'**
+  String get highlightMarathon;
+
+  /// No description provided for @gameSnakeName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Serpent'**
+  String get gameSnakeName;
+
+  /// No description provided for @gameSnakeRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Swipe pour tourner. Mange les fruits, évite les murs et ta queue !'**
+  String get gameSnakeRule;
+
+  /// No description provided for @gameSnakeShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🐍 {fruits} fruits · {golden} dorés · longueur {length}'**
+  String gameSnakeShare(Object fruits, Object golden, Object length);
+
+  /// No description provided for @statFruits.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fruits'**
+  String get statFruits;
+
+  /// No description provided for @statGolden.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fruits dorés'**
+  String get statGolden;
+
+  /// No description provided for @statLength.
+  ///
+  /// In fr, this message translates to:
+  /// **'Longueur'**
+  String get statLength;
+
+  /// No description provided for @highlightBigSnake.
+  ///
+  /// In fr, this message translates to:
+  /// **'SERPENT GÉANT !'**
+  String get highlightBigSnake;
 }
 
 class _AppLocalizationsDelegate
