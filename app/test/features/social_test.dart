@@ -12,6 +12,7 @@ import 'package:onegame/data/social/pseudo.dart';
 import 'package:onegame/data/social/social_repository.dart';
 import 'package:onegame/features/friends/friends_screen.dart';
 import 'package:onegame/features/friends/phone.dart';
+import 'package:onegame/features/profile/avatar.dart';
 import 'package:onegame/features/share/share_card.dart';
 import 'package:onegame/games/common/game_types.dart';
 
@@ -118,6 +119,20 @@ void main() {
     await t.tap(find.byIcon(Icons.group_outlined));
     await settle(t);
     expect(find.text('Fil'), findsOneWidget);
+    await unmount(t);
+  });
+
+  testWidgets('profile shows a generated avatar that can be re-rolled', (
+    t,
+  ) async {
+    final h = await pumpApp(t, now: DateTime.utc(2026, 11, 24, 5));
+    await t.tap(find.byIcon(Icons.person_outline));
+    await settle(t);
+    expect(find.byType(Avatar), findsOneWidget);
+    final before = h.container.read(socialRepositoryProvider).avatar;
+    await t.tap(find.text('🎲'));
+    await settle(t);
+    expect(h.container.read(socialRepositoryProvider).avatar, isNot(before));
     await unmount(t);
   });
 

@@ -2334,6 +2334,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Langue'**
   String get lbLanguage;
+
+  /// No description provided for @profileAvatar.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avatar'**
+  String get profileAvatar;
+
+  /// No description provided for @profileNewAvatar.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouvel avatar'**
+  String get profileNewAvatar;
 }
 
 class _AppLocalizationsDelegate

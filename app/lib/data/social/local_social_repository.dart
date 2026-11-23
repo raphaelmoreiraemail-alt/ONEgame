@@ -127,6 +127,12 @@ class LocalSocialRepository implements SocialRepository {
       _prefs.setString(_kFriends, jsonEncode(m));
 
   @override
+  int get avatar => _prefs.getInt('local.avatar') ?? 1;
+
+  @override
+  Future<void> setAvatar(int seed) => _prefs.setInt('local.avatar', seed);
+
+  @override
   Future<List<Friend>> friends() async => [
     for (final e in _friendStatus.entries)
       Friend(

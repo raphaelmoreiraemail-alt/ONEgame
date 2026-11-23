@@ -1,10 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 import 'models.dart';
 import 'social_repository.dart';
 
 class FirebaseSocialRepository implements SocialRepository {
-  FirebaseSocialRepository(this._functions, this.uid, this._pseudo);
+  FirebaseSocialRepository(
+    this._functions,
+    this.uid,
+    this._pseudo, [
+    this._avatar = 1,
+  ]);
+
+  int _avatar;
+
+  @override
+  int get avatar => _avatar;
+
+  /// Owners may update their avatar directly (firestore.rules).
+  @override
+  Future<void> setAvatar(int seed) async {
+    _avatar = seed;
+    await FirebaseFirestore.instance.doc('users/$uid').update({'avatar': seed});
+  }
 
   final FirebaseFunctions _functions;
   final String uid;

@@ -9,6 +9,7 @@ import '../../core/time/regions.dart';
 import '../../data/daily/models.dart';
 import '../../games/game_registry.dart';
 import '../home/today_controller.dart';
+import 'avatar.dart';
 import 'badges.dart';
 
 /// Official history for the calendar and per-game records.
@@ -41,6 +42,8 @@ class ProfileScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          const _Identity(),
+          const SizedBox(height: 16),
           Row(
             children: [
               Expanded(
@@ -250,6 +253,43 @@ class CalendarGrid extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class _Identity extends ConsumerStatefulWidget {
+  const _Identity();
+
+  @override
+  ConsumerState<_Identity> createState() => _IdentityState();
+}
+
+class _IdentityState extends ConsumerState<_Identity> {
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final social = ref.watch(socialRepositoryProvider);
+    return Row(
+      children: [
+        Avatar(seed: social.avatar, semanticLabel: l10n.profileAvatar),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Text(
+            social.pseudo ?? '—',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+        ),
+        IconButton(
+          tooltip: l10n.profileNewAvatar,
+          icon: const Text('🎲', style: TextStyle(fontSize: 24)),
+          onPressed: () async {
+            await social.setAvatar(
+              DateTime.now().microsecondsSinceEpoch & 0x7FFFFFFF,
+            );
+            if (mounted) setState(() {});
+          },
+        ),
+      ],
     );
   }
 }

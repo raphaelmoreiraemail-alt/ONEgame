@@ -371,5 +371,7 @@
   "statWords": "Words found",
   "statLongest": "Longest word",
   "highlightFullWord": "THE 7-LETTER WORD!",
-  "lbLanguage": "Language"
+  "lbLanguage": "Language",
+  "profileAvatar": "Avatar",
+  "profileNewAvatar": "New avatar"
 }

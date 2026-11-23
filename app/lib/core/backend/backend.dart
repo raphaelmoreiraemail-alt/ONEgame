@@ -146,6 +146,7 @@ Future<BackendServices> createBackend({
       functions,
       user.uid,
       profile['pseudo'] as String?,
+      (profile['avatar'] as num?)?.toInt() ?? 1,
     ),
     daily: FirebaseDailyRepository(
       functions: functions,

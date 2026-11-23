@@ -1288,4 +1288,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get lbLanguage => 'Langue';
+
+  @override
+  String get profileAvatar => 'Avatar';
+
+  @override
+  String get profileNewAvatar => 'Nouvel avatar';
 }

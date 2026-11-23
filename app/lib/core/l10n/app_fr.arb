@@ -838,5 +838,7 @@
   "statWords": "Mots trouvés",
   "statLongest": "Mot le plus long",
   "highlightFullWord": "LE MOT DE 7 LETTRES !",
-  "lbLanguage": "Langue"
+  "lbLanguage": "Langue",
+  "profileAvatar": "Avatar",
+  "profileNewAvatar": "Nouvel avatar"
 }

@@ -10,6 +10,11 @@ abstract class SocialRepository {
   /// Throws [PseudoRejected].
   Future<void> claimPseudo(String pseudo);
 
+  /// Seed of the generated avatar (section 9.8).
+  int get avatar;
+
+  Future<void> setAvatar(int seed);
+
   Future<List<Friend>> friends();
 
   /// Returns true when the request was accepted right away.
