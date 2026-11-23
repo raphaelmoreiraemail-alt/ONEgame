@@ -121,5 +121,38 @@
   "statStrokes": "Coups",
   "statToPar": "Par rapport au par",
   "statAces": "Trous en un",
-  "highlightAce": "ACE !"
+  "highlightAce": "ACE !",
+  "gamePenaltyName": "Tirs au but",
+  "gamePenaltyRule": "Swipe le ballon vers le but (courbe = effet). Puis swipe pour plonger !",
+  "gamePenaltyShare": "⚽ {goals}/{shots} tirs · {saves}/{rounds} arrêts",
+  "@gamePenaltyShare": {
+    "placeholders": {
+      "goals": {
+        "type": "Object"
+      },
+      "rounds": {
+        "type": "Object"
+      },
+      "saves": {
+        "type": "Object"
+      },
+      "shots": {
+        "type": "Object"
+      }
+    }
+  },
+  "gamePenaltySharePanenka": "{count, plural, =1{1 panenka} other{{count} panenkas}}",
+  "@gamePenaltySharePanenka": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statGoals": "Buts",
+  "statTopCorners": "Lucarnes",
+  "statSaves": "Arrêts",
+  "statPanenkas": "Panenkas",
+  "highlightPanenka": "PANENKA !",
+  "highlightSuperSave": "ARRÊT EN LUCARNE !"
 }

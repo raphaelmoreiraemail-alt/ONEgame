@@ -78,5 +78,15 @@
   "statStrokes": "Strokes",
   "statToPar": "To par",
   "statAces": "Holes-in-one",
-  "highlightAce": "ACE!"
+  "highlightAce": "ACE!",
+  "gamePenaltyName": "Penalty Shootout",
+  "gamePenaltyRule": "Swipe the ball at the goal (curve = spin). Then swipe to dive!",
+  "gamePenaltyShare": "⚽ {goals}/{shots} shots · {saves}/{rounds} saves",
+  "gamePenaltySharePanenka": "{count, plural, =1{1 panenka} other{{count} panenkas}}",
+  "statGoals": "Goals",
+  "statTopCorners": "Top corners",
+  "statSaves": "Saves",
+  "statPanenkas": "Panenkas",
+  "highlightPanenka": "PANENKA!",
+  "highlightSuperSave": "TOP-CORNER SAVE!"
 }

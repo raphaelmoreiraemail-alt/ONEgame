@@ -571,6 +571,71 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'ACE !'**
   String get highlightAce;
+
+  /// No description provided for @gamePenaltyName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tirs au but'**
+  String get gamePenaltyName;
+
+  /// No description provided for @gamePenaltyRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Swipe le ballon vers le but (courbe = effet). Puis swipe pour plonger !'**
+  String get gamePenaltyRule;
+
+  /// No description provided for @gamePenaltyShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'⚽ {goals}/{shots} tirs · {saves}/{rounds} arrêts'**
+  String gamePenaltyShare(
+    Object goals,
+    Object rounds,
+    Object saves,
+    Object shots,
+  );
+
+  /// No description provided for @gamePenaltySharePanenka.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{1 panenka} other{{count} panenkas}}'**
+  String gamePenaltySharePanenka(int count);
+
+  /// No description provided for @statGoals.
+  ///
+  /// In fr, this message translates to:
+  /// **'Buts'**
+  String get statGoals;
+
+  /// No description provided for @statTopCorners.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lucarnes'**
+  String get statTopCorners;
+
+  /// No description provided for @statSaves.
+  ///
+  /// In fr, this message translates to:
+  /// **'Arrêts'**
+  String get statSaves;
+
+  /// No description provided for @statPanenkas.
+  ///
+  /// In fr, this message translates to:
+  /// **'Panenkas'**
+  String get statPanenkas;
+
+  /// No description provided for @highlightPanenka.
+  ///
+  /// In fr, this message translates to:
+  /// **'PANENKA !'**
+  String get highlightPanenka;
+
+  /// No description provided for @highlightSuperSave.
+  ///
+  /// In fr, this message translates to:
+  /// **'ARRÊT EN LUCARNE !'**
+  String get highlightSuperSave;
 }
 
 class _AppLocalizationsDelegate

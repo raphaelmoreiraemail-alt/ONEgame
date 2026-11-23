@@ -262,4 +262,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get highlightAce => 'ACE!';
+
+  @override
+  String get gamePenaltyName => 'Penalty Shootout';
+
+  @override
+  String get gamePenaltyRule =>
+      'Swipe the ball at the goal (curve = spin). Then swipe to dive!';
+
+  @override
+  String gamePenaltyShare(
+    Object goals,
+    Object rounds,
+    Object saves,
+    Object shots,
+  ) {
+    return '⚽ $goals/$shots shots · $saves/$rounds saves';
+  }
+
+  @override
+  String gamePenaltySharePanenka(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count panenkas',
+      one: '1 panenka',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statGoals => 'Goals';
+
+  @override
+  String get statTopCorners => 'Top corners';
+
+  @override
+  String get statSaves => 'Saves';
+
+  @override
+  String get statPanenkas => 'Panenkas';
+
+  @override
+  String get highlightPanenka => 'PANENKA!';
+
+  @override
+  String get highlightSuperSave => 'TOP-CORNER SAVE!';
 }
