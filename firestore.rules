@@ -1,0 +1,35 @@
+rules_version = '2';
+
+// Baseline rules (Phase 0). Detailed rules + @firebase/rules-unit-testing
+// tests arrive with the collections they protect (Phases 3 and 4).
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isSelf(uid) { return signedIn() && request.auth.uid == uid; }
+
+    // Profiles: readable by signed-in users, writable only by their owner.
+    // Server-owned fields (streak, jokers...) will be locked in Phase 3.
+    match /users/{uid} {
+      allow read: if signedIn();
+      allow write: if isSelf(uid);
+    }
+
+    // Server-only collections: no client read or write, ever.
+    match /daily/{dayKey} { allow read, write: if false; }
+    match /calendarOverrides/{dayKey} { allow read, write: if false; }
+    match /attempts/{attemptId} { allow write: if false; allow read: if false; }
+
+    // Leaderboards: written by Cloud Functions only.
+    match /scores/{dayKey}/entries/{uid} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+    match /weekly/{weekKey}/entries/{uid} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    // Default deny.
+    match /{document=**} { allow read, write: if false; }
+  }
+}

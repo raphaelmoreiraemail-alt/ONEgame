@@ -1,0 +1,12 @@
+.DS_Store
+*.log
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+.env
+.env.*
+# Real Firebase config files are added in Phase 6 and must not be committed.
+app/android/app/google-services.json
+app/ios/Runner/GoogleService-Info.plist
+app/lib/firebase_options.dart
