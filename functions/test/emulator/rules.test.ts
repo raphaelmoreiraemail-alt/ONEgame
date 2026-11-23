@@ -62,3 +62,15 @@ describe("firestore.rules", () => {
     await assertFails(setDoc(doc(db, "users/mallory"), { pseudo: "x" }));
   });
 });
+
+describe("friendships rules", () => {
+  it("only the two players read a friendship; nobody writes", async () => {
+    await env.withSecurityRulesDisabled(async (ctx) => {
+      await setDoc(doc(ctx.firestore(), "friendships/alice_bob"), { users: ["alice", "bob"], status: "accepted" });
+    });
+    await assertSucceeds(getDoc(doc(env.authenticatedContext("bob").firestore(), "friendships/alice_bob")));
+    await assertFails(getDoc(doc(env.authenticatedContext("carol").firestore(), "friendships/alice_bob")));
+    await assertFails(setDoc(doc(env.authenticatedContext("alice").firestore(), "friendships/alice_carol"), { users: ["alice", "carol"] }));
+    await assertFails(getDoc(doc(env.authenticatedContext("alice").firestore(), "pseudos/bob")));
+  });
+});

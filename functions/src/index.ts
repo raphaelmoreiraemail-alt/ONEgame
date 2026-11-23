@@ -16,6 +16,7 @@ import { onTaskDispatched } from "firebase-functions/v2/tasks";
 import { MODIFIER_NAMES, gameById } from "./core/catalog.js";
 import { REGION_IDS, addDays, isRegion } from "./core/time.js";
 import * as h from "./handlers.js";
+import * as social from "./socialHandlers.js";
 
 initializeApp();
 const db = getFirestore();
@@ -98,6 +99,21 @@ export const startAttempt = callable((uid, _data, now) => h.startAttempt(db, uid
 export const submitScore = callable((uid, data, now) => h.submitScore(db, uid, data, now));
 export const releasedGames = callable((uid, _data, now) => h.releasedGames(db, uid, now));
 export const useJoker = callable((uid, _data, now) => h.spendJoker(db, uid, now));
+
+type Data = Record<string, unknown>;
+export const claimPseudo = callable((uid, data) => social.claimPseudo(db, uid, (data as Data)?.pseudo));
+export const sendFriendRequest = callable((uid, data, now) => social.sendFriendRequest(db, uid, (data ?? {}) as Data, now));
+export const respondFriendRequest = callable((uid, data, now) => social.respondFriendRequest(db, uid, (data ?? {}) as Data, now));
+export const removeFriend = callable((uid, data) => social.removeFriend(db, uid, (data ?? {}) as Data));
+export const listFriends = callable((uid) => social.listFriends(db, uid));
+export const createInvite = callable((uid, _data, now) => social.createInvite(db, uid, now));
+export const acceptInvite = callable((uid, data, now) => social.acceptInvite(db, uid, (data ?? {}) as Data, now));
+export const registerPhone = callable((uid, data) => social.registerPhone(db, uid, (data ?? {}) as Data));
+export const matchContacts = callable((uid, data, now) => social.matchContacts(db, uid, (data ?? {}) as Data, now));
+export const getLeaderboard = callable((uid, data, now) => social.leaderboard(db, uid, (data ?? {}) as Data, now));
+export const getFeed = callable((uid, data, now) => social.feed(db, uid, (data ?? {}) as Data, now));
+export const react = callable((uid, data) => social.react(db, uid, (data ?? {}) as Data));
+export const reportScore = callable((uid, data, now) => social.report(db, uid, (data ?? {}) as Data, now));
 
 /** Account deletion requested from the app (store requirement). */
 export const deleteAccount = callable(async (uid) => {

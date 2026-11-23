@@ -322,6 +322,8 @@ export async function deleteUserData(db: Firestore, uid: string) {
     db.collection("attempts").where("uid", "==", uid),
     db.collection("inputLogs").where("uid", "==", uid),
     db.collection("friendships").where("users", "array-contains", uid),
+    db.collection("invites").where("uid", "==", uid),
+    db.collection("phoneHashes").where("uid", "==", uid),
   ]) {
     for (const d of (await q.get()).docs) writer.delete(d.ref);
   }

@@ -39,6 +39,13 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Friendships: readable by the two players; written by Functions.
+    match /friendships/{id} {
+      allow read: if signedIn() && request.auth.uid in resource.data.users;
+      allow write: if false;
+    }
+
+    // pseudos, invites, phoneHashes, reactions, reports: Functions only.
     match /{document=**} { allow read, write: if false; }
   }
 }
