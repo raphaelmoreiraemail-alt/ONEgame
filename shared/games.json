@@ -1,23 +1,6 @@
 {
   "games": [
     {
-      "id": "survival",
-      "category": "arcade",
-      "rulesVersion": 1,
-      "maxDurationMs": 120000,
-      "modifiers": [
-        "mirror",
-        "night",
-        "turbo"
-      ],
-      "scoreMin": 0,
-      "scoreMax": 3700,
-      "name": {
-        "fr": "Survie 2:00",
-        "en": "Survive 2:00"
-      }
-    },
-    {
       "id": "minigolf",
       "category": "sport",
       "rulesVersion": 1,
@@ -51,6 +34,21 @@
       }
     },
     {
+      "id": "freekick",
+      "category": "sport",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "wind"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 2800,
+      "name": {
+        "fr": "Coup franc",
+        "en": "Free Kick"
+      }
+    },
+    {
       "id": "basket",
       "category": "sport",
       "rulesVersion": 1,
@@ -80,19 +78,18 @@
       }
     },
     {
-      "id": "stack",
-      "category": "adresse",
+      "id": "petanque",
+      "category": "sport",
       "rulesVersion": 1,
       "maxDurationMs": 120000,
       "modifiers": [
-        "night",
-        "turbo"
+        "wind"
       ],
       "scoreMin": 0,
-      "scoreMax": 40000,
+      "scoreMax": 5700,
       "name": {
-        "fr": "Tour infinie",
-        "en": "Endless Tower"
+        "fr": "Pétanque",
+        "en": "Pétanque"
       }
     },
     {
@@ -109,6 +106,39 @@
       "name": {
         "fr": "Fléchettes",
         "en": "Darts"
+      }
+    },
+    {
+      "id": "stack",
+      "category": "adresse",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "night",
+        "turbo"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 40000,
+      "name": {
+        "fr": "Tour infinie",
+        "en": "Endless Tower"
+      }
+    },
+    {
+      "id": "survival",
+      "category": "arcade",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "mirror",
+        "night",
+        "turbo"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 3700,
+      "name": {
+        "fr": "Survie 2:00",
+        "en": "Survive 2:00"
       }
     }
   ],

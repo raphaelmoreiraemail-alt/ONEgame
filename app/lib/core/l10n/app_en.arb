@@ -255,5 +255,20 @@
   "accountPassword": "Password (6+ characters)",
   "accountDelete": "Delete my account",
   "accountDeleteConfirm": "All your data (streak, scores, friends) will be permanently deleted. Continue?",
-  "accountDeleted": "Account deleted."
+  "accountDeleted": "Account deleted.",
+  "gameFreekickName": "Free Kick",
+  "gameFreekickRule": "Swipe with a curve to bend it around the wall. 8 free kicks.",
+  "gameFreekickShare": "⚽ {goals}/{kicks} free kicks · {corners} top corners",
+  "statWallHits": "Hit the wall",
+  "highlightTopBins": "TOP BINS!",
+  "gamePetanqueName": "Pétanque",
+  "gamePetanqueRule": "Slide to aim (up = shoot), hold for power, release!",
+  "gamePetanqueShareWin": "🔵 Won {me}-{ai}",
+  "gamePetanqueShareLoss": "🔵 Lost {me}-{ai}",
+  "gamePetanqueShareDraw": "🔵 Draw {me}-{ai}",
+  "gamePetanqueShareCarreau": "{count, plural, =1{1 carreau} other{{count} carreaux}}",
+  "statMatch": "Match score",
+  "statEnds": "Ends",
+  "statCarreaux": "Carreaux",
+  "highlightCarreau": "CARREAU!"
 }

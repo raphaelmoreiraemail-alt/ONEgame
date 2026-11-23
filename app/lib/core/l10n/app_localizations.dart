@@ -1638,6 +1638,96 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Compte supprimé.'**
   String get accountDeleted;
+
+  /// No description provided for @gameFreekickName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Coup franc'**
+  String get gameFreekickName;
+
+  /// No description provided for @gameFreekickRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Swipe en courbe pour contourner le mur. 8 coups francs.'**
+  String get gameFreekickRule;
+
+  /// No description provided for @gameFreekickShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'⚽ {goals}/{kicks} coups francs · {corners} lucarnes'**
+  String gameFreekickShare(Object corners, Object goals, Object kicks);
+
+  /// No description provided for @statWallHits.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dans le mur'**
+  String get statWallHits;
+
+  /// No description provided for @highlightTopBins.
+  ///
+  /// In fr, this message translates to:
+  /// **'LUCARNE !'**
+  String get highlightTopBins;
+
+  /// No description provided for @gamePetanqueName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pétanque'**
+  String get gamePetanqueName;
+
+  /// No description provided for @gamePetanqueRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Glisse pour viser (vers le haut = tirer), maintiens pour la force, relâche !'**
+  String get gamePetanqueRule;
+
+  /// No description provided for @gamePetanqueShareWin.
+  ///
+  /// In fr, this message translates to:
+  /// **'🔵 Victoire {me}-{ai}'**
+  String gamePetanqueShareWin(Object ai, Object me);
+
+  /// No description provided for @gamePetanqueShareLoss.
+  ///
+  /// In fr, this message translates to:
+  /// **'🔵 Défaite {me}-{ai}'**
+  String gamePetanqueShareLoss(Object ai, Object me);
+
+  /// No description provided for @gamePetanqueShareDraw.
+  ///
+  /// In fr, this message translates to:
+  /// **'🔵 Égalité {me}-{ai}'**
+  String gamePetanqueShareDraw(Object ai, Object me);
+
+  /// No description provided for @gamePetanqueShareCarreau.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{1 carreau} other{{count} carreaux}}'**
+  String gamePetanqueShareCarreau(int count);
+
+  /// No description provided for @statMatch.
+  ///
+  /// In fr, this message translates to:
+  /// **'Score du match'**
+  String get statMatch;
+
+  /// No description provided for @statEnds.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mènes'**
+  String get statEnds;
+
+  /// No description provided for @statCarreaux.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carreaux'**
+  String get statCarreaux;
+
+  /// No description provided for @highlightCarreau.
+  ///
+  /// In fr, this message translates to:
+  /// **'CARREAU !'**
+  String get highlightCarreau;
 }
 
 class _AppLocalizationsDelegate

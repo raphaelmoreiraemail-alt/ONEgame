@@ -871,4 +871,67 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get accountDeleted => 'Compte supprimé.';
+
+  @override
+  String get gameFreekickName => 'Coup franc';
+
+  @override
+  String get gameFreekickRule =>
+      'Swipe en courbe pour contourner le mur. 8 coups francs.';
+
+  @override
+  String gameFreekickShare(Object corners, Object goals, Object kicks) {
+    return '⚽ $goals/$kicks coups francs · $corners lucarnes';
+  }
+
+  @override
+  String get statWallHits => 'Dans le mur';
+
+  @override
+  String get highlightTopBins => 'LUCARNE !';
+
+  @override
+  String get gamePetanqueName => 'Pétanque';
+
+  @override
+  String get gamePetanqueRule =>
+      'Glisse pour viser (vers le haut = tirer), maintiens pour la force, relâche !';
+
+  @override
+  String gamePetanqueShareWin(Object ai, Object me) {
+    return '🔵 Victoire $me-$ai';
+  }
+
+  @override
+  String gamePetanqueShareLoss(Object ai, Object me) {
+    return '🔵 Défaite $me-$ai';
+  }
+
+  @override
+  String gamePetanqueShareDraw(Object ai, Object me) {
+    return '🔵 Égalité $me-$ai';
+  }
+
+  @override
+  String gamePetanqueShareCarreau(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count carreaux',
+      one: '1 carreau',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statMatch => 'Score du match';
+
+  @override
+  String get statEnds => 'Mènes';
+
+  @override
+  String get statCarreaux => 'Carreaux';
+
+  @override
+  String get highlightCarreau => 'CARREAU !';
 }

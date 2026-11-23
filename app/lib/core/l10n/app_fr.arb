@@ -495,5 +495,70 @@
   "accountPassword": "Mot de passe (6 caractères min.)",
   "accountDelete": "Supprimer mon compte",
   "accountDeleteConfirm": "Toutes tes données (série, scores, amis) seront définitivement supprimées. Continuer ?",
-  "accountDeleted": "Compte supprimé."
+  "accountDeleted": "Compte supprimé.",
+  "gameFreekickName": "Coup franc",
+  "gameFreekickRule": "Swipe en courbe pour contourner le mur. 8 coups francs.",
+  "gameFreekickShare": "⚽ {goals}/{kicks} coups francs · {corners} lucarnes",
+  "@gameFreekickShare": {
+    "placeholders": {
+      "corners": {
+        "type": "Object"
+      },
+      "goals": {
+        "type": "Object"
+      },
+      "kicks": {
+        "type": "Object"
+      }
+    }
+  },
+  "statWallHits": "Dans le mur",
+  "highlightTopBins": "LUCARNE !",
+  "gamePetanqueName": "Pétanque",
+  "gamePetanqueRule": "Glisse pour viser (vers le haut = tirer), maintiens pour la force, relâche !",
+  "gamePetanqueShareWin": "🔵 Victoire {me}-{ai}",
+  "@gamePetanqueShareWin": {
+    "placeholders": {
+      "ai": {
+        "type": "Object"
+      },
+      "me": {
+        "type": "Object"
+      }
+    }
+  },
+  "gamePetanqueShareLoss": "🔵 Défaite {me}-{ai}",
+  "@gamePetanqueShareLoss": {
+    "placeholders": {
+      "ai": {
+        "type": "Object"
+      },
+      "me": {
+        "type": "Object"
+      }
+    }
+  },
+  "gamePetanqueShareDraw": "🔵 Égalité {me}-{ai}",
+  "@gamePetanqueShareDraw": {
+    "placeholders": {
+      "ai": {
+        "type": "Object"
+      },
+      "me": {
+        "type": "Object"
+      }
+    }
+  },
+  "gamePetanqueShareCarreau": "{count, plural, =1{1 carreau} other{{count} carreaux}}",
+  "@gamePetanqueShareCarreau": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statMatch": "Score du match",
+  "statEnds": "Mènes",
+  "statCarreaux": "Carreaux",
+  "highlightCarreau": "CARREAU !"
 }
