@@ -1,5 +1,7 @@
 import 'airhockey/airhockey.dart';
+import 'archery/archery.dart';
 import 'basket/basket.dart';
+import 'billard/billard.dart';
 import 'bowling/bowling.dart';
 import 'common/mini_game_definition.dart';
 import 'darts/darts.dart';
@@ -23,6 +25,8 @@ abstract final class GameRegistry {
     PetanqueGame(),
     TennisGame(),
     AirhockeyGame(),
+    ArcheryGame(),
+    BillardGame(),
     DartsGame(),
     StackGame(),
     SurvivalGame(),

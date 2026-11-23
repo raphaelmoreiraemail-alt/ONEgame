@@ -284,5 +284,18 @@
   "gameAirhockeyWin": "🏒 Won {me}-{ai}",
   "gameAirhockeyLoss": "🏒 Lost {me}-{ai}",
   "statDirectGoals": "Direct goals",
-  "highlightDirectGoal": "DIRECT GOAL!"
+  "highlightDirectGoal": "DIRECT GOAL!",
+  "gameArcheryName": "Archery",
+  "gameArcheryRule": "Pull down to draw and aim, release. Mind the wind!",
+  "gameArcheryShare": "🏹 {points} pts · {bulls} bullseyes",
+  "statBullseyes": "Bullseyes",
+  "statArrows": "Arrows",
+  "highlightMouche": "BULLSEYE!",
+  "gameBillardName": "Pool",
+  "gameBillardRule": "Pull back from the cue ball to aim, release. Pot them all!",
+  "gameBillardShare": "🎱 {potted} balls · {series} in a row",
+  "statPotted": "Balls potted",
+  "statBestSeries": "Best run",
+  "statScratches": "Scratches",
+  "highlightDoublePot": "DOUBLE!"
 }

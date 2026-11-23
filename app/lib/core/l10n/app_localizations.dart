@@ -1812,6 +1812,84 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'BUT DIRECT !'**
   String get highlightDirectGoal;
+
+  /// No description provided for @gameArcheryName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tir à l\'arc'**
+  String get gameArcheryName;
+
+  /// No description provided for @gameArcheryRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tire vers le bas pour bander l\'arc et viser, relâche. Attention au vent !'**
+  String get gameArcheryRule;
+
+  /// No description provided for @gameArcheryShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🏹 {points} pts · {bulls} mouches'**
+  String gameArcheryShare(Object bulls, Object points);
+
+  /// No description provided for @statBullseyes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mouches'**
+  String get statBullseyes;
+
+  /// No description provided for @statArrows.
+  ///
+  /// In fr, this message translates to:
+  /// **'Flèches'**
+  String get statArrows;
+
+  /// No description provided for @highlightMouche.
+  ///
+  /// In fr, this message translates to:
+  /// **'MOUCHE !'**
+  String get highlightMouche;
+
+  /// No description provided for @gameBillardName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Billard'**
+  String get gameBillardName;
+
+  /// No description provided for @gameBillardRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tire en arrière depuis la blanche pour viser, relâche. Empoche tout !'**
+  String get gameBillardRule;
+
+  /// No description provided for @gameBillardShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🎱 {potted} billes · série de {series}'**
+  String gameBillardShare(Object potted, Object series);
+
+  /// No description provided for @statPotted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Billes rentrées'**
+  String get statPotted;
+
+  /// No description provided for @statBestSeries.
+  ///
+  /// In fr, this message translates to:
+  /// **'Meilleure série'**
+  String get statBestSeries;
+
+  /// No description provided for @statScratches.
+  ///
+  /// In fr, this message translates to:
+  /// **'Blanches rentrées'**
+  String get statScratches;
+
+  /// No description provided for @highlightDoublePot.
+  ///
+  /// In fr, this message translates to:
+  /// **'DOUBLÉ !'**
+  String get highlightDoublePot;
 }
 
 class _AppLocalizationsDelegate

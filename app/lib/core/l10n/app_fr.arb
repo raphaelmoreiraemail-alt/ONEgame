@@ -621,5 +621,38 @@
     }
   },
   "statDirectGoals": "Buts directs",
-  "highlightDirectGoal": "BUT DIRECT !"
+  "highlightDirectGoal": "BUT DIRECT !",
+  "gameArcheryName": "Tir à l'arc",
+  "gameArcheryRule": "Tire vers le bas pour bander l'arc et viser, relâche. Attention au vent !",
+  "gameArcheryShare": "🏹 {points} pts · {bulls} mouches",
+  "@gameArcheryShare": {
+    "placeholders": {
+      "bulls": {
+        "type": "Object"
+      },
+      "points": {
+        "type": "Object"
+      }
+    }
+  },
+  "statBullseyes": "Mouches",
+  "statArrows": "Flèches",
+  "highlightMouche": "MOUCHE !",
+  "gameBillardName": "Billard",
+  "gameBillardRule": "Tire en arrière depuis la blanche pour viser, relâche. Empoche tout !",
+  "gameBillardShare": "🎱 {potted} billes · série de {series}",
+  "@gameBillardShare": {
+    "placeholders": {
+      "potted": {
+        "type": "Object"
+      },
+      "series": {
+        "type": "Object"
+      }
+    }
+  },
+  "statPotted": "Billes rentrées",
+  "statBestSeries": "Meilleure série",
+  "statScratches": "Blanches rentrées",
+  "highlightDoublePot": "DOUBLÉ !"
 }

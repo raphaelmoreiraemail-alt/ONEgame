@@ -984,4 +984,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get highlightDirectGoal => 'DIRECT GOAL!';
+
+  @override
+  String get gameArcheryName => 'Archery';
+
+  @override
+  String get gameArcheryRule =>
+      'Pull down to draw and aim, release. Mind the wind!';
+
+  @override
+  String gameArcheryShare(Object bulls, Object points) {
+    return '🏹 $points pts · $bulls bullseyes';
+  }
+
+  @override
+  String get statBullseyes => 'Bullseyes';
+
+  @override
+  String get statArrows => 'Arrows';
+
+  @override
+  String get highlightMouche => 'BULLSEYE!';
+
+  @override
+  String get gameBillardName => 'Pool';
+
+  @override
+  String get gameBillardRule =>
+      'Pull back from the cue ball to aim, release. Pot them all!';
+
+  @override
+  String gameBillardShare(Object potted, Object series) {
+    return '🎱 $potted balls · $series in a row';
+  }
+
+  @override
+  String get statPotted => 'Balls potted';
+
+  @override
+  String get statBestSeries => 'Best run';
+
+  @override
+  String get statScratches => 'Scratches';
+
+  @override
+  String get highlightDoublePot => 'DOUBLE!';
 }

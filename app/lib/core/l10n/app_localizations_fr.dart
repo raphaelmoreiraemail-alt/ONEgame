@@ -988,4 +988,49 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get highlightDirectGoal => 'BUT DIRECT !';
+
+  @override
+  String get gameArcheryName => 'Tir à l\'arc';
+
+  @override
+  String get gameArcheryRule =>
+      'Tire vers le bas pour bander l\'arc et viser, relâche. Attention au vent !';
+
+  @override
+  String gameArcheryShare(Object bulls, Object points) {
+    return '🏹 $points pts · $bulls mouches';
+  }
+
+  @override
+  String get statBullseyes => 'Mouches';
+
+  @override
+  String get statArrows => 'Flèches';
+
+  @override
+  String get highlightMouche => 'MOUCHE !';
+
+  @override
+  String get gameBillardName => 'Billard';
+
+  @override
+  String get gameBillardRule =>
+      'Tire en arrière depuis la blanche pour viser, relâche. Empoche tout !';
+
+  @override
+  String gameBillardShare(Object potted, Object series) {
+    return '🎱 $potted billes · série de $series';
+  }
+
+  @override
+  String get statPotted => 'Billes rentrées';
+
+  @override
+  String get statBestSeries => 'Meilleure série';
+
+  @override
+  String get statScratches => 'Blanches rentrées';
+
+  @override
+  String get highlightDoublePot => 'DOUBLÉ !';
 }

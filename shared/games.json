@@ -121,6 +121,36 @@
       }
     },
     {
+      "id": "archery",
+      "category": "sport",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "wind"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 1500,
+      "name": {
+        "fr": "Tir à l'arc",
+        "en": "Archery"
+      }
+    },
+    {
+      "id": "billard",
+      "category": "sport",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "ice"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 15000,
+      "name": {
+        "fr": "Billard",
+        "en": "Pool"
+      }
+    },
+    {
       "id": "darts",
       "category": "adresse",
       "rulesVersion": 1,
