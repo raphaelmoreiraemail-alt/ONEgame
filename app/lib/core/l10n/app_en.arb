@@ -297,5 +297,19 @@
   "statPotted": "Balls potted",
   "statBestSeries": "Best run",
   "statScratches": "Scratches",
-  "highlightDoublePot": "DOUBLE!"
+  "highlightDoublePot": "DOUBLE!",
+  "gameCurlingName": "Curling",
+  "gameCurlingRule": "Swipe to throw (a curve adds spin), then tap like crazy to sweep!",
+  "gameCurlingShare": "🥌 {inHouse} stones in the house · {knocked} knocked out",
+  "statInHouse": "Stones in the house",
+  "statKnockedOut": "Opponent stones out",
+  "statButtons": "Button",
+  "highlightButton": "ON THE BUTTON!",
+  "gameSkiName": "Slalom",
+  "gameSkiRule": "Slide to turn, pass every gate. Two fingers = tuck for speed.",
+  "gameSkiShare": "⛷️ {time} · {missed} gate(s) missed",
+  "statTime": "Time",
+  "statGatesMissed": "Gates missed (+3 s)",
+  "statCrashes": "Crashes",
+  "highlightCleanRun": "CLEAN RUN!"
 }

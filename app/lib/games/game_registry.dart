@@ -4,11 +4,13 @@ import 'basket/basket.dart';
 import 'billard/billard.dart';
 import 'bowling/bowling.dart';
 import 'common/mini_game_definition.dart';
+import 'curling/curling.dart';
 import 'darts/darts.dart';
 import 'freekick/freekick.dart';
 import 'minigolf/minigolf.dart';
 import 'penalty/penalty.dart';
 import 'petanque/petanque.dart';
+import 'ski/ski.dart';
 import 'stack/stack.dart';
 import 'survival/survival.dart';
 import 'tennis/tennis.dart';
@@ -25,7 +27,9 @@ abstract final class GameRegistry {
     PetanqueGame(),
     TennisGame(),
     AirhockeyGame(),
+    CurlingGame(),
     ArcheryGame(),
+    SkiGame(),
     BillardGame(),
     DartsGame(),
     StackGame(),

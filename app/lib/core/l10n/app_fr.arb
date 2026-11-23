@@ -654,5 +654,39 @@
   "statPotted": "Billes rentrées",
   "statBestSeries": "Meilleure série",
   "statScratches": "Blanches rentrées",
-  "highlightDoublePot": "DOUBLÉ !"
+  "highlightDoublePot": "DOUBLÉ !",
+  "gameCurlingName": "Curling",
+  "gameCurlingRule": "Swipe pour lancer (une courbe = de la rotation), puis tapote pour balayer !",
+  "gameCurlingShare": "🥌 {inHouse} pierres dans la maison · {knocked} sorties",
+  "@gameCurlingShare": {
+    "placeholders": {
+      "inHouse": {
+        "type": "Object"
+      },
+      "knocked": {
+        "type": "Object"
+      }
+    }
+  },
+  "statInHouse": "Pierres dans la maison",
+  "statKnockedOut": "Pierres adverses sorties",
+  "statButtons": "Bouton",
+  "highlightButton": "PILE AU BOUTON !",
+  "gameSkiName": "Slalom",
+  "gameSkiRule": "Glisse pour tourner, passe toutes les portes. Deux doigts = recherche de vitesse.",
+  "gameSkiShare": "⛷️ {time} · {missed} porte(s) manquée(s)",
+  "@gameSkiShare": {
+    "placeholders": {
+      "missed": {
+        "type": "Object"
+      },
+      "time": {
+        "type": "Object"
+      }
+    }
+  },
+  "statTime": "Temps",
+  "statGatesMissed": "Portes manquées (+3 s)",
+  "statCrashes": "Chutes",
+  "highlightCleanRun": "SANS FAUTE !"
 }

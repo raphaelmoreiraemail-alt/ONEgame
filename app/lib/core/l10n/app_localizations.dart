@@ -1890,6 +1890,90 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'DOUBLÉ !'**
   String get highlightDoublePot;
+
+  /// No description provided for @gameCurlingName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Curling'**
+  String get gameCurlingName;
+
+  /// No description provided for @gameCurlingRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Swipe pour lancer (une courbe = de la rotation), puis tapote pour balayer !'**
+  String get gameCurlingRule;
+
+  /// No description provided for @gameCurlingShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🥌 {inHouse} pierres dans la maison · {knocked} sorties'**
+  String gameCurlingShare(Object inHouse, Object knocked);
+
+  /// No description provided for @statInHouse.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pierres dans la maison'**
+  String get statInHouse;
+
+  /// No description provided for @statKnockedOut.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pierres adverses sorties'**
+  String get statKnockedOut;
+
+  /// No description provided for @statButtons.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bouton'**
+  String get statButtons;
+
+  /// No description provided for @highlightButton.
+  ///
+  /// In fr, this message translates to:
+  /// **'PILE AU BOUTON !'**
+  String get highlightButton;
+
+  /// No description provided for @gameSkiName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Slalom'**
+  String get gameSkiName;
+
+  /// No description provided for @gameSkiRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Glisse pour tourner, passe toutes les portes. Deux doigts = recherche de vitesse.'**
+  String get gameSkiRule;
+
+  /// No description provided for @gameSkiShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'⛷️ {time} · {missed} porte(s) manquée(s)'**
+  String gameSkiShare(Object missed, Object time);
+
+  /// No description provided for @statTime.
+  ///
+  /// In fr, this message translates to:
+  /// **'Temps'**
+  String get statTime;
+
+  /// No description provided for @statGatesMissed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Portes manquées (+3 s)'**
+  String get statGatesMissed;
+
+  /// No description provided for @statCrashes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Chutes'**
+  String get statCrashes;
+
+  /// No description provided for @highlightCleanRun.
+  ///
+  /// In fr, this message translates to:
+  /// **'SANS FAUTE !'**
+  String get highlightCleanRun;
 }
 
 class _AppLocalizationsDelegate

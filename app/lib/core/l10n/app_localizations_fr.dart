@@ -1033,4 +1033,52 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get highlightDoublePot => 'DOUBLÉ !';
+
+  @override
+  String get gameCurlingName => 'Curling';
+
+  @override
+  String get gameCurlingRule =>
+      'Swipe pour lancer (une courbe = de la rotation), puis tapote pour balayer !';
+
+  @override
+  String gameCurlingShare(Object inHouse, Object knocked) {
+    return '🥌 $inHouse pierres dans la maison · $knocked sorties';
+  }
+
+  @override
+  String get statInHouse => 'Pierres dans la maison';
+
+  @override
+  String get statKnockedOut => 'Pierres adverses sorties';
+
+  @override
+  String get statButtons => 'Bouton';
+
+  @override
+  String get highlightButton => 'PILE AU BOUTON !';
+
+  @override
+  String get gameSkiName => 'Slalom';
+
+  @override
+  String get gameSkiRule =>
+      'Glisse pour tourner, passe toutes les portes. Deux doigts = recherche de vitesse.';
+
+  @override
+  String gameSkiShare(Object missed, Object time) {
+    return '⛷️ $time · $missed porte(s) manquée(s)';
+  }
+
+  @override
+  String get statTime => 'Temps';
+
+  @override
+  String get statGatesMissed => 'Portes manquées (+3 s)';
+
+  @override
+  String get statCrashes => 'Chutes';
+
+  @override
+  String get highlightCleanRun => 'SANS FAUTE !';
 }

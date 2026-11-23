@@ -121,6 +121,21 @@
       }
     },
     {
+      "id": "curling",
+      "category": "sport",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "ice"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 3200,
+      "name": {
+        "fr": "Curling",
+        "en": "Curling"
+      }
+    },
+    {
       "id": "archery",
       "category": "sport",
       "rulesVersion": 1,
@@ -133,6 +148,21 @@
       "name": {
         "fr": "Tir à l'arc",
         "en": "Archery"
+      }
+    },
+    {
+      "id": "ski",
+      "category": "sport",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "mirror"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 5000,
+      "name": {
+        "fr": "Slalom",
+        "en": "Slalom"
       }
     },
     {
