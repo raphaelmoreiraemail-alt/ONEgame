@@ -768,6 +768,54 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'5 PARFAITS !'**
   String get highlightPerfectStreak;
+
+  /// No description provided for @gameDartsName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fléchettes'**
+  String get gameDartsName;
+
+  /// No description provided for @gameDartsRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Maintiens pour viser (le viseur bouge), relâche pour lancer. 9 fléchettes.'**
+  String get gameDartsRule;
+
+  /// No description provided for @gameDartsShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🎯 {points} pts · {triples} triples · {bulls} bulls'**
+  String gameDartsShare(Object bulls, Object points, Object triples);
+
+  /// No description provided for @statPoints.
+  ///
+  /// In fr, this message translates to:
+  /// **'Points'**
+  String get statPoints;
+
+  /// No description provided for @statTriples.
+  ///
+  /// In fr, this message translates to:
+  /// **'Triples'**
+  String get statTriples;
+
+  /// No description provided for @statBulls.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bulls'**
+  String get statBulls;
+
+  /// No description provided for @statBestTurn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Meilleure volée'**
+  String get statBestTurn;
+
+  /// No description provided for @highlightOneEighty.
+  ///
+  /// In fr, this message translates to:
+  /// **'ONE HUNDRED AND EIGHTY !'**
+  String get highlightOneEighty;
 }
 
 class _AppLocalizationsDelegate

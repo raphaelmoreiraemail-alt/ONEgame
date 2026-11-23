@@ -212,5 +212,26 @@
   "statHeight": "Hauteur",
   "statPerfects": "Poses parfaites",
   "statMaxCombo": "Combo max",
-  "highlightPerfectStreak": "5 PARFAITS !"
+  "highlightPerfectStreak": "5 PARFAITS !",
+  "gameDartsName": "Fléchettes",
+  "gameDartsRule": "Maintiens pour viser (le viseur bouge), relâche pour lancer. 9 fléchettes.",
+  "gameDartsShare": "🎯 {points} pts · {triples} triples · {bulls} bulls",
+  "@gameDartsShare": {
+    "placeholders": {
+      "bulls": {
+        "type": "Object"
+      },
+      "points": {
+        "type": "Object"
+      },
+      "triples": {
+        "type": "Object"
+      }
+    }
+  },
+  "statPoints": "Points",
+  "statTriples": "Triples",
+  "statBulls": "Bulls",
+  "statBestTurn": "Meilleure volée",
+  "highlightOneEighty": "ONE HUNDRED AND EIGHTY !"
 }

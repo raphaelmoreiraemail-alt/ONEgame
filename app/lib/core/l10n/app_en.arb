@@ -110,5 +110,13 @@
   "statHeight": "Height",
   "statPerfects": "Perfect drops",
   "statMaxCombo": "Best combo",
-  "highlightPerfectStreak": "5 PERFECT!"
+  "highlightPerfectStreak": "5 PERFECT!",
+  "gameDartsName": "Darts",
+  "gameDartsRule": "Hold to aim (the sight drifts), release to throw. 9 darts.",
+  "gameDartsShare": "🎯 {points} pts · {triples} triples · {bulls} bulls",
+  "statPoints": "Points",
+  "statTriples": "Triples",
+  "statBulls": "Bulls",
+  "statBestTurn": "Best turn",
+  "highlightOneEighty": "ONE HUNDRED AND EIGHTY!"
 }

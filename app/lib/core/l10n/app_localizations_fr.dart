@@ -384,4 +384,31 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get highlightPerfectStreak => '5 PARFAITS !';
+
+  @override
+  String get gameDartsName => 'Fléchettes';
+
+  @override
+  String get gameDartsRule =>
+      'Maintiens pour viser (le viseur bouge), relâche pour lancer. 9 fléchettes.';
+
+  @override
+  String gameDartsShare(Object bulls, Object points, Object triples) {
+    return '🎯 $points pts · $triples triples · $bulls bulls';
+  }
+
+  @override
+  String get statPoints => 'Points';
+
+  @override
+  String get statTriples => 'Triples';
+
+  @override
+  String get statBulls => 'Bulls';
+
+  @override
+  String get statBestTurn => 'Meilleure volée';
+
+  @override
+  String get highlightOneEighty => 'ONE HUNDRED AND EIGHTY !';
 }

@@ -383,4 +383,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get highlightPerfectStreak => '5 PERFECT!';
+
+  @override
+  String get gameDartsName => 'Darts';
+
+  @override
+  String get gameDartsRule =>
+      'Hold to aim (the sight drifts), release to throw. 9 darts.';
+
+  @override
+  String gameDartsShare(Object bulls, Object points, Object triples) {
+    return '🎯 $points pts · $triples triples · $bulls bulls';
+  }
+
+  @override
+  String get statPoints => 'Points';
+
+  @override
+  String get statTriples => 'Triples';
+
+  @override
+  String get statBulls => 'Bulls';
+
+  @override
+  String get statBestTurn => 'Best turn';
+
+  @override
+  String get highlightOneEighty => 'ONE HUNDRED AND EIGHTY!';
 }
