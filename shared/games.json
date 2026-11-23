@@ -213,6 +213,19 @@
       }
     },
     {
+      "id": "fishing",
+      "category": "adresse",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [],
+      "scoreMin": 0,
+      "scoreMax": 12000,
+      "name": {
+        "fr": "Pêche",
+        "en": "Fishing"
+      }
+    },
+    {
       "id": "survival",
       "category": "arcade",
       "rulesVersion": 1,
@@ -273,6 +286,22 @@
       "name": {
         "fr": "Serpent",
         "en": "Snake"
+      }
+    },
+    {
+      "id": "racing",
+      "category": "arcade",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "ice",
+        "mirror"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 5500,
+      "name": {
+        "fr": "Karts",
+        "en": "Karts"
       }
     }
   ],

@@ -740,5 +740,40 @@
   "statFruits": "Fruits",
   "statGolden": "Fruits dorés",
   "statLength": "Longueur",
-  "highlightBigSnake": "SERPENT GÉANT !"
+  "highlightBigSnake": "SERPENT GÉANT !",
+  "gameRacingName": "Karts",
+  "gameRacingRule": "Glisse pour tourner. Deux doigts = dérapage, un long dérapage donne un boost. 3 tours !",
+  "gameRacingShare": "🏎️ {position}e · meilleur tour {lap}",
+  "@gameRacingShare": {
+    "placeholders": {
+      "lap": {
+        "type": "Object"
+      },
+      "position": {
+        "type": "Object"
+      }
+    }
+  },
+  "statPosition": "Position",
+  "statBestLap": "Meilleur tour",
+  "statBoosts": "Boosts",
+  "highlightVictory": "VICTOIRE !",
+  "gameFishingName": "Pêche",
+  "gameFishingRule": "Swipe pour lancer, tape à la touche, maintiens pour remonter… sans casser la ligne !",
+  "gameFishingShare": "🎣 {fish} poissons · {kg} kg",
+  "@gameFishingShare": {
+    "placeholders": {
+      "fish": {
+        "type": "Object"
+      },
+      "kg": {
+        "type": "Object"
+      }
+    }
+  },
+  "statFish": "Poissons",
+  "statWeight": "Poids total",
+  "statBiggest": "Plus gros",
+  "statLineBreaks": "Lignes cassées",
+  "highlightLegendary": "POISSON LÉGENDAIRE !"
 }

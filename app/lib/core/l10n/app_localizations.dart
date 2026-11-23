@@ -2088,6 +2088,96 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'SERPENT GÉANT !'**
   String get highlightBigSnake;
+
+  /// No description provided for @gameRacingName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Karts'**
+  String get gameRacingName;
+
+  /// No description provided for @gameRacingRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Glisse pour tourner. Deux doigts = dérapage, un long dérapage donne un boost. 3 tours !'**
+  String get gameRacingRule;
+
+  /// No description provided for @gameRacingShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🏎️ {position}e · meilleur tour {lap}'**
+  String gameRacingShare(Object lap, Object position);
+
+  /// No description provided for @statPosition.
+  ///
+  /// In fr, this message translates to:
+  /// **'Position'**
+  String get statPosition;
+
+  /// No description provided for @statBestLap.
+  ///
+  /// In fr, this message translates to:
+  /// **'Meilleur tour'**
+  String get statBestLap;
+
+  /// No description provided for @statBoosts.
+  ///
+  /// In fr, this message translates to:
+  /// **'Boosts'**
+  String get statBoosts;
+
+  /// No description provided for @highlightVictory.
+  ///
+  /// In fr, this message translates to:
+  /// **'VICTOIRE !'**
+  String get highlightVictory;
+
+  /// No description provided for @gameFishingName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pêche'**
+  String get gameFishingName;
+
+  /// No description provided for @gameFishingRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Swipe pour lancer, tape à la touche, maintiens pour remonter… sans casser la ligne !'**
+  String get gameFishingRule;
+
+  /// No description provided for @gameFishingShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🎣 {fish} poissons · {kg} kg'**
+  String gameFishingShare(Object fish, Object kg);
+
+  /// No description provided for @statFish.
+  ///
+  /// In fr, this message translates to:
+  /// **'Poissons'**
+  String get statFish;
+
+  /// No description provided for @statWeight.
+  ///
+  /// In fr, this message translates to:
+  /// **'Poids total'**
+  String get statWeight;
+
+  /// No description provided for @statBiggest.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus gros'**
+  String get statBiggest;
+
+  /// No description provided for @statLineBreaks.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lignes cassées'**
+  String get statLineBreaks;
+
+  /// No description provided for @highlightLegendary.
+  ///
+  /// In fr, this message translates to:
+  /// **'POISSON LÉGENDAIRE !'**
+  String get highlightLegendary;
 }
 
 class _AppLocalizationsDelegate

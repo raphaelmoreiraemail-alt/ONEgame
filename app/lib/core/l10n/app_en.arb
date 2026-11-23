@@ -330,5 +330,20 @@
   "statFruits": "Fruits",
   "statGolden": "Golden fruits",
   "statLength": "Length",
-  "highlightBigSnake": "GIANT SNAKE!"
+  "highlightBigSnake": "GIANT SNAKE!",
+  "gameRacingName": "Karts",
+  "gameRacingRule": "Slide to steer. Two fingers = drift, a long drift gives a boost. 3 laps!",
+  "gameRacingShare": "🏎️ P{position} · best lap {lap}",
+  "statPosition": "Position",
+  "statBestLap": "Best lap",
+  "statBoosts": "Boosts",
+  "highlightVictory": "VICTORY!",
+  "gameFishingName": "Fishing",
+  "gameFishingRule": "Swipe to cast, tap at the bite, hold to reel… without breaking the line!",
+  "gameFishingShare": "🎣 {fish} fish · {kg} kg",
+  "statFish": "Fish",
+  "statWeight": "Total weight",
+  "statBiggest": "Biggest",
+  "statLineBreaks": "Lines broken",
+  "highlightLegendary": "LEGENDARY FISH!"
 }

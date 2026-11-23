@@ -1147,4 +1147,55 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get highlightBigSnake => 'SERPENT GÉANT !';
+
+  @override
+  String get gameRacingName => 'Karts';
+
+  @override
+  String get gameRacingRule =>
+      'Glisse pour tourner. Deux doigts = dérapage, un long dérapage donne un boost. 3 tours !';
+
+  @override
+  String gameRacingShare(Object lap, Object position) {
+    return '🏎️ ${position}e · meilleur tour $lap';
+  }
+
+  @override
+  String get statPosition => 'Position';
+
+  @override
+  String get statBestLap => 'Meilleur tour';
+
+  @override
+  String get statBoosts => 'Boosts';
+
+  @override
+  String get highlightVictory => 'VICTOIRE !';
+
+  @override
+  String get gameFishingName => 'Pêche';
+
+  @override
+  String get gameFishingRule =>
+      'Swipe pour lancer, tape à la touche, maintiens pour remonter… sans casser la ligne !';
+
+  @override
+  String gameFishingShare(Object fish, Object kg) {
+    return '🎣 $fish poissons · $kg kg';
+  }
+
+  @override
+  String get statFish => 'Poissons';
+
+  @override
+  String get statWeight => 'Poids total';
+
+  @override
+  String get statBiggest => 'Plus gros';
+
+  @override
+  String get statLineBreaks => 'Lignes cassées';
+
+  @override
+  String get highlightLegendary => 'POISSON LÉGENDAIRE !';
 }
