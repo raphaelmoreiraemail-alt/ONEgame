@@ -34,6 +34,12 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: functions/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
       - run: npm ci
       - run: npm run lint
       - run: npm test
+      - name: Firestore rules + handlers on the emulator
+        run: npm run test:emulators

@@ -9,4 +9,5 @@ flutter test --timeout 200s
 cd "$ROOT/functions"
 npm run --silent lint
 npm test --silent
+npm run --silent test:emulators > /tmp/onegame-emulators.log 2>&1 || { tail -40 /tmp/onegame-emulators.log; exit 1; }
 echo "ALL CHECKS PASSED"

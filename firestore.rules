@@ -1,23 +1,33 @@
 rules_version = '2';
 
-// Baseline rules (Phase 0). Detailed rules + @firebase/rules-unit-testing
-// tests arrive with the collections they protect (Phases 3 and 4).
+// Every score, attempt, streak and leaderboard write goes through Cloud
+// Functions (section 10.2). Clients only write their cosmetic profile fields.
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() { return request.auth != null; }
     function isSelf(uid) { return signedIn() && request.auth.uid == uid; }
-
-    // Profiles: readable by signed-in users, writable only by their owner.
-    // Server-owned fields (streak, jokers...) will be locked in Phase 3.
-    match /users/{uid} {
-      allow read: if signedIn();
-      allow write: if isSelf(uid);
+    function onlyChanges(fields) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(fields);
     }
 
-    // Server-only collections: no client read or write, ever.
+    match /users/{uid} {
+      allow read: if signedIn();
+      // Profile creation and server-owned fields (streak, region, badges,
+      // pseudo...) go through Functions. Owners may only edit cosmetics.
+      allow update: if isSelf(uid) && onlyChanges(['avatar', 'lang']);
+      allow create, delete: if false;
+    }
+
+    // Server-only collections.
     match /daily/{dayKey} { allow read, write: if false; }
     match /calendarOverrides/{dayKey} { allow read, write: if false; }
-    match /attempts/{attemptId} { allow write: if false; allow read: if false; }
+    match /inputLogs/{id} { allow read, write: if false; }
+
+    // A player can read their own attempts (calendar), never write them.
+    match /attempts/{attemptId} {
+      allow read: if signedIn() && resource.data.uid == request.auth.uid;
+      allow write: if false;
+    }
 
     // Leaderboards: written by Cloud Functions only.
     match /scores/{dayKey}/entries/{uid} {
@@ -29,7 +39,6 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // Default deny.
     match /{document=**} { allow read, write: if false; }
   }
 }

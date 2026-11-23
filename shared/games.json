@@ -1,0 +1,141 @@
+{
+  "games": [
+    {
+      "id": "survival",
+      "category": "arcade",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "mirror",
+        "night",
+        "turbo"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 3700,
+      "name": {
+        "fr": "Survie 2:00",
+        "en": "Survive 2:00"
+      }
+    },
+    {
+      "id": "minigolf",
+      "category": "sport",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "ice",
+        "night",
+        "wind"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 3610,
+      "name": {
+        "fr": "Mini-Golf",
+        "en": "Mini Golf"
+      }
+    },
+    {
+      "id": "penalty",
+      "category": "sport",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "giant",
+        "night"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 5250,
+      "name": {
+        "fr": "Tirs au but",
+        "en": "Penalty Shootout"
+      }
+    },
+    {
+      "id": "basket",
+      "category": "sport",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "giant",
+        "wind"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 1200,
+      "name": {
+        "fr": "Basket",
+        "en": "Basketball"
+      }
+    },
+    {
+      "id": "bowling",
+      "category": "sport",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [],
+      "scoreMin": 0,
+      "scoreMax": 1500,
+      "name": {
+        "fr": "Bowling",
+        "en": "Bowling"
+      }
+    },
+    {
+      "id": "stack",
+      "category": "adresse",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "night",
+        "turbo"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 40000,
+      "name": {
+        "fr": "Tour infinie",
+        "en": "Endless Tower"
+      }
+    },
+    {
+      "id": "darts",
+      "category": "adresse",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "night",
+        "wind"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 6900,
+      "name": {
+        "fr": "Fléchettes",
+        "en": "Darts"
+      }
+    }
+  ],
+  "modifiers": {
+    "wind": {
+      "fr": "Jour de vent",
+      "en": "Windy day"
+    },
+    "night": {
+      "fr": "Nuit",
+      "en": "Night"
+    },
+    "turbo": {
+      "fr": "Turbo",
+      "en": "Turbo"
+    },
+    "mirror": {
+      "fr": "Miroir",
+      "en": "Mirror"
+    },
+    "ice": {
+      "fr": "Glace",
+      "en": "Ice"
+    },
+    "giant": {
+      "fr": "Géant",
+      "en": "Giant"
+    }
+  }
+}
