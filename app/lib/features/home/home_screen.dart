@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -20,6 +19,7 @@ import '../../games/common/game_strings.dart';
 import '../../games/game_registry.dart';
 import '../play/hud.dart';
 import '../play/play_request.dart';
+import '../share/share_card.dart';
 import 'day_state.dart';
 import 'today_controller.dart';
 
@@ -357,14 +357,20 @@ class _StateCard extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             OutlinedButton.icon(
-              onPressed: () {
-                final text =
-                    'OneGame · ${today.dayKey}\n${gameLabel()} · ${a.score ?? 0}'
-                    '${today.profile.streak > 0 ? '\n🔥 ${today.profile.streak}' : ''}';
-                unawaited(Clipboard.setData(ClipboardData(text: text)));
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(l10n.resultsCopied)));
-              },
+              onPressed: () => shareResult(
+                context,
+                ShareCardData(
+                  dayKey: today.dayKey ?? '',
+                  gameId: today.gameId!,
+                  score: a.score ?? 0,
+                  shareLine: gameLabel(),
+                  modifierId: today.modifierId,
+                  streak: today.profile.streak,
+                  late: !a.onTime,
+                ),
+                'OneGame · ${today.dayKey}\n${gameLabel()} · ${a.score ?? 0}'
+                '${today.profile.streak > 0 ? '\n🔥 ${today.profile.streak}' : ''}',
+              ),
               icon: const Icon(Icons.ios_share),
               label: Text(l10n.homeShare),
             ),

@@ -57,6 +57,21 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.raphaelmoreira.onegame.invite</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>onegame</string>
+			</array>
+		</dict>
+	</array>
+	<key>FlutterDeepLinkingEnabled</key>
+	<true/>
+	<key>NSContactsUsageDescription</key>
+	<string>OneGame compare des empreintes (hachages) des numéros de tes contacts pour retrouver tes amis. Les numéros ne quittent jamais ton téléphone en clair.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

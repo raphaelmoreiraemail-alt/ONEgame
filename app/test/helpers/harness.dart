@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
@@ -10,7 +13,17 @@ import 'package:onegame/core/time/clock.dart';
 import 'package:onegame/core/time/regions.dart';
 import 'package:onegame/data/daily/daily_logic.dart';
 import 'package:onegame/data/daily/local_daily_repository.dart';
+import 'package:onegame/data/social/local_social_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+/// Pseudo filter, read from the shared file.
+List<String> bannedWords() => [
+  for (final w
+      in (jsonDecode(File('../shared/banned_words.json').readAsStringSync())
+              as Map<String, dynamic>)['words']
+          as List<dynamic>)
+    '$w',
+];
 
 /// Today's challenge of the local backend for [dayKey].
 DailyChallenge localDaily(String dayKey) =>
@@ -30,8 +43,11 @@ Future<Harness> pumpApp(
   Locale locale = const Locale('fr'),
   DateTime? now,
   List<Override> overrides = const [],
+  bool onboarded = true,
 }) async {
-  SharedPreferences.setMockInitialValues({});
+  SharedPreferences.setMockInitialValues({
+    if (onboarded) 'onboarding.done': true,
+  });
   final prefs = await SharedPreferences.getInstance();
   final clock = FakeClock(now ?? DateTime.utc(2026, 11, 24, 5));
   final repo = LocalDailyRepository(prefs, clock, Region.europe);
@@ -41,7 +57,11 @@ Future<Harness> pumpApp(
       sharedPrefsProvider.overrideWithValue(prefs),
       clockProvider.overrideWithValue(clock),
       backendProvider.overrideWithValue(
-        BackendServices(daily: repo, kind: BackendKind.local),
+        BackendServices(
+          daily: repo,
+          social: LocalSocialRepository(prefs, repo, clock, bannedWords()),
+          kind: BackendKind.local,
+        ),
       ),
       ...overrides,
     ],

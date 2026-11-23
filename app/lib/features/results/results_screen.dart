@@ -14,6 +14,7 @@ import '../../games/common/game_types.dart';
 import '../../games/game_registry.dart';
 import '../play/hud.dart';
 import '../play/play_request.dart';
+import '../share/share_card.dart';
 
 /// Results (section 9.4): giant score, stats, highlights, share.
 ///
@@ -149,6 +150,23 @@ class ResultsScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: SelectableText(_shareText(l10n)),
+            ),
+            const SizedBox(height: 8),
+            FilledButton.icon(
+              onPressed: () => shareResult(
+                context,
+                ShareCardData(
+                  dayKey: request.dayKey ?? '',
+                  gameId: result.gameId,
+                  score: result.score,
+                  shareLine: result.shareLine,
+                  modifierId: result.modifierId,
+                  highlights: result.highlights,
+                ),
+                _shareText(l10n),
+              ),
+              icon: const Icon(Icons.image_outlined),
+              label: Text(l10n.shareImage),
             ),
             const SizedBox(height: 8),
             OutlinedButton.icon(

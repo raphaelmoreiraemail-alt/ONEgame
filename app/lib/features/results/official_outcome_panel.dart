@@ -3,8 +3,10 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../core/l10n/l10n.dart';
 import '../../core/theme/app_colors.dart';
+import '../../data/social/models.dart';
 import '../../games/common/game_types.dart';
 import '../home/today_controller.dart';
+import '../leaderboard/leaderboard_screen.dart';
 import '../profile/badges.dart';
 
 /// Streak and new badges after an official game.
@@ -32,6 +34,7 @@ class OfficialOutcomePanel extends ConsumerWidget {
               ),
             ),
           ),
+        _Ranks(dayKey: today?.dayKey),
         if (out != null) ...[
           Text(
             l10n.resultsStreak(out.streak),
@@ -52,6 +55,29 @@ class OfficialOutcomePanel extends ConsumerWidget {
             ),
           ],
         ],
+      ],
+    );
+  }
+}
+
+/// Position among friends and world percentile (section 9.4).
+class _Ranks extends ConsumerWidget {
+  const _Ranks({required this.dayKey});
+
+  final String? dayKey;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    if (dayKey == null) return const SizedBox.shrink();
+    final friends = ref.watch(boardProvider((Scope.friends, dayKey!))).value;
+    final world = ref.watch(boardProvider((Scope.world, dayKey!))).value;
+    return Column(
+      children: [
+        if (friends?.me != null)
+          Text(l10n.resultsFriendsRank(friends!.me!.rank, friends.total)),
+        if (world?.percentile != null)
+          Text(l10n.lbPercentile(world!.percentile!)),
       ],
     );
   }

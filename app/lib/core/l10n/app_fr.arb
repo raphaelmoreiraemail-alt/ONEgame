@@ -356,5 +356,144 @@
         "type": "Object"
       }
     }
-  }
+  },
+  "navFriends": "Amis",
+  "onbConceptTitle": "Une alarme. Deux minutes. Un jeu.",
+  "onbConceptBody": "Chaque jour, à une heure surprise entre 10h et 21h, ton téléphone sonne. Tout le monde a 2 minutes pour lancer le même mini-jeu. Une seule tentative compte.",
+  "onbNotifTitle": "Autorise l'alarme",
+  "onbNotifBody": "Sans notifications, tu rateras l'alarme du jour : c'est elle qui te prévient qu'il est l'heure de jouer. On ne t'envoie rien d'autre.",
+  "onbNotifButton": "Autoriser les notifications",
+  "onbPseudoTitle": "Choisis ton pseudo",
+  "onbPseudoHint": "3 à 16 caractères : lettres, chiffres, . _ -",
+  "onbNext": "Suivant",
+  "onbStart": "C'est parti !",
+  "onbSkip": "Plus tard",
+  "pseudoErrorLength": "Entre 3 et 16 caractères.",
+  "pseudoErrorCharset": "Lettres, chiffres, point, tiret et tiret bas uniquement.",
+  "pseudoErrorOffensive": "Ce pseudo n'est pas autorisé.",
+  "pseudoErrorTaken": "Ce pseudo est déjà pris.",
+  "pseudoErrorNotFound": "Aucun joueur avec ce pseudo.",
+  "lbTitle": "Classements",
+  "lbFriends": "Amis",
+  "lbCountry": "Pays",
+  "lbRegion": "Région",
+  "lbWorld": "Monde",
+  "lbWeekly": "Hebdo",
+  "lbEmpty": "Personne n'a encore joué.",
+  "lbYou": "Toi",
+  "lbYourRank": "Ta position : {rank} / {total}",
+  "@lbYourRank": {
+    "placeholders": {
+      "rank": {
+        "type": "Object"
+      },
+      "total": {
+        "type": "Object"
+      }
+    }
+  },
+  "lbPercentile": "Meilleur que {pct} % des joueurs",
+  "@lbPercentile": {
+    "placeholders": {
+      "pct": {
+        "type": "Object"
+      }
+    }
+  },
+  "lbLate": "en retard",
+  "lbReport": "Signaler ce score",
+  "lbReported": "Merci, le score sera vérifié.",
+  "lbDemo": "Mode démo : joueurs simulés",
+  "lbWeeklyHelp": "Somme des 7 jours de la semaine, parties à l'heure uniquement.",
+  "feedTitle": "Fil",
+  "feedLocked": "Joue ta partie du jour pour voir les résultats de tes amis.",
+  "feedEmpty": "Aucun ami n'a encore joué aujourd'hui.",
+  "friendsTitle": "Amis",
+  "friendsAddByPseudo": "Ajouter par pseudo",
+  "friendsAdd": "Ajouter",
+  "friendsRequestSent": "Demande envoyée.",
+  "friendsNowFriends": "Vous êtes amis !",
+  "friendsRequests": "Demandes reçues",
+  "friendsPendingOut": "En attente",
+  "friendsAccept": "Accepter",
+  "friendsDecline": "Refuser",
+  "friendsRemove": "Retirer",
+  "friendsNone": "Pas encore d'amis. Invite-les !",
+  "friendsInvite": "Inviter (lien / QR code)",
+  "friendsInviteText": "Rejoins-moi sur OneGame ! Une alarme, deux minutes, un jeu. {link}",
+  "@friendsInviteText": {
+    "placeholders": {
+      "link": {
+        "type": "Object"
+      }
+    }
+  },
+  "friendsInviteCode": "Code : {code}",
+  "@friendsInviteCode": {
+    "placeholders": {
+      "code": {
+        "type": "Object"
+      }
+    }
+  },
+  "friendsEnterCode": "J'ai un code d'invitation",
+  "friendsCodeAccepted": "Tu es maintenant ami avec {pseudo} !",
+  "@friendsCodeAccepted": {
+    "placeholders": {
+      "pseudo": {
+        "type": "Object"
+      }
+    }
+  },
+  "friendsContacts": "Trouver mes contacts",
+  "friendsContactsConsent": "OneGame va lire les numéros de ton carnet, les transformer en empreintes illisibles (hachage) sur ton téléphone, et seulement ensuite les comparer aux joueurs inscrits. Les numéros ne quittent jamais ton téléphone en clair.",
+  "friendsContactsMine": "Ton numéro (pour que tes contacts te trouvent, facultatif)",
+  "friendsContactsFound": "{n} contact(s) trouvé(s), demandes envoyées.",
+  "@friendsContactsFound": {
+    "placeholders": {
+      "n": {
+        "type": "Object"
+      }
+    }
+  },
+  "friendsContactsDenied": "Accès aux contacts refusé.",
+  "friendsDemo": "Mode démo : amis simulés. Les vrais amis arrivent avec le serveur.",
+  "commonCancel": "Annuler",
+  "commonContinue": "Continuer",
+  "commonOk": "OK",
+  "commonError": "Une erreur est survenue.",
+  "shareImage": "Partager l'image",
+  "shareCardStreak": "🔥 série de {n}",
+  "@shareCardStreak": {
+    "placeholders": {
+      "n": {
+        "type": "Object"
+      }
+    }
+  },
+  "resultsFriendsRank": "{rank}e sur {total} chez tes amis",
+  "@resultsFriendsRank": {
+    "placeholders": {
+      "rank": {
+        "type": "Object"
+      },
+      "total": {
+        "type": "Object"
+      }
+    }
+  },
+  "accountTitle": "Compte",
+  "accountPseudo": "Pseudo",
+  "accountChangePseudo": "Changer de pseudo",
+  "accountLinkGoogle": "Lier un compte Google",
+  "accountLinkApple": "Lier un compte Apple",
+  "accountLinkEmail": "Lier une adresse e-mail",
+  "accountLinked": "Compte lié.",
+  "accountLinkHelp": "Lier un compte permet de retrouver ta série si tu changes de téléphone.",
+  "accountLocalOnly": "Disponible quand l'app est connectée au serveur.",
+  "accountEmail": "E-mail",
+  "accountPassword": "Mot de passe (6 caractères min.)",
+  "accountDelete": "Supprimer mon compte",
+  "accountDeleteConfirm": "Toutes tes données (série, scores, amis) seront définitivement supprimées. Continuer ?",
+  "accountDeleted": "Compte supprimé."
 }

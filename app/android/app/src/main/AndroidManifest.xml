@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+    <!-- Find friends from contacts (hashed on device, with consent). -->
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <application
         android:label="OneGame"
         android:name="${applicationName}"
@@ -33,6 +35,14 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <!-- Invite links: onegame://invite/CODE -->
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="onegame" android:host="invite" />
             </intent-filter>
         </activity>
         <!-- flutter_local_notifications: scheduled alarms survive reboots. -->

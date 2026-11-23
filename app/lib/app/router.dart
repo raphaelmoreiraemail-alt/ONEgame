@@ -4,9 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../core/l10n/l10n.dart';
+import '../features/friends/friends_screen.dart';
+import '../features/friends/invite_screen.dart';
 import '../features/game_lab/game_lab_screen.dart';
 import '../features/home/home_screen.dart';
 import '../features/leaderboard/leaderboard_screen.dart';
+import '../features/onboarding/onboarding_screen.dart';
 import '../features/play/play_request.dart';
 import '../features/play/play_screen.dart';
 import '../features/profile/profile_screen.dart';
@@ -19,6 +22,9 @@ import '../games/common/game_types.dart';
 abstract final class Routes {
   static const home = '/';
   static const leaderboard = '/leaderboard';
+  static const friends = '/friends';
+  static const onboarding = '/onboarding';
+  static const invite = '/invite';
   static const profile = '/profile';
   static const settings = '/settings';
   static const training = '/training';
@@ -28,14 +34,41 @@ abstract final class Routes {
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
+  final onboarded = ValueNotifier(ref.read(onboardingDoneProvider));
+  ref.listen(onboardingDoneProvider, (_, v) => onboarded.value = v);
   final router = GoRouter(
     initialLocation: Routes.home,
+    refreshListenable: onboarded,
+    // First launch: onboarding (section 9.1), except for invite links.
+    redirect: (context, state) {
+      // onegame://invite/CODE → /invite/CODE
+      if (state.uri.scheme == 'onegame' && state.uri.host == 'invite') {
+        return '${Routes.invite}${state.uri.path}';
+      }
+      final loc = state.matchedLocation;
+      if (!onboarded.value &&
+          loc != Routes.onboarding &&
+          !loc.startsWith(Routes.invite)) {
+        return Routes.onboarding;
+      }
+      return null;
+    },
     routes: [
+      GoRoute(
+        path: Routes.onboarding,
+        builder: (context, state) => const OnboardingScreen(),
+      ),
+      GoRoute(
+        path: '${Routes.invite}/:code',
+        builder: (context, state) =>
+            InviteScreen(code: state.pathParameters['code']!),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => _ShellScaffold(shell: shell),
         branches: [
           _branch(Routes.home, const HomeScreen()),
           _branch(Routes.leaderboard, const LeaderboardScreen()),
+          _branch(Routes.friends, const FriendsScreen()),
           _branch(Routes.profile, const ProfileScreen()),
           _branch(Routes.settings, const SettingsScreen()),
         ],
@@ -68,7 +101,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         ),
     ],
   );
-  ref.onDispose(router.dispose);
+  ref.onDispose(() {
+    router.dispose();
+    onboarded.dispose();
+  });
   return router;
 });
 
@@ -98,6 +134,10 @@ class _ShellScaffold extends StatelessWidget {
           NavigationDestination(
             icon: const Icon(Icons.leaderboard_outlined),
             label: l10n.navLeaderboard,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.group_outlined),
+            label: l10n.navFriends,
           ),
           NavigationDestination(
             icon: const Icon(Icons.person_outline),

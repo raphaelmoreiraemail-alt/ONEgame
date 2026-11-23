@@ -1,15 +1,20 @@
+import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/daily/daily_repository.dart';
 import '../../data/daily/firebase_daily_repository.dart';
 import '../../data/daily/local_daily_repository.dart';
+import '../../data/social/firebase_social_repository.dart';
+import '../../data/social/local_social_repository.dart';
+import '../../data/social/social_repository.dart';
 import '../time/clock.dart';
 import '../time/regions.dart';
 
@@ -37,9 +42,15 @@ const _demoOptions = FirebaseOptions(
 );
 
 class BackendServices {
-  const BackendServices({required this.daily, required this.kind, this.uid});
+  const BackendServices({
+    required this.daily,
+    required this.social,
+    required this.kind,
+    this.uid,
+  });
 
   final DailyRepository daily;
+  final SocialRepository social;
   final BackendKind kind;
   final String? uid;
 
@@ -55,9 +66,16 @@ Future<BackendServices> createBackend({
 }) async {
   final kind = backendKind;
   if (kind == BackendKind.local) {
+    final daily = LocalDailyRepository(prefs, clock, detectedRegion);
     return BackendServices(
       kind: kind,
-      daily: LocalDailyRepository(prefs, clock, detectedRegion),
+      daily: daily,
+      social: LocalSocialRepository(
+        prefs,
+        daily,
+        clock,
+        await loadBannedWords(),
+      ),
     );
   }
   await Firebase.initializeApp(
@@ -85,6 +103,11 @@ Future<BackendServices> createBackend({
   return BackendServices(
     kind: kind,
     uid: user.uid,
+    social: FirebaseSocialRepository(
+      functions,
+      user.uid,
+      profile['pseudo'] as String?,
+    ),
     daily: FirebaseDailyRepository(
       functions: functions,
       firestore: firestore,
@@ -95,6 +118,16 @@ Future<BackendServices> createBackend({
   );
 }
 
+/// Pseudo filter shared with the server (`shared/banned_words.json`).
+Future<List<String>> loadBannedWords() async {
+  final raw = await rootBundle.loadString('assets/data/banned_words.json');
+  return [
+    for (final w
+        in (jsonDecode(raw) as Map<String, dynamic>)['words'] as List<dynamic>)
+      '$w',
+  ];
+}
+
 /// Overridden in `main()` with the services created at startup.
 final backendProvider = Provider<BackendServices>(
   (ref) => throw UnimplementedError('backendProvider must be overridden'),
@@ -102,4 +135,8 @@ final backendProvider = Provider<BackendServices>(
 
 final dailyRepositoryProvider = Provider<DailyRepository>(
   (ref) => ref.watch(backendProvider).daily,
+);
+
+final socialRepositoryProvider = Provider<SocialRepository>(
+  (ref) => ref.watch(backendProvider).social,
 );

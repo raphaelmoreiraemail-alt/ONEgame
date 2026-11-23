@@ -1,0 +1,11 @@
+{
+  "comment": "Pseudo filter (FR / EN). Matched on a normalized form: lowercase, accents removed, leetspeak mapped (0→o, 1→i, 3→e, 4→a, 5→s, 7→t, @→a, $→s), separators removed.",
+  "words": [
+    "connard", "connasse", "salope", "salaud", "encule", "enculer", "batard", "pute", "putain",
+    "merde", "nique", "niquer", "ntm", "fdp", "pd", "tapette", "pedale", "bougnoule", "negre",
+    "youpin", "bite", "couille", "chatte", "branleur", "abruti", "debile", "mongol", "nazi", "hitler",
+    "fuck", "fucker", "shit", "bitch", "cunt", "dick", "cock", "pussy", "asshole", "bastard",
+    "whore", "slut", "nigger", "nigga", "faggot", "fag", "retard", "rape", "rapist", "porn",
+    "sex", "penis", "vagina", "kkk", "isis"
+  ]
+}

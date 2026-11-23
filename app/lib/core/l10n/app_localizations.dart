@@ -1176,6 +1176,468 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Serveur : {name}'**
   String settingsBackend(Object name);
+
+  /// No description provided for @navFriends.
+  ///
+  /// In fr, this message translates to:
+  /// **'Amis'**
+  String get navFriends;
+
+  /// No description provided for @onbConceptTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une alarme. Deux minutes. Un jeu.'**
+  String get onbConceptTitle;
+
+  /// No description provided for @onbConceptBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Chaque jour, à une heure surprise entre 10h et 21h, ton téléphone sonne. Tout le monde a 2 minutes pour lancer le même mini-jeu. Une seule tentative compte.'**
+  String get onbConceptBody;
+
+  /// No description provided for @onbNotifTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autorise l\'alarme'**
+  String get onbNotifTitle;
+
+  /// No description provided for @onbNotifBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sans notifications, tu rateras l\'alarme du jour : c\'est elle qui te prévient qu\'il est l\'heure de jouer. On ne t\'envoie rien d\'autre.'**
+  String get onbNotifBody;
+
+  /// No description provided for @onbNotifButton.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autoriser les notifications'**
+  String get onbNotifButton;
+
+  /// No description provided for @onbPseudoTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisis ton pseudo'**
+  String get onbPseudoTitle;
+
+  /// No description provided for @onbPseudoHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'3 à 16 caractères : lettres, chiffres, . _ -'**
+  String get onbPseudoHint;
+
+  /// No description provided for @onbNext.
+  ///
+  /// In fr, this message translates to:
+  /// **'Suivant'**
+  String get onbNext;
+
+  /// No description provided for @onbStart.
+  ///
+  /// In fr, this message translates to:
+  /// **'C\'est parti !'**
+  String get onbStart;
+
+  /// No description provided for @onbSkip.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus tard'**
+  String get onbSkip;
+
+  /// No description provided for @pseudoErrorLength.
+  ///
+  /// In fr, this message translates to:
+  /// **'Entre 3 et 16 caractères.'**
+  String get pseudoErrorLength;
+
+  /// No description provided for @pseudoErrorCharset.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lettres, chiffres, point, tiret et tiret bas uniquement.'**
+  String get pseudoErrorCharset;
+
+  /// No description provided for @pseudoErrorOffensive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce pseudo n\'est pas autorisé.'**
+  String get pseudoErrorOffensive;
+
+  /// No description provided for @pseudoErrorTaken.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce pseudo est déjà pris.'**
+  String get pseudoErrorTaken;
+
+  /// No description provided for @pseudoErrorNotFound.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun joueur avec ce pseudo.'**
+  String get pseudoErrorNotFound;
+
+  /// No description provided for @lbTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Classements'**
+  String get lbTitle;
+
+  /// No description provided for @lbFriends.
+  ///
+  /// In fr, this message translates to:
+  /// **'Amis'**
+  String get lbFriends;
+
+  /// No description provided for @lbCountry.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pays'**
+  String get lbCountry;
+
+  /// No description provided for @lbRegion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Région'**
+  String get lbRegion;
+
+  /// No description provided for @lbWorld.
+  ///
+  /// In fr, this message translates to:
+  /// **'Monde'**
+  String get lbWorld;
+
+  /// No description provided for @lbWeekly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Hebdo'**
+  String get lbWeekly;
+
+  /// No description provided for @lbEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Personne n\'a encore joué.'**
+  String get lbEmpty;
+
+  /// No description provided for @lbYou.
+  ///
+  /// In fr, this message translates to:
+  /// **'Toi'**
+  String get lbYou;
+
+  /// No description provided for @lbYourRank.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ta position : {rank} / {total}'**
+  String lbYourRank(Object rank, Object total);
+
+  /// No description provided for @lbPercentile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Meilleur que {pct} % des joueurs'**
+  String lbPercentile(Object pct);
+
+  /// No description provided for @lbLate.
+  ///
+  /// In fr, this message translates to:
+  /// **'en retard'**
+  String get lbLate;
+
+  /// No description provided for @lbReport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Signaler ce score'**
+  String get lbReport;
+
+  /// No description provided for @lbReported.
+  ///
+  /// In fr, this message translates to:
+  /// **'Merci, le score sera vérifié.'**
+  String get lbReported;
+
+  /// No description provided for @lbDemo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mode démo : joueurs simulés'**
+  String get lbDemo;
+
+  /// No description provided for @lbWeeklyHelp.
+  ///
+  /// In fr, this message translates to:
+  /// **'Somme des 7 jours de la semaine, parties à l\'heure uniquement.'**
+  String get lbWeeklyHelp;
+
+  /// No description provided for @feedTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fil'**
+  String get feedTitle;
+
+  /// No description provided for @feedLocked.
+  ///
+  /// In fr, this message translates to:
+  /// **'Joue ta partie du jour pour voir les résultats de tes amis.'**
+  String get feedLocked;
+
+  /// No description provided for @feedEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun ami n\'a encore joué aujourd\'hui.'**
+  String get feedEmpty;
+
+  /// No description provided for @friendsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Amis'**
+  String get friendsTitle;
+
+  /// No description provided for @friendsAddByPseudo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter par pseudo'**
+  String get friendsAddByPseudo;
+
+  /// No description provided for @friendsAdd.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter'**
+  String get friendsAdd;
+
+  /// No description provided for @friendsRequestSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demande envoyée.'**
+  String get friendsRequestSent;
+
+  /// No description provided for @friendsNowFriends.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous êtes amis !'**
+  String get friendsNowFriends;
+
+  /// No description provided for @friendsRequests.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demandes reçues'**
+  String get friendsRequests;
+
+  /// No description provided for @friendsPendingOut.
+  ///
+  /// In fr, this message translates to:
+  /// **'En attente'**
+  String get friendsPendingOut;
+
+  /// No description provided for @friendsAccept.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accepter'**
+  String get friendsAccept;
+
+  /// No description provided for @friendsDecline.
+  ///
+  /// In fr, this message translates to:
+  /// **'Refuser'**
+  String get friendsDecline;
+
+  /// No description provided for @friendsRemove.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer'**
+  String get friendsRemove;
+
+  /// No description provided for @friendsNone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas encore d\'amis. Invite-les !'**
+  String get friendsNone;
+
+  /// No description provided for @friendsInvite.
+  ///
+  /// In fr, this message translates to:
+  /// **'Inviter (lien / QR code)'**
+  String get friendsInvite;
+
+  /// No description provided for @friendsInviteText.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rejoins-moi sur OneGame ! Une alarme, deux minutes, un jeu. {link}'**
+  String friendsInviteText(Object link);
+
+  /// No description provided for @friendsInviteCode.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code : {code}'**
+  String friendsInviteCode(Object code);
+
+  /// No description provided for @friendsEnterCode.
+  ///
+  /// In fr, this message translates to:
+  /// **'J\'ai un code d\'invitation'**
+  String get friendsEnterCode;
+
+  /// No description provided for @friendsCodeAccepted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tu es maintenant ami avec {pseudo} !'**
+  String friendsCodeAccepted(Object pseudo);
+
+  /// No description provided for @friendsContacts.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trouver mes contacts'**
+  String get friendsContacts;
+
+  /// No description provided for @friendsContactsConsent.
+  ///
+  /// In fr, this message translates to:
+  /// **'OneGame va lire les numéros de ton carnet, les transformer en empreintes illisibles (hachage) sur ton téléphone, et seulement ensuite les comparer aux joueurs inscrits. Les numéros ne quittent jamais ton téléphone en clair.'**
+  String get friendsContactsConsent;
+
+  /// No description provided for @friendsContactsMine.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ton numéro (pour que tes contacts te trouvent, facultatif)'**
+  String get friendsContactsMine;
+
+  /// No description provided for @friendsContactsFound.
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} contact(s) trouvé(s), demandes envoyées.'**
+  String friendsContactsFound(Object n);
+
+  /// No description provided for @friendsContactsDenied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accès aux contacts refusé.'**
+  String get friendsContactsDenied;
+
+  /// No description provided for @friendsDemo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mode démo : amis simulés. Les vrais amis arrivent avec le serveur.'**
+  String get friendsDemo;
+
+  /// No description provided for @commonCancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler'**
+  String get commonCancel;
+
+  /// No description provided for @commonContinue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer'**
+  String get commonContinue;
+
+  /// No description provided for @commonOk.
+  ///
+  /// In fr, this message translates to:
+  /// **'OK'**
+  String get commonOk;
+
+  /// No description provided for @commonError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une erreur est survenue.'**
+  String get commonError;
+
+  /// No description provided for @shareImage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partager l\'image'**
+  String get shareImage;
+
+  /// No description provided for @shareCardStreak.
+  ///
+  /// In fr, this message translates to:
+  /// **'🔥 série de {n}'**
+  String shareCardStreak(Object n);
+
+  /// No description provided for @resultsFriendsRank.
+  ///
+  /// In fr, this message translates to:
+  /// **'{rank}e sur {total} chez tes amis'**
+  String resultsFriendsRank(Object rank, Object total);
+
+  /// No description provided for @accountTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte'**
+  String get accountTitle;
+
+  /// No description provided for @accountPseudo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pseudo'**
+  String get accountPseudo;
+
+  /// No description provided for @accountChangePseudo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Changer de pseudo'**
+  String get accountChangePseudo;
+
+  /// No description provided for @accountLinkGoogle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lier un compte Google'**
+  String get accountLinkGoogle;
+
+  /// No description provided for @accountLinkApple.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lier un compte Apple'**
+  String get accountLinkApple;
+
+  /// No description provided for @accountLinkEmail.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lier une adresse e-mail'**
+  String get accountLinkEmail;
+
+  /// No description provided for @accountLinked.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte lié.'**
+  String get accountLinked;
+
+  /// No description provided for @accountLinkHelp.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lier un compte permet de retrouver ta série si tu changes de téléphone.'**
+  String get accountLinkHelp;
+
+  /// No description provided for @accountLocalOnly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Disponible quand l\'app est connectée au serveur.'**
+  String get accountLocalOnly;
+
+  /// No description provided for @accountEmail.
+  ///
+  /// In fr, this message translates to:
+  /// **'E-mail'**
+  String get accountEmail;
+
+  /// No description provided for @accountPassword.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe (6 caractères min.)'**
+  String get accountPassword;
+
+  /// No description provided for @accountDelete.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer mon compte'**
+  String get accountDelete;
+
+  /// No description provided for @accountDeleteConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Toutes tes données (série, scores, amis) seront définitivement supprimées. Continuer ?'**
+  String get accountDeleteConfirm;
+
+  /// No description provided for @accountDeleted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte supprimé.'**
+  String get accountDeleted;
 }
 
 class _AppLocalizationsDelegate

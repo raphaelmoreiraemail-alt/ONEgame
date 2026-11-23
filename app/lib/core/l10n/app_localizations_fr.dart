@@ -613,4 +613,262 @@ class AppLocalizationsFr extends AppLocalizations {
   String settingsBackend(Object name) {
     return 'Serveur : $name';
   }
+
+  @override
+  String get navFriends => 'Amis';
+
+  @override
+  String get onbConceptTitle => 'Une alarme. Deux minutes. Un jeu.';
+
+  @override
+  String get onbConceptBody =>
+      'Chaque jour, à une heure surprise entre 10h et 21h, ton téléphone sonne. Tout le monde a 2 minutes pour lancer le même mini-jeu. Une seule tentative compte.';
+
+  @override
+  String get onbNotifTitle => 'Autorise l\'alarme';
+
+  @override
+  String get onbNotifBody =>
+      'Sans notifications, tu rateras l\'alarme du jour : c\'est elle qui te prévient qu\'il est l\'heure de jouer. On ne t\'envoie rien d\'autre.';
+
+  @override
+  String get onbNotifButton => 'Autoriser les notifications';
+
+  @override
+  String get onbPseudoTitle => 'Choisis ton pseudo';
+
+  @override
+  String get onbPseudoHint => '3 à 16 caractères : lettres, chiffres, . _ -';
+
+  @override
+  String get onbNext => 'Suivant';
+
+  @override
+  String get onbStart => 'C\'est parti !';
+
+  @override
+  String get onbSkip => 'Plus tard';
+
+  @override
+  String get pseudoErrorLength => 'Entre 3 et 16 caractères.';
+
+  @override
+  String get pseudoErrorCharset =>
+      'Lettres, chiffres, point, tiret et tiret bas uniquement.';
+
+  @override
+  String get pseudoErrorOffensive => 'Ce pseudo n\'est pas autorisé.';
+
+  @override
+  String get pseudoErrorTaken => 'Ce pseudo est déjà pris.';
+
+  @override
+  String get pseudoErrorNotFound => 'Aucun joueur avec ce pseudo.';
+
+  @override
+  String get lbTitle => 'Classements';
+
+  @override
+  String get lbFriends => 'Amis';
+
+  @override
+  String get lbCountry => 'Pays';
+
+  @override
+  String get lbRegion => 'Région';
+
+  @override
+  String get lbWorld => 'Monde';
+
+  @override
+  String get lbWeekly => 'Hebdo';
+
+  @override
+  String get lbEmpty => 'Personne n\'a encore joué.';
+
+  @override
+  String get lbYou => 'Toi';
+
+  @override
+  String lbYourRank(Object rank, Object total) {
+    return 'Ta position : $rank / $total';
+  }
+
+  @override
+  String lbPercentile(Object pct) {
+    return 'Meilleur que $pct % des joueurs';
+  }
+
+  @override
+  String get lbLate => 'en retard';
+
+  @override
+  String get lbReport => 'Signaler ce score';
+
+  @override
+  String get lbReported => 'Merci, le score sera vérifié.';
+
+  @override
+  String get lbDemo => 'Mode démo : joueurs simulés';
+
+  @override
+  String get lbWeeklyHelp =>
+      'Somme des 7 jours de la semaine, parties à l\'heure uniquement.';
+
+  @override
+  String get feedTitle => 'Fil';
+
+  @override
+  String get feedLocked =>
+      'Joue ta partie du jour pour voir les résultats de tes amis.';
+
+  @override
+  String get feedEmpty => 'Aucun ami n\'a encore joué aujourd\'hui.';
+
+  @override
+  String get friendsTitle => 'Amis';
+
+  @override
+  String get friendsAddByPseudo => 'Ajouter par pseudo';
+
+  @override
+  String get friendsAdd => 'Ajouter';
+
+  @override
+  String get friendsRequestSent => 'Demande envoyée.';
+
+  @override
+  String get friendsNowFriends => 'Vous êtes amis !';
+
+  @override
+  String get friendsRequests => 'Demandes reçues';
+
+  @override
+  String get friendsPendingOut => 'En attente';
+
+  @override
+  String get friendsAccept => 'Accepter';
+
+  @override
+  String get friendsDecline => 'Refuser';
+
+  @override
+  String get friendsRemove => 'Retirer';
+
+  @override
+  String get friendsNone => 'Pas encore d\'amis. Invite-les !';
+
+  @override
+  String get friendsInvite => 'Inviter (lien / QR code)';
+
+  @override
+  String friendsInviteText(Object link) {
+    return 'Rejoins-moi sur OneGame ! Une alarme, deux minutes, un jeu. $link';
+  }
+
+  @override
+  String friendsInviteCode(Object code) {
+    return 'Code : $code';
+  }
+
+  @override
+  String get friendsEnterCode => 'J\'ai un code d\'invitation';
+
+  @override
+  String friendsCodeAccepted(Object pseudo) {
+    return 'Tu es maintenant ami avec $pseudo !';
+  }
+
+  @override
+  String get friendsContacts => 'Trouver mes contacts';
+
+  @override
+  String get friendsContactsConsent =>
+      'OneGame va lire les numéros de ton carnet, les transformer en empreintes illisibles (hachage) sur ton téléphone, et seulement ensuite les comparer aux joueurs inscrits. Les numéros ne quittent jamais ton téléphone en clair.';
+
+  @override
+  String get friendsContactsMine =>
+      'Ton numéro (pour que tes contacts te trouvent, facultatif)';
+
+  @override
+  String friendsContactsFound(Object n) {
+    return '$n contact(s) trouvé(s), demandes envoyées.';
+  }
+
+  @override
+  String get friendsContactsDenied => 'Accès aux contacts refusé.';
+
+  @override
+  String get friendsDemo =>
+      'Mode démo : amis simulés. Les vrais amis arrivent avec le serveur.';
+
+  @override
+  String get commonCancel => 'Annuler';
+
+  @override
+  String get commonContinue => 'Continuer';
+
+  @override
+  String get commonOk => 'OK';
+
+  @override
+  String get commonError => 'Une erreur est survenue.';
+
+  @override
+  String get shareImage => 'Partager l\'image';
+
+  @override
+  String shareCardStreak(Object n) {
+    return '🔥 série de $n';
+  }
+
+  @override
+  String resultsFriendsRank(Object rank, Object total) {
+    return '${rank}e sur $total chez tes amis';
+  }
+
+  @override
+  String get accountTitle => 'Compte';
+
+  @override
+  String get accountPseudo => 'Pseudo';
+
+  @override
+  String get accountChangePseudo => 'Changer de pseudo';
+
+  @override
+  String get accountLinkGoogle => 'Lier un compte Google';
+
+  @override
+  String get accountLinkApple => 'Lier un compte Apple';
+
+  @override
+  String get accountLinkEmail => 'Lier une adresse e-mail';
+
+  @override
+  String get accountLinked => 'Compte lié.';
+
+  @override
+  String get accountLinkHelp =>
+      'Lier un compte permet de retrouver ta série si tu changes de téléphone.';
+
+  @override
+  String get accountLocalOnly =>
+      'Disponible quand l\'app est connectée au serveur.';
+
+  @override
+  String get accountEmail => 'E-mail';
+
+  @override
+  String get accountPassword => 'Mot de passe (6 caractères min.)';
+
+  @override
+  String get accountDelete => 'Supprimer mon compte';
+
+  @override
+  String get accountDeleteConfirm =>
+      'Toutes tes données (série, scores, amis) seront définitivement supprimées. Continuer ?';
+
+  @override
+  String get accountDeleted => 'Compte supprimé.';
 }

@@ -5,6 +5,7 @@ import 'package:onegame/core/backend/backend.dart';
 import 'package:onegame/core/l10n/l10n.dart';
 import 'package:onegame/core/theme/app_theme.dart';
 import 'package:onegame/data/daily/daily_repository.dart';
+import 'package:onegame/data/social/social_repository.dart';
 import 'package:onegame/features/play/play_request.dart';
 import 'package:onegame/features/results/results_screen.dart';
 import 'package:onegame/games/common/game_types.dart';
@@ -27,7 +28,11 @@ Widget _wrap(Widget child, {Locale locale = const Locale('fr')}) =>
     ProviderScope(
       overrides: [
         backendProvider.overrideWithValue(
-          BackendServices(daily: _NoRepo(), kind: BackendKind.local),
+          BackendServices(
+            daily: _NoRepo(),
+            social: _NoSocial(),
+            kind: BackendKind.local,
+          ),
         ),
       ],
       child: MaterialApp(
@@ -41,6 +46,8 @@ Widget _wrap(Widget child, {Locale locale = const Locale('fr')}) =>
 
 void main() {
   testWidgets('shows score, stats, share text and training note', (t) async {
+    t.view.physicalSize = const Size(1080, 3200);
+    addTearDown(t.view.resetPhysicalSize);
     await t.pumpWidget(
       _wrap(
         ResultsScreen(
@@ -81,6 +88,11 @@ void main() {
 }
 
 class _NoRepo implements DailyRepository {
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class _NoSocial implements SocialRepository {
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

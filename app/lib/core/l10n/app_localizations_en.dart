@@ -611,4 +611,260 @@ class AppLocalizationsEn extends AppLocalizations {
   String settingsBackend(Object name) {
     return 'Server: $name';
   }
+
+  @override
+  String get navFriends => 'Friends';
+
+  @override
+  String get onbConceptTitle => 'One alarm. Two minutes. One game.';
+
+  @override
+  String get onbConceptBody =>
+      'Every day, at a surprise time between 10 AM and 9 PM, your phone rings. Everyone gets 2 minutes to start the same mini-game. Only one attempt counts.';
+
+  @override
+  String get onbNotifTitle => 'Allow the alarm';
+
+  @override
+  String get onbNotifBody =>
+      'Without notifications you\'ll miss the daily alarm: it\'s what tells you it\'s time to play. We send nothing else.';
+
+  @override
+  String get onbNotifButton => 'Allow notifications';
+
+  @override
+  String get onbPseudoTitle => 'Pick your nickname';
+
+  @override
+  String get onbPseudoHint => '3 to 16 characters: letters, digits, . _ -';
+
+  @override
+  String get onbNext => 'Next';
+
+  @override
+  String get onbStart => 'Let\'s go!';
+
+  @override
+  String get onbSkip => 'Later';
+
+  @override
+  String get pseudoErrorLength => 'Between 3 and 16 characters.';
+
+  @override
+  String get pseudoErrorCharset =>
+      'Letters, digits, dot, dash and underscore only.';
+
+  @override
+  String get pseudoErrorOffensive => 'This nickname isn\'t allowed.';
+
+  @override
+  String get pseudoErrorTaken => 'This nickname is already taken.';
+
+  @override
+  String get pseudoErrorNotFound => 'No player with this nickname.';
+
+  @override
+  String get lbTitle => 'Leaderboards';
+
+  @override
+  String get lbFriends => 'Friends';
+
+  @override
+  String get lbCountry => 'Country';
+
+  @override
+  String get lbRegion => 'Region';
+
+  @override
+  String get lbWorld => 'World';
+
+  @override
+  String get lbWeekly => 'Weekly';
+
+  @override
+  String get lbEmpty => 'Nobody has played yet.';
+
+  @override
+  String get lbYou => 'You';
+
+  @override
+  String lbYourRank(Object rank, Object total) {
+    return 'Your rank: $rank / $total';
+  }
+
+  @override
+  String lbPercentile(Object pct) {
+    return 'Better than $pct% of players';
+  }
+
+  @override
+  String get lbLate => 'late';
+
+  @override
+  String get lbReport => 'Report this score';
+
+  @override
+  String get lbReported => 'Thanks, the score will be reviewed.';
+
+  @override
+  String get lbDemo => 'Demo mode: simulated players';
+
+  @override
+  String get lbWeeklyHelp => 'Sum of this week\'s days, on-time games only.';
+
+  @override
+  String get feedTitle => 'Feed';
+
+  @override
+  String get feedLocked => 'Play today\'s game to see your friends\' results.';
+
+  @override
+  String get feedEmpty => 'None of your friends has played today yet.';
+
+  @override
+  String get friendsTitle => 'Friends';
+
+  @override
+  String get friendsAddByPseudo => 'Add by nickname';
+
+  @override
+  String get friendsAdd => 'Add';
+
+  @override
+  String get friendsRequestSent => 'Request sent.';
+
+  @override
+  String get friendsNowFriends => 'You\'re now friends!';
+
+  @override
+  String get friendsRequests => 'Requests';
+
+  @override
+  String get friendsPendingOut => 'Pending';
+
+  @override
+  String get friendsAccept => 'Accept';
+
+  @override
+  String get friendsDecline => 'Decline';
+
+  @override
+  String get friendsRemove => 'Remove';
+
+  @override
+  String get friendsNone => 'No friends yet. Invite them!';
+
+  @override
+  String get friendsInvite => 'Invite (link / QR code)';
+
+  @override
+  String friendsInviteText(Object link) {
+    return 'Join me on OneGame! One alarm, two minutes, one game. $link';
+  }
+
+  @override
+  String friendsInviteCode(Object code) {
+    return 'Code: $code';
+  }
+
+  @override
+  String get friendsEnterCode => 'I have an invite code';
+
+  @override
+  String friendsCodeAccepted(Object pseudo) {
+    return 'You\'re now friends with $pseudo!';
+  }
+
+  @override
+  String get friendsContacts => 'Find my contacts';
+
+  @override
+  String get friendsContactsConsent =>
+      'OneGame will read the numbers in your address book, turn them into unreadable fingerprints (hashes) on your phone, and only then compare them with registered players. Numbers never leave your phone in clear text.';
+
+  @override
+  String get friendsContactsMine =>
+      'Your number (so your contacts can find you, optional)';
+
+  @override
+  String friendsContactsFound(Object n) {
+    return '$n contact(s) found, requests sent.';
+  }
+
+  @override
+  String get friendsContactsDenied => 'Contacts access denied.';
+
+  @override
+  String get friendsDemo =>
+      'Demo mode: simulated friends. Real friends come with the server.';
+
+  @override
+  String get commonCancel => 'Cancel';
+
+  @override
+  String get commonContinue => 'Continue';
+
+  @override
+  String get commonOk => 'OK';
+
+  @override
+  String get commonError => 'Something went wrong.';
+
+  @override
+  String get shareImage => 'Share image';
+
+  @override
+  String shareCardStreak(Object n) {
+    return '🔥 $n-day streak';
+  }
+
+  @override
+  String resultsFriendsRank(Object rank, Object total) {
+    return '#$rank of $total among friends';
+  }
+
+  @override
+  String get accountTitle => 'Account';
+
+  @override
+  String get accountPseudo => 'Nickname';
+
+  @override
+  String get accountChangePseudo => 'Change nickname';
+
+  @override
+  String get accountLinkGoogle => 'Link a Google account';
+
+  @override
+  String get accountLinkApple => 'Link an Apple account';
+
+  @override
+  String get accountLinkEmail => 'Link an email address';
+
+  @override
+  String get accountLinked => 'Account linked.';
+
+  @override
+  String get accountLinkHelp =>
+      'Linking an account keeps your streak if you change phones.';
+
+  @override
+  String get accountLocalOnly =>
+      'Available once the app is connected to the server.';
+
+  @override
+  String get accountEmail => 'Email';
+
+  @override
+  String get accountPassword => 'Password (6+ characters)';
+
+  @override
+  String get accountDelete => 'Delete my account';
+
+  @override
+  String get accountDeleteConfirm =>
+      'All your data (streak, scores, friends) will be permanently deleted. Continue?';
+
+  @override
+  String get accountDeleted => 'Account deleted.';
 }

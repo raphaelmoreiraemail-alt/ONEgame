@@ -19,7 +19,7 @@
 - [x] 15. Série, joker, calendrier, records, badges.
 
 ## Phase 4 — Social
-- [ ] 16. Pseudos, amis, invitations, classements, fil + réactions, carte de partage.
+- [x] 16. Onboarding (3 écrans), pseudos, amis (pseudo, lien / QR, contacts hachés), classements (amis / pays / région / monde / hebdo), fil + réactions, carte de partage image, compte (liaison, suppression).
 
 ## Phase 5 — Reste du catalogue
 - [ ] 17. 18 jeux restants + modificateurs.
