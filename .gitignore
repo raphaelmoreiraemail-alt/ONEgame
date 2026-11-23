@@ -10,3 +10,7 @@ ui-debug.log*
 app/android/app/google-services.json
 app/ios/Runner/GoogleService-Info.plist
 app/lib/firebase_options.dart
+# Android release signing.
+app/android/key.properties
+*.jks
+*.keystore

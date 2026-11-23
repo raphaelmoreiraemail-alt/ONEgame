@@ -25,6 +25,6 @@
 - [x] 17. Les 17 jeux restants (catalogue complet : 24 jeux) + les 6 modificateurs (vent, nuit, turbo, miroir, glace, géant) sur tous les jeux listés en section 8.
 
 ## Phase 6 — Production
-- [ ] 18. App Check, Crashlytics, Analytics.
-- [ ] 19. Icône, écran de lancement, fiches stores, confidentialité.
-- [ ] 20. Builds release, checklist de publication.
+- [x] 18. App Check (Play Integrity / App Attest), Crashlytics, Analytics (alarm_seen, game_start, game_end, share), Remote Config (`games`, `gameWeights`). Activation finale : voir `RELEASE.md`.
+- [x] 19. Icône (réveil rouge, `tools/gen_icons.py`), écran de lancement Android / iOS, fiches stores FR / EN (`docs/store/`), politique de confidentialité FR / EN (`docs/`).
+- [~] 20. Signature release Android prête (`key.properties`), checklist de publication (`RELEASE.md`). **Reste à faire sur ta machine** : builds `appbundle` / `ipa` (le conteneur n'a ni SDK Android ni Xcode, et Google Maven y est bloqué).

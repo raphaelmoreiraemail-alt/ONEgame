@@ -9,6 +9,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../app/locale_controller.dart';
 import '../../app/router.dart';
 import '../../core/audio/feedback.dart';
+import '../../core/backend/backend.dart';
 import '../../core/config/tuning.dart';
 import '../../core/l10n/l10n.dart';
 import '../../core/settings/settings.dart';
@@ -127,6 +128,13 @@ class _PlayScreenState extends ConsumerState<PlayScreen>
 
   void _start() {
     if (!mounted) return;
+    if (!widget.request.official) {
+      unawaited(
+        ref
+            .read(analyticsProvider)
+            .gameStarted(gameId: _def.id, official: false),
+      );
+    }
     _fx
       ..play(Sfx.go)
       ..vibrate(Haptic.medium);
@@ -181,6 +189,15 @@ class _PlayScreenState extends ConsumerState<PlayScreen>
   Future<void> _goToResults() async {
     if (!mounted) return;
     final result = _buildResult(context.l10n);
+    unawaited(
+      ref
+          .read(analyticsProvider)
+          .gameEnded(
+            gameId: _def.id,
+            score: result.score,
+            official: widget.request.official,
+          ),
+    );
     final sink = ref.read(resultSinkProvider);
     unawaited(sink(widget.request, result));
     if (!mounted) return;

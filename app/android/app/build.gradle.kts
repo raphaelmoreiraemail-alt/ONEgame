@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
@@ -30,11 +32,30 @@ android {
         versionName = flutter.versionName
     }
 
+    // Release signing: android/key.properties (never committed), see RELEASE.md.
+    val keyProps = Properties()
+    val keyFile = rootProject.file("key.properties")
+    if (keyFile.exists()) keyFile.inputStream().use { keyProps.load(it) }
+    signingConfigs {
+        if (keyFile.exists()) {
+            create("release") {
+                keyAlias = keyProps.getProperty("keyAlias")
+                keyPassword = keyProps.getProperty("keyPassword")
+                storeFile = file(keyProps.getProperty("storeFile"))
+                storePassword = keyProps.getProperty("storePassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Falls back to the debug key so that `flutter run --release`
+            // works before the upload key exists.
+            signingConfig = if (keyFile.exists()) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }
@@ -47,6 +68,13 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+// Firebase config is added in Phase 6 (`flutterfire configure`): the
+// plugins are only applied once google-services.json is present.
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+    apply(plugin = "com.google.firebase.crashlytics")
 }
 
 dependencies {

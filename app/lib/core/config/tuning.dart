@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../backend/backend.dart';
+
 /// Balancing values per game (Remote Config `games.<id>.*`).
 ///
 /// The default implementation returns nothing, so every game uses its
@@ -22,5 +24,5 @@ class DefaultTuningRepository implements TuningRepository {
 }
 
 final tuningProvider = Provider<TuningRepository>(
-  (ref) => const DefaultTuningRepository(),
+  (ref) => ref.watch(backendProvider).tuning,
 );

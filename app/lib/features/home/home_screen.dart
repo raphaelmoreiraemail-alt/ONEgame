@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../app/router.dart';
 import '../../core/audio/feedback.dart';
+import '../../core/backend/backend.dart';
 import '../../core/l10n/l10n.dart';
 import '../../core/settings/settings.dart';
 import '../../core/theme/app_colors.dart';
@@ -71,7 +72,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       _waitingSeconds = 0;
       unawaited(ref.read(todayProvider.notifier).refresh());
     }
-    if (s == DayState.ringing && _lastState != DayState.ringing) _ringCount = 0;
+    if (s == DayState.ringing && _lastState != DayState.ringing) {
+      _ringCount = 0;
+      unawaited(
+        ref
+            .read(analyticsProvider)
+            .alarmSeen(region: today.region.name, dayKey: today.dayKey ?? ''),
+      );
+    }
     if (s == DayState.ringing && _ringCount < 5 && !_starting) {
       // Ring every 4 s for the first 20 s.
       if (_ringCount == 0 || DateTime.now().second % 4 == 0) {
@@ -91,6 +99,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final l10n = context.l10n;
     try {
       final a = await ref.read(todayProvider.notifier).start();
+      unawaited(
+        ref
+            .read(analyticsProvider)
+            .gameStarted(gameId: a.gameId, official: true, onTime: a.onTime),
+      );
       if (!mounted) return;
       await context.push(
         Routes.play,

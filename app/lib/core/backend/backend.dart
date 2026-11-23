@@ -1,10 +1,15 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,6 +20,9 @@ import '../../data/daily/local_daily_repository.dart';
 import '../../data/social/firebase_social_repository.dart';
 import '../../data/social/local_social_repository.dart';
 import '../../data/social/social_repository.dart';
+import '../analytics/analytics.dart';
+import '../config/firebase_tuning.dart';
+import '../config/tuning.dart';
 import '../time/clock.dart';
 import '../time/regions.dart';
 
@@ -47,7 +55,12 @@ class BackendServices {
     required this.social,
     required this.kind,
     this.uid,
+    this.analytics = const NoopAnalytics(),
+    this.tuning = const DefaultTuningRepository(),
   });
+
+  final Analytics analytics;
+  final TuningRepository tuning;
 
   final DailyRepository daily;
   final SocialRepository social;
@@ -81,6 +94,26 @@ Future<BackendServices> createBackend({
   await Firebase.initializeApp(
     options: kind == BackendKind.emulator ? _demoOptions : null,
   );
+  // App Check (Play Integrity / App Attest); debug providers for debug
+  // builds and the emulators (section 10.3).
+  if (kind == BackendKind.firebase) {
+    await FirebaseAppCheck.instance.activate(
+      providerAndroid: kDebugMode
+          ? const AndroidDebugProvider()
+          : const AndroidPlayIntegrityProvider(),
+      providerApple: kDebugMode
+          ? const AppleDebugProvider()
+          : const AppleAppAttestWithDeviceCheckFallbackProvider(),
+    );
+    // Crashlytics: every uncaught Flutter / platform error.
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    PlatformDispatcher.instance.onError = (error, stack) {
+      unawaited(
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
+      );
+      return true;
+    };
+  }
   final auth = FirebaseAuth.instance;
   final firestore = FirebaseFirestore.instance;
   final functions = FirebaseFunctions.instance;
@@ -103,6 +136,12 @@ Future<BackendServices> createBackend({
   return BackendServices(
     kind: kind,
     uid: user.uid,
+    analytics: kind == BackendKind.firebase
+        ? FirebaseAnalyticsService(FirebaseAnalytics.instance)
+        : const NoopAnalytics(),
+    tuning: kind == BackendKind.firebase
+        ? await FirebaseTuningRepository.create()
+        : const DefaultTuningRepository(),
     social: FirebaseSocialRepository(
       functions,
       user.uid,
@@ -139,4 +178,8 @@ final dailyRepositoryProvider = Provider<DailyRepository>(
 
 final socialRepositoryProvider = Provider<SocialRepository>(
   (ref) => ref.watch(backendProvider).social,
+);
+
+final analyticsProvider = Provider<Analytics>(
+  (ref) => ref.watch(backendProvider).analytics,
 );

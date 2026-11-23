@@ -50,4 +50,6 @@ npx firebase-tools emulators:start
 
 - [`PROGRESS.md`](PROGRESS.md) — avancement par phase
 - [`DECISIONS.md`](DECISIONS.md) — choix non couverts par le cahier des charges
-- [`ASSETS.md`](ASSETS.md) — polices, sons et autres ressources, avec leurs licences
+- [`ASSETS.md`](ASSETS.md) — polices, sons, listes de mots, avec leurs licences
+- [`RELEASE.md`](RELEASE.md) — mise en production (Firebase, stores)
+- [`docs/`](docs/) — fiches stores, icône, politiques de confidentialité
