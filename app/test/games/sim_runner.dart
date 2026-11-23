@@ -65,5 +65,6 @@ SimRun runMonkey(
       sim.over = true;
     }
   }
+  sim.dispose();
   return SimRun(sim, sim.step, timedOut);
 }

@@ -224,4 +224,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statOrbs => 'Orbs';
+
+  @override
+  String get gameMinigolfName => 'Mini Golf';
+
+  @override
+  String get gameMinigolfRule =>
+      'Pull the ball back like a slingshot. 3 holes, 2 minutes.';
+
+  @override
+  String gameMinigolfShare(Object holes, Object strokes, Object toPar) {
+    return '⛳ $holes holes · $strokes strokes ($toPar)';
+  }
+
+  @override
+  String gameMinigolfShareAces(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count holes-in-one',
+      one: '1 hole-in-one',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statHoles => 'Holes played';
+
+  @override
+  String get statStrokes => 'Strokes';
+
+  @override
+  String get statToPar => 'To par';
+
+  @override
+  String get statAces => 'Holes-in-one';
+
+  @override
+  String get highlightAce => 'ACE!';
 }

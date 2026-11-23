@@ -129,6 +129,12 @@ class MiniGame extends FlameGame {
   }
 
   @override
+  void onRemove() {
+    sim.dispose();
+    super.onRemove();
+  }
+
+  @override
   void render(Canvas canvas) {
     super.render(canvas);
     canvas

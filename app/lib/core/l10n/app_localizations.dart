@@ -517,6 +517,60 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Orbes'**
   String get statOrbs;
+
+  /// No description provided for @gameMinigolfName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mini-Golf'**
+  String get gameMinigolfName;
+
+  /// No description provided for @gameMinigolfRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tire la balle en arrière comme un lance-pierre. 3 trous, 2 minutes.'**
+  String get gameMinigolfRule;
+
+  /// No description provided for @gameMinigolfShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'⛳ {holes} trous · {strokes} coups ({toPar})'**
+  String gameMinigolfShare(Object holes, Object strokes, Object toPar);
+
+  /// No description provided for @gameMinigolfShareAces.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{1 trou en un} other{{count} trous en un}}'**
+  String gameMinigolfShareAces(int count);
+
+  /// No description provided for @statHoles.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trous joués'**
+  String get statHoles;
+
+  /// No description provided for @statStrokes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Coups'**
+  String get statStrokes;
+
+  /// No description provided for @statToPar.
+  ///
+  /// In fr, this message translates to:
+  /// **'Par rapport au par'**
+  String get statToPar;
+
+  /// No description provided for @statAces.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trous en un'**
+  String get statAces;
+
+  /// No description provided for @highlightAce.
+  ///
+  /// In fr, this message translates to:
+  /// **'ACE !'**
+  String get highlightAce;
 }
 
 class _AppLocalizationsDelegate

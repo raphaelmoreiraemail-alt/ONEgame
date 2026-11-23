@@ -92,5 +92,34 @@
     }
   },
   "statSeconds": "Secondes survécues",
-  "statOrbs": "Orbes"
+  "statOrbs": "Orbes",
+  "gameMinigolfName": "Mini-Golf",
+  "gameMinigolfRule": "Tire la balle en arrière comme un lance-pierre. 3 trous, 2 minutes.",
+  "gameMinigolfShare": "⛳ {holes} trous · {strokes} coups ({toPar})",
+  "@gameMinigolfShare": {
+    "placeholders": {
+      "holes": {
+        "type": "Object"
+      },
+      "strokes": {
+        "type": "Object"
+      },
+      "toPar": {
+        "type": "Object"
+      }
+    }
+  },
+  "gameMinigolfShareAces": "{count, plural, =1{1 trou en un} other{{count} trous en un}}",
+  "@gameMinigolfShareAces": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statHoles": "Trous joués",
+  "statStrokes": "Coups",
+  "statToPar": "Par rapport au par",
+  "statAces": "Trous en un",
+  "highlightAce": "ACE !"
 }

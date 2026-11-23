@@ -69,5 +69,14 @@
   "gameSurvivalRule": "Slide to dodge the blocks. Last 2 minutes!",
   "gameSurvivalShare": "☄️ {seconds}s · {orbs} orbs",
   "statSeconds": "Seconds survived",
-  "statOrbs": "Orbs"
+  "statOrbs": "Orbs",
+  "gameMinigolfName": "Mini Golf",
+  "gameMinigolfRule": "Pull the ball back like a slingshot. 3 holes, 2 minutes.",
+  "gameMinigolfShare": "⛳ {holes} holes · {strokes} strokes ({toPar})",
+  "gameMinigolfShareAces": "{count, plural, =1{1 hole-in-one} other{{count} holes-in-one}}",
+  "statHoles": "Holes played",
+  "statStrokes": "Strokes",
+  "statToPar": "To par",
+  "statAces": "Holes-in-one",
+  "highlightAce": "ACE!"
 }

@@ -1,3 +1,4 @@
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +8,7 @@ import 'core/settings/settings.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeForge2D();
   final prefs = await SharedPreferences.getInstance();
   runApp(
     ProviderScope(

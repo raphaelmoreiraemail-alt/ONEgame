@@ -98,6 +98,9 @@ abstract class GameSim {
     cue(sfx: Sfx.highlight, haptic: Haptic.heavy);
   }
 
+  /// Releases native resources (physics worlds).
+  void dispose() {}
+
   /// Advances particles; call from [tick].
   void tickParticles() => particles.tick();
 }
