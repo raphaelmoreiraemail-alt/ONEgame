@@ -65,6 +65,12 @@ class PenaltyGame extends MiniGameDefinition {
       ];
 
   @override
+  Map<String, String> highlightLabels(AppLocalizations l10n) => {
+    'panenka': l10n.highlightPanenka,
+    'superSave': l10n.highlightSuperSave,
+  };
+
+  @override
   GameSim createSim(GameContext ctx) => PenaltySim(ctx, this);
 
   @override

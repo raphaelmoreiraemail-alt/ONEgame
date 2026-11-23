@@ -1,4 +1,5 @@
 import '../../core/l10n/l10n.dart';
+import '../game_registry.dart';
 import 'game_types.dart';
 
 /// Localized labels for ids that travel as strings (modifiers, highlights...).
@@ -41,8 +42,11 @@ abstract final class GameStrings {
     GameCategory.reflexion => l.categoryReflexion,
   };
 
-  static String highlight(AppLocalizations l, String id) => switch (id) {
-    'survivor' => l.highlightSurvivor,
-    _ => id.toUpperCase(),
-  };
+  static String highlight(AppLocalizations l, String id) {
+    for (final g in GameRegistry.all) {
+      final label = g.highlightLabels(l)[id];
+      if (label != null) return label;
+    }
+    return id.toUpperCase();
+  }
 }

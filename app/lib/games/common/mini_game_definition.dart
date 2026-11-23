@@ -29,6 +29,9 @@ abstract class MiniGameDefinition {
   /// Wordle-like line, e.g. "⛳ 3 trous · 8 coups (-1) · 1 trou en un".
   String shareLine(AppLocalizations l10n, Map<String, num> stats);
 
+  /// Labels of this game's "coups d'éclat", by highlight id.
+  Map<String, String> highlightLabels(AppLocalizations l10n);
+
   /// Rows `(label, value)` displayed on the results screen.
   List<(String, String)> statRows(
     AppLocalizations l10n,

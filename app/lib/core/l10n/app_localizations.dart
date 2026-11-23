@@ -636,6 +636,48 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'ARRÊT EN LUCARNE !'**
   String get highlightSuperSave;
+
+  /// No description provided for @gameBasketName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Basket'**
+  String get gameBasketName;
+
+  /// No description provided for @gameBasketRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Swipe vers le haut pour tirer : la vitesse du geste fait la puissance.'**
+  String get gameBasketRule;
+
+  /// No description provided for @gameBasketShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🏀 {baskets} paniers · {swishes} swish · série max {streak}'**
+  String gameBasketShare(Object baskets, Object streak, Object swishes);
+
+  /// No description provided for @statBaskets.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paniers'**
+  String get statBaskets;
+
+  /// No description provided for @statSwishes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Swish'**
+  String get statSwishes;
+
+  /// No description provided for @statMaxStreak.
+  ///
+  /// In fr, this message translates to:
+  /// **'Série max'**
+  String get statMaxStreak;
+
+  /// No description provided for @highlightOnFire.
+  ///
+  /// In fr, this message translates to:
+  /// **'EN FEU !'**
+  String get highlightOnFire;
 }
 
 class _AppLocalizationsDelegate

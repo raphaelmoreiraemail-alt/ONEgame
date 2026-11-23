@@ -73,6 +73,11 @@ class MinigolfGame extends MiniGameDefinition {
   }
 
   @override
+  Map<String, String> highlightLabels(AppLocalizations l10n) => {
+    'ace': l10n.highlightAce,
+  };
+
+  @override
   GameSim createSim(GameContext ctx) => MinigolfSim(ctx, this);
 
   @override

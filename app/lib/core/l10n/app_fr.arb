@@ -154,5 +154,25 @@
   "statSaves": "Arrêts",
   "statPanenkas": "Panenkas",
   "highlightPanenka": "PANENKA !",
-  "highlightSuperSave": "ARRÊT EN LUCARNE !"
+  "highlightSuperSave": "ARRÊT EN LUCARNE !",
+  "gameBasketName": "Basket",
+  "gameBasketRule": "Swipe vers le haut pour tirer : la vitesse du geste fait la puissance.",
+  "gameBasketShare": "🏀 {baskets} paniers · {swishes} swish · série max {streak}",
+  "@gameBasketShare": {
+    "placeholders": {
+      "baskets": {
+        "type": "Object"
+      },
+      "streak": {
+        "type": "Object"
+      },
+      "swishes": {
+        "type": "Object"
+      }
+    }
+  },
+  "statBaskets": "Paniers",
+  "statSwishes": "Swish",
+  "statMaxStreak": "Série max",
+  "highlightOnFire": "EN FEU !"
 }

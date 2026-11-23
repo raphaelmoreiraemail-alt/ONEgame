@@ -63,6 +63,11 @@ class SurvivalGame extends MiniGameDefinition {
   ];
 
   @override
+  Map<String, String> highlightLabels(AppLocalizations l10n) => {
+    'survivor': l10n.highlightSurvivor,
+  };
+
+  @override
   GameSim createSim(GameContext ctx) => SurvivalSim(ctx, this);
 
   @override

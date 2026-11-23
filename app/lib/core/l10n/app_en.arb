@@ -88,5 +88,12 @@
   "statSaves": "Saves",
   "statPanenkas": "Panenkas",
   "highlightPanenka": "PANENKA!",
-  "highlightSuperSave": "TOP-CORNER SAVE!"
+  "highlightSuperSave": "TOP-CORNER SAVE!",
+  "gameBasketName": "Basketball",
+  "gameBasketRule": "Swipe up to shoot: the speed of your swipe sets the power.",
+  "gameBasketShare": "🏀 {baskets} baskets · {swishes} swishes · best streak {streak}",
+  "statBaskets": "Baskets",
+  "statSwishes": "Swishes",
+  "statMaxStreak": "Best streak",
+  "highlightOnFire": "ON FIRE!"
 }

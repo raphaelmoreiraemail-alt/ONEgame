@@ -308,4 +308,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get highlightSuperSave => 'TOP-CORNER SAVE!';
+
+  @override
+  String get gameBasketName => 'Basketball';
+
+  @override
+  String get gameBasketRule =>
+      'Swipe up to shoot: the speed of your swipe sets the power.';
+
+  @override
+  String gameBasketShare(Object baskets, Object streak, Object swishes) {
+    return '🏀 $baskets baskets · $swishes swishes · best streak $streak';
+  }
+
+  @override
+  String get statBaskets => 'Baskets';
+
+  @override
+  String get statSwishes => 'Swishes';
+
+  @override
+  String get statMaxStreak => 'Best streak';
+
+  @override
+  String get highlightOnFire => 'ON FIRE!';
 }

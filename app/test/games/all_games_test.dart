@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:onegame/core/l10n/l10n.dart';
 import 'package:onegame/games/common/game_types.dart';
 import 'package:onegame/games/game_registry.dart';
 
@@ -6,6 +10,16 @@ import 'sim_runner.dart';
 
 /// Contract tests applied to every registered mini-game (sections 6 and 15).
 void main() {
+  test('every game folder is registered', () {
+    final folders = Directory('lib/games')
+        .listSync()
+        .whereType<Directory>()
+        .map((d) => d.uri.pathSegments[d.uri.pathSegments.length - 2])
+        .where((n) => n != 'common')
+        .toSet();
+    expect(GameRegistry.all.map((g) => g.id).toSet(), folders);
+  });
+
   test('game ids are unique', () {
     final ids = GameRegistry.all.map((g) => g.id).toList();
     expect(ids.toSet().length, ids.length);
@@ -15,6 +29,11 @@ void main() {
     group(def.id, () {
       test('max duration <= 120 s', () {
         expect(def.maxDuration.inSeconds, lessThanOrEqualTo(120));
+      });
+
+      test('declares at least one coup d\'éclat', () async {
+        final l10n = await AppLocalizations.delegate.load(const Locale('fr'));
+        expect(def.highlightLabels(l10n), isNotEmpty);
       });
 
       test('modifiers are known', () {

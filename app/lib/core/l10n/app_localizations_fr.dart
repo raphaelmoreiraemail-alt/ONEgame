@@ -309,4 +309,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get highlightSuperSave => 'ARRÊT EN LUCARNE !';
+
+  @override
+  String get gameBasketName => 'Basket';
+
+  @override
+  String get gameBasketRule =>
+      'Swipe vers le haut pour tirer : la vitesse du geste fait la puissance.';
+
+  @override
+  String gameBasketShare(Object baskets, Object streak, Object swishes) {
+    return '🏀 $baskets paniers · $swishes swish · série max $streak';
+  }
+
+  @override
+  String get statBaskets => 'Paniers';
+
+  @override
+  String get statSwishes => 'Swish';
+
+  @override
+  String get statMaxStreak => 'Série max';
+
+  @override
+  String get highlightOnFire => 'EN FEU !';
 }
