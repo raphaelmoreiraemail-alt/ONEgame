@@ -1193,4 +1193,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get highlightLegendary => 'LEGENDARY FISH!';
+
+  @override
+  String get gameParkingName => 'Parking';
+
+  @override
+  String get gameParkingRule =>
+      'Turn the wheel, press ▲ or ▼ and park in the spot without touching.';
+
+  @override
+  String gameParkingShare(Object bumps, Object parked) {
+    return '🚗 $parked/4 parked · $bumps bump(s)';
+  }
+
+  @override
+  String get statParked => 'Cars parked';
+
+  @override
+  String get statPrecision => 'Precision';
+
+  @override
+  String get statBumps => 'Bumps';
+
+  @override
+  String get highlightPerfectPark => 'PERFECT PARKING!';
+
+  @override
+  String get gameMemoryName => 'Flash Memory';
+
+  @override
+  String get gameMemoryRule =>
+      'Watch the sequence, then repeat it. One more each time!';
+
+  @override
+  String gameMemoryShare(Object length) {
+    return '🧠 sequence of $length';
+  }
+
+  @override
+  String get statSequence => 'Longest sequence';
+
+  @override
+  String get statSpeedBonus => 'Speed bonus';
+
+  @override
+  String get highlightMemoryTen => 'ELEPHANT MEMORY!';
+
+  @override
+  String get gameCalculName => 'Mental Math';
+
+  @override
+  String get gameCalculRule =>
+      'Pick the right answer among 4. It gets harder and harder!';
+
+  @override
+  String gameCalculShare(Object correct, Object streak) {
+    return '➗ $correct correct · best streak $streak';
+  }
+
+  @override
+  String get statCorrect => 'Correct';
+
+  @override
+  String get statWrong => 'Wrong';
+
+  @override
+  String get highlightStreak10 => '10 IN A ROW!';
 }

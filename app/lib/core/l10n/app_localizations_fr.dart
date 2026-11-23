@@ -1198,4 +1198,70 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get highlightLegendary => 'POISSON LÉGENDAIRE !';
+
+  @override
+  String get gameParkingName => 'Créneau';
+
+  @override
+  String get gameParkingRule =>
+      'Tourne le volant, appuie sur ▲ ou ▼ et gare-toi dans la place sans toucher.';
+
+  @override
+  String gameParkingShare(Object bumps, Object parked) {
+    return '🚗 $parked/4 garées · $bumps accrochage(s)';
+  }
+
+  @override
+  String get statParked => 'Voitures garées';
+
+  @override
+  String get statPrecision => 'Précision';
+
+  @override
+  String get statBumps => 'Accrochages';
+
+  @override
+  String get highlightPerfectPark => 'CRÉNEAU PARFAIT !';
+
+  @override
+  String get gameMemoryName => 'Mémoire flash';
+
+  @override
+  String get gameMemoryRule =>
+      'Regarde la séquence, puis reproduis-la. Une case de plus à chaque fois !';
+
+  @override
+  String gameMemoryShare(Object length) {
+    return '🧠 séquence de $length';
+  }
+
+  @override
+  String get statSequence => 'Plus longue séquence';
+
+  @override
+  String get statSpeedBonus => 'Bonus de vitesse';
+
+  @override
+  String get highlightMemoryTen => 'MÉMOIRE D\'ÉLÉPHANT !';
+
+  @override
+  String get gameCalculName => 'Calcul mental';
+
+  @override
+  String get gameCalculRule =>
+      'Trouve la bonne réponse parmi 4. Ça va de plus en plus vite !';
+
+  @override
+  String gameCalculShare(Object correct, Object streak) {
+    return '➗ $correct bonnes réponses · série de $streak';
+  }
+
+  @override
+  String get statCorrect => 'Bonnes réponses';
+
+  @override
+  String get statWrong => 'Erreurs';
+
+  @override
+  String get highlightStreak10 => '10 D\'AFFILÉE !';
 }

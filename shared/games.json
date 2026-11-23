@@ -226,6 +226,19 @@
       }
     },
     {
+      "id": "parking",
+      "category": "adresse",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [],
+      "scoreMin": 0,
+      "scoreMax": 3200,
+      "name": {
+        "fr": "Créneau",
+        "en": "Parking"
+      }
+    },
+    {
       "id": "survival",
       "category": "arcade",
       "rulesVersion": 1,
@@ -302,6 +315,32 @@
       "name": {
         "fr": "Karts",
         "en": "Karts"
+      }
+    },
+    {
+      "id": "memory",
+      "category": "reflexion",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [],
+      "scoreMin": 0,
+      "scoreMax": 42000,
+      "name": {
+        "fr": "Mémoire flash",
+        "en": "Flash Memory"
+      }
+    },
+    {
+      "id": "calcul",
+      "category": "reflexion",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [],
+      "scoreMin": 0,
+      "scoreMax": 40000,
+      "name": {
+        "fr": "Calcul mental",
+        "en": "Mental Math"
       }
     }
   ],

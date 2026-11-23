@@ -775,5 +775,51 @@
   "statWeight": "Poids total",
   "statBiggest": "Plus gros",
   "statLineBreaks": "Lignes cassées",
-  "highlightLegendary": "POISSON LÉGENDAIRE !"
+  "highlightLegendary": "POISSON LÉGENDAIRE !",
+  "gameParkingName": "Créneau",
+  "gameParkingRule": "Tourne le volant, appuie sur ▲ ou ▼ et gare-toi dans la place sans toucher.",
+  "gameParkingShare": "🚗 {parked}/4 garées · {bumps} accrochage(s)",
+  "@gameParkingShare": {
+    "placeholders": {
+      "bumps": {
+        "type": "Object"
+      },
+      "parked": {
+        "type": "Object"
+      }
+    }
+  },
+  "statParked": "Voitures garées",
+  "statPrecision": "Précision",
+  "statBumps": "Accrochages",
+  "highlightPerfectPark": "CRÉNEAU PARFAIT !",
+  "gameMemoryName": "Mémoire flash",
+  "gameMemoryRule": "Regarde la séquence, puis reproduis-la. Une case de plus à chaque fois !",
+  "gameMemoryShare": "🧠 séquence de {length}",
+  "@gameMemoryShare": {
+    "placeholders": {
+      "length": {
+        "type": "Object"
+      }
+    }
+  },
+  "statSequence": "Plus longue séquence",
+  "statSpeedBonus": "Bonus de vitesse",
+  "highlightMemoryTen": "MÉMOIRE D'ÉLÉPHANT !",
+  "gameCalculName": "Calcul mental",
+  "gameCalculRule": "Trouve la bonne réponse parmi 4. Ça va de plus en plus vite !",
+  "gameCalculShare": "➗ {correct} bonnes réponses · série de {streak}",
+  "@gameCalculShare": {
+    "placeholders": {
+      "correct": {
+        "type": "Object"
+      },
+      "streak": {
+        "type": "Object"
+      }
+    }
+  },
+  "statCorrect": "Bonnes réponses",
+  "statWrong": "Erreurs",
+  "highlightStreak10": "10 D'AFFILÉE !"
 }

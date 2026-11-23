@@ -2178,6 +2178,120 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'POISSON LÉGENDAIRE !'**
   String get highlightLegendary;
+
+  /// No description provided for @gameParkingName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créneau'**
+  String get gameParkingName;
+
+  /// No description provided for @gameParkingRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tourne le volant, appuie sur ▲ ou ▼ et gare-toi dans la place sans toucher.'**
+  String get gameParkingRule;
+
+  /// No description provided for @gameParkingShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🚗 {parked}/4 garées · {bumps} accrochage(s)'**
+  String gameParkingShare(Object bumps, Object parked);
+
+  /// No description provided for @statParked.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voitures garées'**
+  String get statParked;
+
+  /// No description provided for @statPrecision.
+  ///
+  /// In fr, this message translates to:
+  /// **'Précision'**
+  String get statPrecision;
+
+  /// No description provided for @statBumps.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accrochages'**
+  String get statBumps;
+
+  /// No description provided for @highlightPerfectPark.
+  ///
+  /// In fr, this message translates to:
+  /// **'CRÉNEAU PARFAIT !'**
+  String get highlightPerfectPark;
+
+  /// No description provided for @gameMemoryName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mémoire flash'**
+  String get gameMemoryName;
+
+  /// No description provided for @gameMemoryRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Regarde la séquence, puis reproduis-la. Une case de plus à chaque fois !'**
+  String get gameMemoryRule;
+
+  /// No description provided for @gameMemoryShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🧠 séquence de {length}'**
+  String gameMemoryShare(Object length);
+
+  /// No description provided for @statSequence.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus longue séquence'**
+  String get statSequence;
+
+  /// No description provided for @statSpeedBonus.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bonus de vitesse'**
+  String get statSpeedBonus;
+
+  /// No description provided for @highlightMemoryTen.
+  ///
+  /// In fr, this message translates to:
+  /// **'MÉMOIRE D\'ÉLÉPHANT !'**
+  String get highlightMemoryTen;
+
+  /// No description provided for @gameCalculName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Calcul mental'**
+  String get gameCalculName;
+
+  /// No description provided for @gameCalculRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trouve la bonne réponse parmi 4. Ça va de plus en plus vite !'**
+  String get gameCalculRule;
+
+  /// No description provided for @gameCalculShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'➗ {correct} bonnes réponses · série de {streak}'**
+  String gameCalculShare(Object correct, Object streak);
+
+  /// No description provided for @statCorrect.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bonnes réponses'**
+  String get statCorrect;
+
+  /// No description provided for @statWrong.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreurs'**
+  String get statWrong;
+
+  /// No description provided for @highlightStreak10.
+  ///
+  /// In fr, this message translates to:
+  /// **'10 D\'AFFILÉE !'**
+  String get highlightStreak10;
 }
 
 class _AppLocalizationsDelegate
