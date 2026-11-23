@@ -930,4 +930,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get highlightCarreau => 'CARREAU!';
+
+  @override
+  String get gameTennisName => 'Table Tennis';
+
+  @override
+  String get gameTennisRule =>
+      'Slide the paddle. Fast at contact = smash, sideways = spin. First to 7!';
+
+  @override
+  String gameTennisWin(Object ai, Object me) {
+    return '🏓 Won $me-$ai';
+  }
+
+  @override
+  String gameTennisLoss(Object ai, Object me) {
+    return '🏓 Lost $me-$ai';
+  }
+
+  @override
+  String gameTennisRally(Object n) {
+    return 'best rally $n';
+  }
+
+  @override
+  String get statBestRally => 'Longest rally';
+
+  @override
+  String get statSmashes => 'Smashes';
+
+  @override
+  String get highlightSmash => 'SMASH!';
+
+  @override
+  String get gameAirhockeyName => 'Air Hockey';
+
+  @override
+  String get gameAirhockeyRule =>
+      'Your mallet follows your finger. First to 5 goals!';
+
+  @override
+  String gameAirhockeyWin(Object ai, Object me) {
+    return '🏒 Won $me-$ai';
+  }
+
+  @override
+  String gameAirhockeyLoss(Object ai, Object me) {
+    return '🏒 Lost $me-$ai';
+  }
+
+  @override
+  String get statDirectGoals => 'Direct goals';
+
+  @override
+  String get highlightDirectGoal => 'DIRECT GOAL!';
 }

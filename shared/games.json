@@ -93,6 +93,34 @@
       }
     },
     {
+      "id": "tennis",
+      "category": "sport",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [],
+      "scoreMin": 0,
+      "scoreMax": 2550,
+      "name": {
+        "fr": "Tennis de table",
+        "en": "Table Tennis"
+      }
+    },
+    {
+      "id": "airhockey",
+      "category": "sport",
+      "rulesVersion": 1,
+      "maxDurationMs": 120000,
+      "modifiers": [
+        "giant"
+      ],
+      "scoreMin": 0,
+      "scoreMax": 2000,
+      "name": {
+        "fr": "Air hockey",
+        "en": "Air Hockey"
+      }
+    },
+    {
       "id": "darts",
       "category": "adresse",
       "rulesVersion": 1,

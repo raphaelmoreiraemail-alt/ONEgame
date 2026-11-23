@@ -560,5 +560,66 @@
   "statMatch": "Score du match",
   "statEnds": "Mènes",
   "statCarreaux": "Carreaux",
-  "highlightCarreau": "CARREAU !"
+  "highlightCarreau": "CARREAU !",
+  "gameTennisName": "Tennis de table",
+  "gameTennisRule": "Glisse la raquette. Geste rapide au contact = smash, de côté = effet. Premier à 7 !",
+  "gameTennisWin": "🏓 Victoire {me}-{ai}",
+  "@gameTennisWin": {
+    "placeholders": {
+      "ai": {
+        "type": "Object"
+      },
+      "me": {
+        "type": "Object"
+      }
+    }
+  },
+  "gameTennisLoss": "🏓 Défaite {me}-{ai}",
+  "@gameTennisLoss": {
+    "placeholders": {
+      "ai": {
+        "type": "Object"
+      },
+      "me": {
+        "type": "Object"
+      }
+    }
+  },
+  "gameTennisRally": "rallye max {n}",
+  "@gameTennisRally": {
+    "placeholders": {
+      "n": {
+        "type": "Object"
+      }
+    }
+  },
+  "statBestRally": "Plus long échange",
+  "statSmashes": "Smashs",
+  "highlightSmash": "SMASH !",
+  "gameAirhockeyName": "Air hockey",
+  "gameAirhockeyRule": "Ta palette suit ton doigt. Premier à 5 buts !",
+  "gameAirhockeyWin": "🏒 Victoire {me}-{ai}",
+  "@gameAirhockeyWin": {
+    "placeholders": {
+      "ai": {
+        "type": "Object"
+      },
+      "me": {
+        "type": "Object"
+      }
+    }
+  },
+  "gameAirhockeyLoss": "🏒 Défaite {me}-{ai}",
+  "@gameAirhockeyLoss": {
+    "placeholders": {
+      "ai": {
+        "type": "Object"
+      },
+      "me": {
+        "type": "Object"
+      }
+    }
+  },
+  "statDirectGoals": "Buts directs",
+  "highlightDirectGoal": "BUT DIRECT !"
 }

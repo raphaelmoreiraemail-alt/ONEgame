@@ -2,7 +2,7 @@
  "schedule": [
   {
    "dayKey": "2026-11-01",
-   "gameId": "basket",
+   "gameId": "airhockey",
    "seed": 884682973,
    "modifierId": "giant",
    "alertAt": {
@@ -26,7 +26,7 @@
   },
   {
    "dayKey": "2026-11-03",
-   "gameId": "stack",
+   "gameId": "tennis",
    "seed": 3338700851,
    "modifierId": null,
    "alertAt": {
@@ -74,7 +74,7 @@
   },
   {
    "dayKey": "2026-11-07",
-   "gameId": "survival",
+   "gameId": "stack",
    "seed": 4274225756,
    "modifierId": null,
    "alertAt": {
@@ -86,9 +86,9 @@
   },
   {
    "dayKey": "2026-11-08",
-   "gameId": "freekick",
+   "gameId": "bowling",
    "seed": 1437122388,
-   "modifierId": "wind",
+   "modifierId": null,
    "alertAt": {
     "europe": 1794167023000,
     "americas": 1794164982000,
@@ -98,7 +98,7 @@
   },
   {
    "dayKey": "2026-11-09",
-   "gameId": "basket",
+   "gameId": "airhockey",
    "seed": 4090996782,
    "modifierId": null,
    "alertAt": {
@@ -110,7 +110,7 @@
   },
   {
    "dayKey": "2026-11-10",
-   "gameId": "stack",
+   "gameId": "survival",
    "seed": 293179086,
    "modifierId": null,
    "alertAt": {
@@ -122,7 +122,7 @@
   },
   {
    "dayKey": "2026-11-11",
-   "gameId": "bowling",
+   "gameId": "basket",
    "seed": 19914261,
    "modifierId": null,
    "alertAt": {
@@ -146,7 +146,7 @@
   },
   {
    "dayKey": "2026-11-13",
-   "gameId": "penalty",
+   "gameId": "minigolf",
    "seed": 404124427,
    "modifierId": null,
    "alertAt": {
@@ -158,7 +158,7 @@
   },
   {
    "dayKey": "2026-11-14",
-   "gameId": "survival",
+   "gameId": "stack",
    "seed": 2768182335,
    "modifierId": "night",
    "alertAt": {
@@ -170,9 +170,9 @@
   },
   {
    "dayKey": "2026-11-15",
-   "gameId": "freekick",
+   "gameId": "bowling",
    "seed": 1791456307,
-   "modifierId": "wind",
+   "modifierId": null,
    "alertAt": {
     "europe": 1794740224000,
     "americas": 1794776740000,
@@ -182,7 +182,7 @@
   },
   {
    "dayKey": "2026-11-16",
-   "gameId": "basket",
+   "gameId": "airhockey",
    "seed": 2911873343,
    "modifierId": null,
    "alertAt": {
@@ -194,7 +194,7 @@
   },
   {
    "dayKey": "2026-11-17",
-   "gameId": "stack",
+   "gameId": "survival",
    "seed": 2029579716,
    "modifierId": null,
    "alertAt": {
@@ -206,7 +206,7 @@
   },
   {
    "dayKey": "2026-11-18",
-   "gameId": "minigolf",
+   "gameId": "petanque",
    "seed": 2709743893,
    "modifierId": null,
    "alertAt": {
@@ -218,7 +218,7 @@
   },
   {
    "dayKey": "2026-11-19",
-   "gameId": "petanque",
+   "gameId": "penalty",
    "seed": 1298457925,
    "modifierId": null,
    "alertAt": {
@@ -242,7 +242,7 @@
   },
   {
    "dayKey": "2026-11-21",
-   "gameId": "penalty",
+   "gameId": "minigolf",
    "seed": 815570035,
    "modifierId": null,
    "alertAt": {
@@ -266,7 +266,7 @@
   },
   {
    "dayKey": "2026-11-23",
-   "gameId": "survival",
+   "gameId": "stack",
    "seed": 174421183,
    "modifierId": null,
    "alertAt": {
@@ -278,7 +278,7 @@
   },
   {
    "dayKey": "2026-11-24",
-   "gameId": "freekick",
+   "gameId": "survival",
    "seed": 1930044078,
    "modifierId": null,
    "alertAt": {
@@ -290,7 +290,7 @@
   },
   {
    "dayKey": "2026-11-25",
-   "gameId": "minigolf",
+   "gameId": "freekick",
    "seed": 828717353,
    "modifierId": null,
    "alertAt": {
@@ -302,7 +302,7 @@
   },
   {
    "dayKey": "2026-11-26",
-   "gameId": "stack",
+   "gameId": "airhockey",
    "seed": 2044424964,
    "modifierId": null,
    "alertAt": {
@@ -314,7 +314,7 @@
   },
   {
    "dayKey": "2026-11-27",
-   "gameId": "basket",
+   "gameId": "darts",
    "seed": 3466532727,
    "modifierId": null,
    "alertAt": {
@@ -326,7 +326,7 @@
   },
   {
    "dayKey": "2026-11-28",
-   "gameId": "darts",
+   "gameId": "petanque",
    "seed": 470452505,
    "modifierId": null,
    "alertAt": {
@@ -338,9 +338,9 @@
   },
   {
    "dayKey": "2026-11-29",
-   "gameId": "penalty",
+   "gameId": "bowling",
    "seed": 967110584,
-   "modifierId": "giant",
+   "modifierId": null,
    "alertAt": {
     "europe": 1795956304000,
     "americas": 1795998082000,
@@ -350,7 +350,7 @@
   },
   {
    "dayKey": "2026-11-30",
-   "gameId": "bowling",
+   "gameId": "stack",
    "seed": 647783354,
    "modifierId": null,
    "alertAt": {
@@ -374,7 +374,7 @@
   },
   {
    "dayKey": "2026-12-02",
-   "gameId": "freekick",
+   "gameId": "basket",
    "seed": 2758048539,
    "modifierId": null,
    "alertAt": {
@@ -386,7 +386,7 @@
   },
   {
    "dayKey": "2026-12-03",
-   "gameId": "stack",
+   "gameId": "penalty",
    "seed": 419531192,
    "modifierId": null,
    "alertAt": {
@@ -398,7 +398,7 @@
   },
   {
    "dayKey": "2026-12-04",
-   "gameId": "minigolf",
+   "gameId": "darts",
    "seed": 503748569,
    "modifierId": null,
    "alertAt": {
@@ -410,7 +410,7 @@
   },
   {
    "dayKey": "2026-12-05",
-   "gameId": "darts",
+   "gameId": "petanque",
    "seed": 2802313692,
    "modifierId": "wind",
    "alertAt": {
@@ -422,7 +422,7 @@
   },
   {
    "dayKey": "2026-12-06",
-   "gameId": "petanque",
+   "gameId": "tennis",
    "seed": 394641064,
    "modifierId": null,
    "alertAt": {
@@ -434,9 +434,9 @@
   },
   {
    "dayKey": "2026-12-07",
-   "gameId": "penalty",
+   "gameId": "stack",
    "seed": 3835146632,
-   "modifierId": "night",
+   "modifierId": "turbo",
    "alertAt": {
     "europe": 1796670819000,
     "americas": 1796662736000,
@@ -446,7 +446,7 @@
   },
   {
    "dayKey": "2026-12-08",
-   "gameId": "survival",
+   "gameId": "airhockey",
    "seed": 2466561366,
    "modifierId": null,
    "alertAt": {
@@ -458,9 +458,9 @@
   },
   {
    "dayKey": "2026-12-09",
-   "gameId": "bowling",
+   "gameId": "freekick",
    "seed": 3310936632,
-   "modifierId": null,
+   "modifierId": "wind",
    "alertAt": {
     "europe": 1796818579000,
     "americas": 1796863733000,
@@ -470,7 +470,7 @@
   },
   {
    "dayKey": "2026-12-10",
-   "gameId": "basket",
+   "gameId": "survival",
    "seed": 773838104,
    "modifierId": null,
    "alertAt": {
@@ -482,7 +482,7 @@
   },
   {
    "dayKey": "2026-12-11",
-   "gameId": "stack",
+   "gameId": "minigolf",
    "seed": 1571341825,
    "modifierId": null,
    "alertAt": {
@@ -494,7 +494,7 @@
   },
   {
    "dayKey": "2026-12-12",
-   "gameId": "freekick",
+   "gameId": "darts",
    "seed": 1988957871,
    "modifierId": null,
    "alertAt": {
@@ -506,7 +506,7 @@
   },
   {
    "dayKey": "2026-12-13",
-   "gameId": "minigolf",
+   "gameId": "penalty",
    "seed": 3407683866,
    "modifierId": null,
    "alertAt": {
@@ -518,7 +518,7 @@
   },
   {
    "dayKey": "2026-12-14",
-   "gameId": "darts",
+   "gameId": "basket",
    "seed": 2342646831,
    "modifierId": null,
    "alertAt": {
@@ -530,7 +530,7 @@
   },
   {
    "dayKey": "2026-12-15",
-   "gameId": "petanque",
+   "gameId": "stack",
    "seed": 602891727,
    "modifierId": null,
    "alertAt": {
@@ -542,7 +542,7 @@
   },
   {
    "dayKey": "2026-12-16",
-   "gameId": "survival",
+   "gameId": "petanque",
    "seed": 2019834,
    "modifierId": null,
    "alertAt": {
@@ -554,7 +554,7 @@
   },
   {
    "dayKey": "2026-12-17",
-   "gameId": "bowling",
+   "gameId": "freekick",
    "seed": 1189851095,
    "modifierId": null,
    "alertAt": {
@@ -566,7 +566,7 @@
   },
   {
    "dayKey": "2026-12-18",
-   "gameId": "penalty",
+   "gameId": "survival",
    "seed": 334448227,
    "modifierId": null,
    "alertAt": {
@@ -578,7 +578,7 @@
   },
   {
    "dayKey": "2026-12-19",
-   "gameId": "stack",
+   "gameId": "tennis",
    "seed": 2986006421,
    "modifierId": null,
    "alertAt": {
@@ -590,7 +590,7 @@
   },
   {
    "dayKey": "2026-12-20",
-   "gameId": "freekick",
+   "gameId": "bowling",
    "seed": 1117510905,
    "modifierId": null,
    "alertAt": {
@@ -602,9 +602,9 @@
   },
   {
    "dayKey": "2026-12-21",
-   "gameId": "basket",
+   "gameId": "darts",
    "seed": 2949214897,
-   "modifierId": "giant",
+   "modifierId": "night",
    "alertAt": {
     "europe": 1797854779000,
     "americas": 1797891528000,
@@ -614,7 +614,7 @@
   },
   {
    "dayKey": "2026-12-22",
-   "gameId": "darts",
+   "gameId": "penalty",
    "seed": 1213737258,
    "modifierId": null,
    "alertAt": {
@@ -626,9 +626,9 @@
   },
   {
    "dayKey": "2026-12-23",
-   "gameId": "minigolf",
+   "gameId": "basket",
    "seed": 307144998,
-   "modifierId": "ice",
+   "modifierId": "giant",
    "alertAt": {
     "europe": 1798054263000,
     "americas": 1798072580000,
@@ -638,7 +638,7 @@
   },
   {
    "dayKey": "2026-12-24",
-   "gameId": "bowling",
+   "gameId": "stack",
    "seed": 241101406,
    "modifierId": null,
    "alertAt": {
@@ -650,7 +650,7 @@
   },
   {
    "dayKey": "2026-12-25",
-   "gameId": "survival",
+   "gameId": "freekick",
    "seed": 1838041754,
    "modifierId": null,
    "alertAt": {
@@ -662,7 +662,7 @@
   },
   {
    "dayKey": "2026-12-26",
-   "gameId": "stack",
+   "gameId": "survival",
    "seed": 537806864,
    "modifierId": null,
    "alertAt": {
@@ -674,7 +674,7 @@
   },
   {
    "dayKey": "2026-12-27",
-   "gameId": "penalty",
+   "gameId": "bowling",
    "seed": 1936425877,
    "modifierId": null,
    "alertAt": {
@@ -686,9 +686,9 @@
   },
   {
    "dayKey": "2026-12-28",
-   "gameId": "petanque",
+   "gameId": "tennis",
    "seed": 3252188385,
-   "modifierId": "wind",
+   "modifierId": null,
    "alertAt": {
     "europe": 1798473230000,
     "americas": 1798508642000,
@@ -710,7 +710,7 @@
   },
   {
    "dayKey": "2026-12-30",
-   "gameId": "minigolf",
+   "gameId": "petanque",
    "seed": 540502325,
    "modifierId": null,
    "alertAt": {
@@ -722,9 +722,9 @@
   },
   {
    "dayKey": "2026-12-31",
-   "gameId": "bowling",
+   "gameId": "minigolf",
    "seed": 2302352723,
-   "modifierId": null,
+   "modifierId": "night",
    "alertAt": {
     "europe": 1798739317000,
     "americas": 1798740604000,
@@ -734,7 +734,7 @@
   },
   {
    "dayKey": "2027-01-01",
-   "gameId": "survival",
+   "gameId": "stack",
    "seed": 134504363,
    "modifierId": null,
    "alertAt": {
@@ -746,7 +746,7 @@
   },
   {
    "dayKey": "2027-01-02",
-   "gameId": "stack",
+   "gameId": "survival",
    "seed": 1738685964,
    "modifierId": null,
    "alertAt": {
@@ -758,7 +758,7 @@
   },
   {
    "dayKey": "2027-01-03",
-   "gameId": "freekick",
+   "gameId": "bowling",
    "seed": 1017943531,
    "modifierId": null,
    "alertAt": {
@@ -770,7 +770,7 @@
   },
   {
    "dayKey": "2027-01-04",
-   "gameId": "penalty",
+   "gameId": "freekick",
    "seed": 369035776,
    "modifierId": null,
    "alertAt": {
@@ -794,7 +794,7 @@
   },
   {
    "dayKey": "2027-01-06",
-   "gameId": "minigolf",
+   "gameId": "penalty",
    "seed": 633684408,
    "modifierId": null,
    "alertAt": {
@@ -806,9 +806,9 @@
   },
   {
    "dayKey": "2027-01-07",
-   "gameId": "bowling",
+   "gameId": "petanque",
    "seed": 790606063,
-   "modifierId": null,
+   "modifierId": "wind",
    "alertAt": {
     "europe": 1799334213000,
     "americas": 1799335055000,
@@ -818,7 +818,7 @@
   },
   {
    "dayKey": "2027-01-08",
-   "gameId": "survival",
+   "gameId": "stack",
    "seed": 1241532464,
    "modifierId": null,
    "alertAt": {
@@ -830,7 +830,7 @@
   },
   {
    "dayKey": "2027-01-09",
-   "gameId": "stack",
+   "gameId": "tennis",
    "seed": 3150245053,
    "modifierId": null,
    "alertAt": {
@@ -842,7 +842,7 @@
   },
   {
    "dayKey": "2027-01-10",
-   "gameId": "basket",
+   "gameId": "airhockey",
    "seed": 1374070046,
    "modifierId": null,
    "alertAt": {
@@ -854,7 +854,7 @@
   },
   {
    "dayKey": "2027-01-11",
-   "gameId": "penalty",
+   "gameId": "survival",
    "seed": 1480186359,
    "modifierId": null,
    "alertAt": {
@@ -866,7 +866,7 @@
   },
   {
    "dayKey": "2027-01-12",
-   "gameId": "darts",
+   "gameId": "minigolf",
    "seed": 3037139216,
    "modifierId": null,
    "alertAt": {
@@ -878,7 +878,7 @@
   },
   {
    "dayKey": "2027-01-13",
-   "gameId": "minigolf",
+   "gameId": "darts",
    "seed": 3898049104,
    "modifierId": null,
    "alertAt": {
@@ -890,9 +890,9 @@
   },
   {
    "dayKey": "2027-01-14",
-   "gameId": "bowling",
+   "gameId": "basket",
    "seed": 409451334,
-   "modifierId": null,
+   "modifierId": "wind",
    "alertAt": {
     "europe": 1799933459000,
     "americas": 1799959674000,
@@ -902,9 +902,9 @@
   },
   {
    "dayKey": "2027-01-15",
-   "gameId": "survival",
+   "gameId": "penalty",
    "seed": 822488239,
-   "modifierId": "mirror",
+   "modifierId": "giant",
    "alertAt": {
     "europe": 1800007057000,
     "americas": 1800031352000,
@@ -914,7 +914,7 @@
   },
   {
    "dayKey": "2027-01-16",
-   "gameId": "petanque",
+   "gameId": "stack",
    "seed": 464156646,
    "modifierId": null,
    "alertAt": {
@@ -926,9 +926,9 @@
   },
   {
    "dayKey": "2027-01-17",
-   "gameId": "basket",
+   "gameId": "bowling",
    "seed": 1270191975,
-   "modifierId": "giant",
+   "modifierId": null,
    "alertAt": {
     "europe": 1800215315000,
     "americas": 1800218187000,
@@ -938,7 +938,7 @@
   },
   {
    "dayKey": "2027-01-18",
-   "gameId": "stack",
+   "gameId": "freekick",
    "seed": 2934279860,
    "modifierId": null,
    "alertAt": {
@@ -950,9 +950,9 @@
   },
   {
    "dayKey": "2027-01-19",
-   "gameId": "freekick",
+   "gameId": "survival",
    "seed": 3365593220,
-   "modifierId": "wind",
+   "modifierId": "turbo",
    "alertAt": {
     "europe": 1800353753000,
     "americas": 1800381525000,
@@ -962,7 +962,7 @@
   },
   {
    "dayKey": "2027-01-20",
-   "gameId": "penalty",
+   "gameId": "petanque",
    "seed": 2772268682,
    "modifierId": null,
    "alertAt": {
@@ -974,7 +974,7 @@
   },
   {
    "dayKey": "2027-01-21",
-   "gameId": "darts",
+   "gameId": "minigolf",
    "seed": 4044509438,
    "modifierId": null,
    "alertAt": {
@@ -986,7 +986,7 @@
   },
   {
    "dayKey": "2027-01-22",
-   "gameId": "minigolf",
+   "gameId": "darts",
    "seed": 1488762288,
    "modifierId": "wind",
    "alertAt": {
@@ -998,9 +998,9 @@
   },
   {
    "dayKey": "2027-01-23",
-   "gameId": "survival",
+   "gameId": "tennis",
    "seed": 509954502,
-   "modifierId": "night",
+   "modifierId": null,
    "alertAt": {
     "europe": 1800702111000,
     "americas": 1800718138000,
@@ -1010,9 +1010,9 @@
   },
   {
    "dayKey": "2027-01-24",
-   "gameId": "petanque",
+   "gameId": "penalty",
    "seed": 3688835467,
-   "modifierId": "wind",
+   "modifierId": "giant",
    "alertAt": {
     "europe": 1800818414000,
     "americas": 1800827288000,
@@ -1022,7 +1022,7 @@
   },
   {
    "dayKey": "2027-01-25",
-   "gameId": "basket",
+   "gameId": "stack",
    "seed": 462282065,
    "modifierId": null,
    "alertAt": {
@@ -1034,7 +1034,7 @@
   },
   {
    "dayKey": "2027-01-26",
-   "gameId": "stack",
+   "gameId": "freekick",
    "seed": 3711375620,
    "modifierId": null,
    "alertAt": {
@@ -1046,7 +1046,7 @@
   },
   {
    "dayKey": "2027-01-27",
-   "gameId": "bowling",
+   "gameId": "airhockey",
    "seed": 3438200435,
    "modifierId": null,
    "alertAt": {
@@ -1058,7 +1058,7 @@
   },
   {
    "dayKey": "2027-01-28",
-   "gameId": "freekick",
+   "gameId": "survival",
    "seed": 1132701807,
    "modifierId": null,
    "alertAt": {
@@ -1070,7 +1070,7 @@
   },
   {
    "dayKey": "2027-01-29",
-   "gameId": "darts",
+   "gameId": "basket",
    "seed": 1702138096,
    "modifierId": null,
    "alertAt": {
@@ -1082,7 +1082,7 @@
   },
   {
    "dayKey": "2027-01-30",
-   "gameId": "penalty",
+   "gameId": "darts",
    "seed": 2658748539,
    "modifierId": null,
    "alertAt": {
@@ -1106,7 +1106,7 @@
   },
   {
    "dayKey": "2027-02-01",
-   "gameId": "survival",
+   "gameId": "penalty",
    "seed": 1799449277,
    "modifierId": "night",
    "alertAt": {
@@ -1130,7 +1130,7 @@
   },
   {
    "dayKey": "2027-02-03",
-   "gameId": "minigolf",
+   "gameId": "tennis",
    "seed": 617621712,
    "modifierId": null,
    "alertAt": {
@@ -1142,7 +1142,7 @@
   },
   {
    "dayKey": "2027-02-04",
-   "gameId": "bowling",
+   "gameId": "freekick",
    "seed": 427885250,
    "modifierId": null,
    "alertAt": {
@@ -1154,7 +1154,7 @@
   },
   {
    "dayKey": "2027-02-05",
-   "gameId": "darts",
+   "gameId": "survival",
    "seed": 2289362660,
    "modifierId": null,
    "alertAt": {
@@ -1166,7 +1166,7 @@
   },
   {
    "dayKey": "2027-02-06",
-   "gameId": "freekick",
+   "gameId": "basket",
    "seed": 3566468919,
    "modifierId": null,
    "alertAt": {
@@ -1178,7 +1178,7 @@
   },
   {
    "dayKey": "2027-02-07",
-   "gameId": "penalty",
+   "gameId": "minigolf",
    "seed": 2328606256,
    "modifierId": null,
    "alertAt": {
@@ -1190,7 +1190,7 @@
   },
   {
    "dayKey": "2027-02-08",
-   "gameId": "survival",
+   "gameId": "darts",
    "seed": 1260329893,
    "modifierId": null,
    "alertAt": {
@@ -1202,9 +1202,9 @@
   },
   {
    "dayKey": "2027-02-09",
-   "gameId": "basket",
+   "gameId": "bowling",
    "seed": 2104455324,
-   "modifierId": "wind",
+   "modifierId": null,
    "alertAt": {
     "europe": 1802183377000,
     "americas": 1802218393000,
@@ -1214,7 +1214,7 @@
   },
   {
    "dayKey": "2027-02-10",
-   "gameId": "minigolf",
+   "gameId": "airhockey",
    "seed": 3194397210,
    "modifierId": null,
    "alertAt": {
@@ -1238,7 +1238,7 @@
   },
   {
    "dayKey": "2027-02-12",
-   "gameId": "bowling",
+   "gameId": "freekick",
    "seed": 1280147978,
    "modifierId": null,
    "alertAt": {
@@ -1250,7 +1250,7 @@
   },
   {
    "dayKey": "2027-02-13",
-   "gameId": "darts",
+   "gameId": "survival",
    "seed": 4240362186,
    "modifierId": "night",
    "alertAt": {
@@ -1274,7 +1274,7 @@
   },
   {
    "dayKey": "2027-02-15",
-   "gameId": "freekick",
+   "gameId": "darts",
    "seed": 2628714294,
    "modifierId": null,
    "alertAt": {
@@ -1286,7 +1286,7 @@
   },
   {
    "dayKey": "2027-02-16",
-   "gameId": "survival",
+   "gameId": "minigolf",
    "seed": 283843308,
    "modifierId": null,
    "alertAt": {
@@ -1298,7 +1298,7 @@
   },
   {
    "dayKey": "2027-02-17",
-   "gameId": "basket",
+   "gameId": "airhockey",
    "seed": 2101532603,
    "modifierId": "giant",
    "alertAt": {
@@ -1310,7 +1310,7 @@
   },
   {
    "dayKey": "2027-02-18",
-   "gameId": "petanque",
+   "gameId": "stack",
    "seed": 3667019928,
    "modifierId": null,
    "alertAt": {
@@ -1322,9 +1322,9 @@
   },
   {
    "dayKey": "2027-02-19",
-   "gameId": "stack",
+   "gameId": "freekick",
    "seed": 4105464607,
-   "modifierId": "turbo",
+   "modifierId": "wind",
    "alertAt": {
     "europe": 1803054833000,
     "americas": 1803050214000,
@@ -1334,7 +1334,7 @@
   },
   {
    "dayKey": "2027-02-20",
-   "gameId": "darts",
+   "gameId": "survival",
    "seed": 2839023367,
    "modifierId": null,
    "alertAt": {
@@ -1346,7 +1346,7 @@
   },
   {
    "dayKey": "2027-02-21",
-   "gameId": "penalty",
+   "gameId": "petanque",
    "seed": 3925172736,
    "modifierId": null,
    "alertAt": {
@@ -1358,9 +1358,9 @@
   },
   {
    "dayKey": "2027-02-22",
-   "gameId": "freekick",
+   "gameId": "darts",
    "seed": 1209225792,
-   "modifierId": "wind",
+   "modifierId": "night",
    "alertAt": {
     "europe": 1803298961000,
     "americas": 1803347138000,
@@ -1370,7 +1370,7 @@
   },
   {
    "dayKey": "2027-02-23",
-   "gameId": "survival",
+   "gameId": "basket",
    "seed": 576949065,
    "modifierId": null,
    "alertAt": {
@@ -1382,7 +1382,7 @@
   },
   {
    "dayKey": "2027-02-24",
-   "gameId": "bowling",
+   "gameId": "penalty",
    "seed": 2567680942,
    "modifierId": null,
    "alertAt": {
@@ -1394,9 +1394,9 @@
   },
   {
    "dayKey": "2027-02-25",
-   "gameId": "basket",
+   "gameId": "stack",
    "seed": 3242538901,
-   "modifierId": "giant",
+   "modifierId": "night",
    "alertAt": {
     "europe": 1803580577000,
     "americas": 1803589786000,
@@ -1406,9 +1406,9 @@
   },
   {
    "dayKey": "2027-02-26",
-   "gameId": "stack",
+   "gameId": "airhockey",
    "seed": 1222334867,
-   "modifierId": "turbo",
+   "modifierId": "giant",
    "alertAt": {
     "europe": 1803648487000,
     "americas": 1803685608000,
@@ -1418,9 +1418,9 @@
   },
   {
    "dayKey": "2027-02-27",
-   "gameId": "darts",
+   "gameId": "survival",
    "seed": 608619566,
-   "modifierId": "wind",
+   "modifierId": "night",
    "alertAt": {
     "europe": 1803757062000,
     "americas": 1803750514000,
@@ -1430,7 +1430,7 @@
   },
   {
    "dayKey": "2027-02-28",
-   "gameId": "penalty",
+   "gameId": "minigolf",
    "seed": 3564347115,
    "modifierId": null,
    "alertAt": {

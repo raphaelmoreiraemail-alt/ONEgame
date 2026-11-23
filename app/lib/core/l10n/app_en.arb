@@ -270,5 +270,19 @@
   "statMatch": "Match score",
   "statEnds": "Ends",
   "statCarreaux": "Carreaux",
-  "highlightCarreau": "CARREAU!"
+  "highlightCarreau": "CARREAU!",
+  "gameTennisName": "Table Tennis",
+  "gameTennisRule": "Slide the paddle. Fast at contact = smash, sideways = spin. First to 7!",
+  "gameTennisWin": "🏓 Won {me}-{ai}",
+  "gameTennisLoss": "🏓 Lost {me}-{ai}",
+  "gameTennisRally": "best rally {n}",
+  "statBestRally": "Longest rally",
+  "statSmashes": "Smashes",
+  "highlightSmash": "SMASH!",
+  "gameAirhockeyName": "Air Hockey",
+  "gameAirhockeyRule": "Your mallet follows your finger. First to 5 goals!",
+  "gameAirhockeyWin": "🏒 Won {me}-{ai}",
+  "gameAirhockeyLoss": "🏒 Lost {me}-{ai}",
+  "statDirectGoals": "Direct goals",
+  "highlightDirectGoal": "DIRECT GOAL!"
 }

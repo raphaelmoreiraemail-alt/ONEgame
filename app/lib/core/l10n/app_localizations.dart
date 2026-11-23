@@ -1728,6 +1728,90 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'CARREAU !'**
   String get highlightCarreau;
+
+  /// No description provided for @gameTennisName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tennis de table'**
+  String get gameTennisName;
+
+  /// No description provided for @gameTennisRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Glisse la raquette. Geste rapide au contact = smash, de côté = effet. Premier à 7 !'**
+  String get gameTennisRule;
+
+  /// No description provided for @gameTennisWin.
+  ///
+  /// In fr, this message translates to:
+  /// **'🏓 Victoire {me}-{ai}'**
+  String gameTennisWin(Object ai, Object me);
+
+  /// No description provided for @gameTennisLoss.
+  ///
+  /// In fr, this message translates to:
+  /// **'🏓 Défaite {me}-{ai}'**
+  String gameTennisLoss(Object ai, Object me);
+
+  /// No description provided for @gameTennisRally.
+  ///
+  /// In fr, this message translates to:
+  /// **'rallye max {n}'**
+  String gameTennisRally(Object n);
+
+  /// No description provided for @statBestRally.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus long échange'**
+  String get statBestRally;
+
+  /// No description provided for @statSmashes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Smashs'**
+  String get statSmashes;
+
+  /// No description provided for @highlightSmash.
+  ///
+  /// In fr, this message translates to:
+  /// **'SMASH !'**
+  String get highlightSmash;
+
+  /// No description provided for @gameAirhockeyName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Air hockey'**
+  String get gameAirhockeyName;
+
+  /// No description provided for @gameAirhockeyRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ta palette suit ton doigt. Premier à 5 buts !'**
+  String get gameAirhockeyRule;
+
+  /// No description provided for @gameAirhockeyWin.
+  ///
+  /// In fr, this message translates to:
+  /// **'🏒 Victoire {me}-{ai}'**
+  String gameAirhockeyWin(Object ai, Object me);
+
+  /// No description provided for @gameAirhockeyLoss.
+  ///
+  /// In fr, this message translates to:
+  /// **'🏒 Défaite {me}-{ai}'**
+  String gameAirhockeyLoss(Object ai, Object me);
+
+  /// No description provided for @statDirectGoals.
+  ///
+  /// In fr, this message translates to:
+  /// **'Buts directs'**
+  String get statDirectGoals;
+
+  /// No description provided for @highlightDirectGoal.
+  ///
+  /// In fr, this message translates to:
+  /// **'BUT DIRECT !'**
+  String get highlightDirectGoal;
 }
 
 class _AppLocalizationsDelegate
