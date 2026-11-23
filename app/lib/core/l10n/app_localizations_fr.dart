@@ -333,4 +333,31 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get highlightOnFire => 'EN FEU !';
+
+  @override
+  String get gameBowlingName => 'Bowling';
+
+  @override
+  String get gameBowlingRule =>
+      'Glisse pour placer la boule, swipe vers le haut pour lancer. Une courbe = de l\'effet.';
+
+  @override
+  String gameBowlingShare(Object pins, Object spares, Object strikes) {
+    return '🎳 $pins · $strikes strikes · $spares spares';
+  }
+
+  @override
+  String get statBowlingScore => 'Score bowling';
+
+  @override
+  String get statStrikes => 'Strikes';
+
+  @override
+  String get statSpares => 'Spares';
+
+  @override
+  String get highlightStrike => 'STRIKE !';
+
+  @override
+  String get highlightTurkey => 'TURKEY !';
 }

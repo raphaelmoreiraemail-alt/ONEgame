@@ -95,5 +95,13 @@
   "statBaskets": "Baskets",
   "statSwishes": "Swishes",
   "statMaxStreak": "Best streak",
-  "highlightOnFire": "ON FIRE!"
+  "highlightOnFire": "ON FIRE!",
+  "gameBowlingName": "Bowling",
+  "gameBowlingRule": "Slide to place the ball, swipe up to bowl. A curve adds hook.",
+  "gameBowlingShare": "🎳 {pins} · {strikes} strikes · {spares} spares",
+  "statBowlingScore": "Bowling score",
+  "statStrikes": "Strikes",
+  "statSpares": "Spares",
+  "highlightStrike": "STRIKE!",
+  "highlightTurkey": "TURKEY!"
 }

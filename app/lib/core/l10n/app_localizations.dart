@@ -678,6 +678,54 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'EN FEU !'**
   String get highlightOnFire;
+
+  /// No description provided for @gameBowlingName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bowling'**
+  String get gameBowlingName;
+
+  /// No description provided for @gameBowlingRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Glisse pour placer la boule, swipe vers le haut pour lancer. Une courbe = de l\'effet.'**
+  String get gameBowlingRule;
+
+  /// No description provided for @gameBowlingShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'🎳 {pins} · {strikes} strikes · {spares} spares'**
+  String gameBowlingShare(Object pins, Object spares, Object strikes);
+
+  /// No description provided for @statBowlingScore.
+  ///
+  /// In fr, this message translates to:
+  /// **'Score bowling'**
+  String get statBowlingScore;
+
+  /// No description provided for @statStrikes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Strikes'**
+  String get statStrikes;
+
+  /// No description provided for @statSpares.
+  ///
+  /// In fr, this message translates to:
+  /// **'Spares'**
+  String get statSpares;
+
+  /// No description provided for @highlightStrike.
+  ///
+  /// In fr, this message translates to:
+  /// **'STRIKE !'**
+  String get highlightStrike;
+
+  /// No description provided for @highlightTurkey.
+  ///
+  /// In fr, this message translates to:
+  /// **'TURKEY !'**
+  String get highlightTurkey;
 }
 
 class _AppLocalizationsDelegate

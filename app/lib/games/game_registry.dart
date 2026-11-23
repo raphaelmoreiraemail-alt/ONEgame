@@ -1,4 +1,5 @@
 import 'basket/basket.dart';
+import 'bowling/bowling.dart';
 import 'common/mini_game_definition.dart';
 import 'minigolf/minigolf.dart';
 import 'penalty/penalty.dart';
@@ -11,6 +12,7 @@ abstract final class GameRegistry {
     MinigolfGame(),
     PenaltyGame(),
     BasketGame(),
+    BowlingGame(),
   ];
 
   static MiniGameDefinition? byId(String id) {

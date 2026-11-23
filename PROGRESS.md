@@ -11,7 +11,7 @@
 - [x] 6. Premier jeu : `survival` (validé de bout en bout par un test d'intégration).
 
 ## Phase 2 — Les 6 jeux phares
-- [x] 7. `minigolf` · [x] 8. `penalty` · [x] 9. `basket` · [ ] 10. `bowling` · [ ] 11. `stack` · [ ] 12. `darts`
+- [x] 7. `minigolf` · [x] 8. `penalty` · [x] 9. `basket` · [x] 10. `bowling` · [ ] 11. `stack` · [ ] 12. `darts`
 
 ## Phase 3 — Le quotidien
 - [ ] 13. Functions `createDaily`, `getToday`, `startAttempt`, `submitScore`, `pickGame`.

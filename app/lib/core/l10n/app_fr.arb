@@ -174,5 +174,26 @@
   "statBaskets": "Paniers",
   "statSwishes": "Swish",
   "statMaxStreak": "Série max",
-  "highlightOnFire": "EN FEU !"
+  "highlightOnFire": "EN FEU !",
+  "gameBowlingName": "Bowling",
+  "gameBowlingRule": "Glisse pour placer la boule, swipe vers le haut pour lancer. Une courbe = de l'effet.",
+  "gameBowlingShare": "🎳 {pins} · {strikes} strikes · {spares} spares",
+  "@gameBowlingShare": {
+    "placeholders": {
+      "pins": {
+        "type": "Object"
+      },
+      "spares": {
+        "type": "Object"
+      },
+      "strikes": {
+        "type": "Object"
+      }
+    }
+  },
+  "statBowlingScore": "Score bowling",
+  "statStrikes": "Strikes",
+  "statSpares": "Spares",
+  "highlightStrike": "STRIKE !",
+  "highlightTurkey": "TURKEY !"
 }
