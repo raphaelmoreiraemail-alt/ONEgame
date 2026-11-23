@@ -71,4 +71,157 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alarmClockSemantics => 'OneGame alarm clock';
+
+  @override
+  String get playGo => 'GO!';
+
+  @override
+  String get playEnd => 'END';
+
+  @override
+  String get playOfficial => 'Official game · one attempt only';
+
+  @override
+  String get playTraining => 'Training · doesn\'t count';
+
+  @override
+  String get playQuit => 'Quit';
+
+  @override
+  String get playTimeLeft => 'Time left';
+
+  @override
+  String get playScore => 'Score';
+
+  @override
+  String get resultsTitle => 'Results';
+
+  @override
+  String get resultsShare => 'Share';
+
+  @override
+  String get resultsCopy => 'Copy text';
+
+  @override
+  String get resultsCopied => 'Copied!';
+
+  @override
+  String get resultsHome => 'Home';
+
+  @override
+  String get resultsReplay => 'Play again';
+
+  @override
+  String get resultsHighlights => 'Highlights';
+
+  @override
+  String get resultsTimeUp => 'Time\'s up';
+
+  @override
+  String get resultsDuration => 'Duration';
+
+  @override
+  String get resultsTrainingNote =>
+      'Training score: it doesn\'t count in leaderboards.';
+
+  @override
+  String get gameLabGame => 'Game';
+
+  @override
+  String get gameLabSeed => 'Seed';
+
+  @override
+  String get gameLabModifier => 'Modifier';
+
+  @override
+  String get gameLabNone => 'None';
+
+  @override
+  String get gameLabPlay => 'Play';
+
+  @override
+  String get gameLabNext => 'Next level';
+
+  @override
+  String get gameLabRandom => 'Random seed';
+
+  @override
+  String gameLabFingerprint(Object value) {
+    return 'Level fingerprint: $value';
+  }
+
+  @override
+  String get gameLabDebug => 'Show FPS and physics bodies';
+
+  @override
+  String get trainingSubtitle =>
+      'Replay released games on a random level. It never counts.';
+
+  @override
+  String get modifierWind => 'Windy day';
+
+  @override
+  String get modifierNight => 'Night';
+
+  @override
+  String get modifierTurbo => 'Turbo';
+
+  @override
+  String get modifierMirror => 'Mirror';
+
+  @override
+  String get modifierIce => 'Ice';
+
+  @override
+  String get modifierGiant => 'Giant';
+
+  @override
+  String get modifierWindDesc => 'The wind bends your shots.';
+
+  @override
+  String get modifierNightDesc => 'You only see around you.';
+
+  @override
+  String get modifierTurboDesc => 'Everything is 25% faster.';
+
+  @override
+  String get modifierMirrorDesc => 'Left / right controls are flipped.';
+
+  @override
+  String get modifierIceDesc => 'Twice as slippery.';
+
+  @override
+  String get modifierGiantDesc => 'Bigger targets, tougher opponent.';
+
+  @override
+  String get categorySport => 'Sport';
+
+  @override
+  String get categoryAdresse => 'Skill';
+
+  @override
+  String get categoryArcade => 'Arcade';
+
+  @override
+  String get categoryReflexion => 'Brain';
+
+  @override
+  String get highlightSurvivor => 'SURVIVOR!';
+
+  @override
+  String get gameSurvivalName => 'Survive 2:00';
+
+  @override
+  String get gameSurvivalRule => 'Slide to dodge the blocks. Last 2 minutes!';
+
+  @override
+  String gameSurvivalShare(Object orbs, Object seconds) {
+    return '☄️ ${seconds}s · $orbs orbs';
+  }
+
+  @override
+  String get statSeconds => 'Seconds survived';
+
+  @override
+  String get statOrbs => 'Orbs';
 }

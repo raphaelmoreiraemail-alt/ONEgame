@@ -223,6 +223,300 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Réveil OneGame'**
   String get alarmClockSemantics;
+
+  /// No description provided for @playGo.
+  ///
+  /// In fr, this message translates to:
+  /// **'GO !'**
+  String get playGo;
+
+  /// No description provided for @playEnd.
+  ///
+  /// In fr, this message translates to:
+  /// **'FIN'**
+  String get playEnd;
+
+  /// No description provided for @playOfficial.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partie officielle · une seule tentative'**
+  String get playOfficial;
+
+  /// No description provided for @playTraining.
+  ///
+  /// In fr, this message translates to:
+  /// **'Entraînement · ne compte pas'**
+  String get playTraining;
+
+  /// No description provided for @playQuit.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quitter'**
+  String get playQuit;
+
+  /// No description provided for @playTimeLeft.
+  ///
+  /// In fr, this message translates to:
+  /// **'Temps restant'**
+  String get playTimeLeft;
+
+  /// No description provided for @playScore.
+  ///
+  /// In fr, this message translates to:
+  /// **'Score'**
+  String get playScore;
+
+  /// No description provided for @resultsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Résultats'**
+  String get resultsTitle;
+
+  /// No description provided for @resultsShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partager'**
+  String get resultsShare;
+
+  /// No description provided for @resultsCopy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Copier le texte'**
+  String get resultsCopy;
+
+  /// No description provided for @resultsCopied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Copié !'**
+  String get resultsCopied;
+
+  /// No description provided for @resultsHome.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accueil'**
+  String get resultsHome;
+
+  /// No description provided for @resultsReplay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rejouer'**
+  String get resultsReplay;
+
+  /// No description provided for @resultsHighlights.
+  ///
+  /// In fr, this message translates to:
+  /// **'Coups d\'éclat'**
+  String get resultsHighlights;
+
+  /// No description provided for @resultsTimeUp.
+  ///
+  /// In fr, this message translates to:
+  /// **'Temps écoulé'**
+  String get resultsTimeUp;
+
+  /// No description provided for @resultsDuration.
+  ///
+  /// In fr, this message translates to:
+  /// **'Durée'**
+  String get resultsDuration;
+
+  /// No description provided for @resultsTrainingNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Score d\'entraînement : il ne compte pas dans les classements.'**
+  String get resultsTrainingNote;
+
+  /// No description provided for @gameLabGame.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jeu'**
+  String get gameLabGame;
+
+  /// No description provided for @gameLabSeed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Seed'**
+  String get gameLabSeed;
+
+  /// No description provided for @gameLabModifier.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modificateur'**
+  String get gameLabModifier;
+
+  /// No description provided for @gameLabNone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun'**
+  String get gameLabNone;
+
+  /// No description provided for @gameLabPlay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lancer'**
+  String get gameLabPlay;
+
+  /// No description provided for @gameLabNext.
+  ///
+  /// In fr, this message translates to:
+  /// **'Niveau suivant'**
+  String get gameLabNext;
+
+  /// No description provided for @gameLabRandom.
+  ///
+  /// In fr, this message translates to:
+  /// **'Seed aléatoire'**
+  String get gameLabRandom;
+
+  /// No description provided for @gameLabFingerprint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Empreinte du niveau : {value}'**
+  String gameLabFingerprint(Object value);
+
+  /// No description provided for @gameLabDebug.
+  ///
+  /// In fr, this message translates to:
+  /// **'Afficher FPS et corps physiques'**
+  String get gameLabDebug;
+
+  /// No description provided for @trainingSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rejoue les jeux déjà sortis avec un niveau aléatoire. Ça ne compte jamais.'**
+  String get trainingSubtitle;
+
+  /// No description provided for @modifierWind.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jour de vent'**
+  String get modifierWind;
+
+  /// No description provided for @modifierNight.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nuit'**
+  String get modifierNight;
+
+  /// No description provided for @modifierTurbo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Turbo'**
+  String get modifierTurbo;
+
+  /// No description provided for @modifierMirror.
+  ///
+  /// In fr, this message translates to:
+  /// **'Miroir'**
+  String get modifierMirror;
+
+  /// No description provided for @modifierIce.
+  ///
+  /// In fr, this message translates to:
+  /// **'Glace'**
+  String get modifierIce;
+
+  /// No description provided for @modifierGiant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Géant'**
+  String get modifierGiant;
+
+  /// No description provided for @modifierWindDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le vent dévie tes tirs.'**
+  String get modifierWindDesc;
+
+  /// No description provided for @modifierNightDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tu ne vois qu\'autour de toi.'**
+  String get modifierNightDesc;
+
+  /// No description provided for @modifierTurboDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tout va 25 % plus vite.'**
+  String get modifierTurboDesc;
+
+  /// No description provided for @modifierMirrorDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Contrôles inversés gauche / droite.'**
+  String get modifierMirrorDesc;
+
+  /// No description provided for @modifierIceDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ça glisse deux fois plus.'**
+  String get modifierIceDesc;
+
+  /// No description provided for @modifierGiantDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cibles plus grandes, adversaire plus fort.'**
+  String get modifierGiantDesc;
+
+  /// No description provided for @categorySport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sport'**
+  String get categorySport;
+
+  /// No description provided for @categoryAdresse.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse'**
+  String get categoryAdresse;
+
+  /// No description provided for @categoryArcade.
+  ///
+  /// In fr, this message translates to:
+  /// **'Arcade'**
+  String get categoryArcade;
+
+  /// No description provided for @categoryReflexion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réflexion'**
+  String get categoryReflexion;
+
+  /// No description provided for @highlightSurvivor.
+  ///
+  /// In fr, this message translates to:
+  /// **'SURVIVANT !'**
+  String get highlightSurvivor;
+
+  /// No description provided for @gameSurvivalName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Survie 2:00'**
+  String get gameSurvivalName;
+
+  /// No description provided for @gameSurvivalRule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Glisse pour esquiver les blocs. Tiens 2 minutes !'**
+  String get gameSurvivalRule;
+
+  /// No description provided for @gameSurvivalShare.
+  ///
+  /// In fr, this message translates to:
+  /// **'☄️ {seconds} s · {orbs} orbes'**
+  String gameSurvivalShare(Object orbs, Object seconds);
+
+  /// No description provided for @statSeconds.
+  ///
+  /// In fr, this message translates to:
+  /// **'Secondes survécues'**
+  String get statSeconds;
+
+  /// No description provided for @statOrbs.
+  ///
+  /// In fr, this message translates to:
+  /// **'Orbes'**
+  String get statOrbs;
 }
 
 class _AppLocalizationsDelegate

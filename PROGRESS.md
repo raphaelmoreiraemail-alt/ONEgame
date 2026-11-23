@@ -6,9 +6,9 @@
 - [x] 3. `SeededRandom` (mulberry32) en Dart et TS + tests de parité ; `Clock` injectable + tests.
 
 ## Phase 1 — Le cadre de jeu
-- [ ] 4. `MiniGameDefinition`, `GameRegistry`, écran de règle + 3-2-1-GO, HUD, chrono, Résultats.
-- [ ] 5. Game Lab.
-- [ ] 6. Premier jeu : `survival`.
+- [x] 4. `MiniGameDefinition`, `GameRegistry`, écran de règle + 3-2-1-GO, HUD, chrono, Résultats.
+- [x] 5. Game Lab.
+- [x] 6. Premier jeu : `survival` (validé de bout en bout par un test d'intégration).
 
 ## Phase 2 — Les 6 jeux phares
 - [ ] 7. `minigolf` · [ ] 8. `penalty` · [ ] 9. `basket` · [ ] 10. `bowling` · [ ] 11. `stack` · [ ] 12. `darts`

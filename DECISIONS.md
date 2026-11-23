@@ -14,3 +14,12 @@ Choix non couverts (ou ajustés) par le cahier des charges. Le plus simple l'emp
 | 8 | 2026-11-23 | Choix de langue gardé en mémoire (Riverpod) en Phase 0. | Il sera persisté sur le profil utilisateur en Phase 3. |
 | 9 | 2026-11-23 | Polices embarquées dans `assets/fonts/` (pas de `google_fonts`). | Pas de téléchargement au lancement, démarrage < 2 s, fonctionne hors ligne. |
 | 10 | 2026-11-23 | Projet Firebase local `demo-onegame`. | Les émulateurs tournent sans identifiants. Le vrai projet n'arrive qu'en Phase 6. |
+| 11 | 2026-11-23 | Chaque mini-jeu = une simulation **Dart pure** (`GameSim`, testable sans Flame) + un rendu Canvas. Flame sert de boucle de jeu (`MiniGame`), de surface de rendu et d'audio. | Tests headless de score et de déterminisme, rejeu serveur possible en v2. |
+| 12 | 2026-11-23 | Monde logique fixe **360 × 640** (9:16) mis à l'échelle et centré (letterbox). | Même niveau et même géométrie pour tous les écrans = équité. |
+| 13 | 2026-11-23 | Entrées brutes (`Listener` Flutter) mises en file puis appliquées **au début du pas fixe suivant**, journalisées avec le numéro de pas. | Déterminisme : la simulation ne voit les entrées qu'aux frontières de pas. |
+| 14 | 2026-11-23 | Pas d'interpolation du rendu : la logique tourne à 120 Hz, au-dessus de la fréquence d'affichage. | Interpolation inutile à 120 Hz ; simplicité. |
+| 15 | 2026-11-23 | Application en arrière-plan pendant une partie : au retour, la simulation est rattrapée (`fastForward`) sans entrée jusqu'au temps écoulé. | « Pause interdite, le chrono continue » (5.2). |
+| 16 | 2026-11-23 | Noms, règles et lignes de partage via des méthodes `name(l10n)`, `rule(l10n)`, `shareLine(l10n, stats)` au lieu de clés l10n en chaîne. | Le gen-l10n Dart ne permet pas la recherche par clé ; le compilateur vérifie tout. |
+| 17 | 2026-11-23 | Remote Config abstrait derrière `TuningRepository` ; valeurs par défaut dans `defaultTuning` de chaque jeu. | Le vrai Remote Config arrive avec les identifiants Firebase (Phase 6). |
+| 18 | 2026-11-23 | Préférences (son, vibrations, réduire les animations) stockées avec `shared_preferences`. | Réglages locaux à l'appareil. |
+| 19 | 2026-11-23 | Les délégués de localisation sont fournis par `appLocalizationsDelegates` (et non `AppLocalizations.localizationsDelegates`). | Le code généré pointe encore vers les classes Material/Cupertino dépréciées de `flutter_localizations`. |

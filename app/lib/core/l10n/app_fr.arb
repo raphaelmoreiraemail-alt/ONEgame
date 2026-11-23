@@ -2,7 +2,9 @@
   "@@locale": "fr",
   "appTitle": "OneGame",
   "tagline": "Une alarme. Deux minutes. Un jeu.",
-  "@tagline": { "description": "Main slogan, shown on onboarding and home." },
+  "@tagline": {
+    "description": "Main slogan, shown on onboarding and home."
+  },
   "navHome": "Accueil",
   "navLeaderboard": "Classements",
   "navProfile": "Profil",
@@ -22,5 +24,73 @@
   "languageFrench": "Français",
   "languageEnglish": "English",
   "alarmClockSemantics": "Réveil OneGame",
-  "@alarmClockSemantics": { "description": "Accessibility label of the central alarm clock." }
+  "@alarmClockSemantics": {
+    "description": "Accessibility label of the central alarm clock."
+  },
+  "playGo": "GO !",
+  "playEnd": "FIN",
+  "playOfficial": "Partie officielle · une seule tentative",
+  "playTraining": "Entraînement · ne compte pas",
+  "playQuit": "Quitter",
+  "playTimeLeft": "Temps restant",
+  "playScore": "Score",
+  "resultsTitle": "Résultats",
+  "resultsShare": "Partager",
+  "resultsCopy": "Copier le texte",
+  "resultsCopied": "Copié !",
+  "resultsHome": "Accueil",
+  "resultsReplay": "Rejouer",
+  "resultsHighlights": "Coups d'éclat",
+  "resultsTimeUp": "Temps écoulé",
+  "resultsDuration": "Durée",
+  "resultsTrainingNote": "Score d'entraînement : il ne compte pas dans les classements.",
+  "gameLabGame": "Jeu",
+  "gameLabSeed": "Seed",
+  "gameLabModifier": "Modificateur",
+  "gameLabNone": "Aucun",
+  "gameLabPlay": "Lancer",
+  "gameLabNext": "Niveau suivant",
+  "gameLabRandom": "Seed aléatoire",
+  "gameLabFingerprint": "Empreinte du niveau : {value}",
+  "@gameLabFingerprint": {
+    "placeholders": {
+      "value": {
+        "type": "Object"
+      }
+    }
+  },
+  "gameLabDebug": "Afficher FPS et corps physiques",
+  "trainingSubtitle": "Rejoue les jeux déjà sortis avec un niveau aléatoire. Ça ne compte jamais.",
+  "modifierWind": "Jour de vent",
+  "modifierNight": "Nuit",
+  "modifierTurbo": "Turbo",
+  "modifierMirror": "Miroir",
+  "modifierIce": "Glace",
+  "modifierGiant": "Géant",
+  "modifierWindDesc": "Le vent dévie tes tirs.",
+  "modifierNightDesc": "Tu ne vois qu'autour de toi.",
+  "modifierTurboDesc": "Tout va 25 % plus vite.",
+  "modifierMirrorDesc": "Contrôles inversés gauche / droite.",
+  "modifierIceDesc": "Ça glisse deux fois plus.",
+  "modifierGiantDesc": "Cibles plus grandes, adversaire plus fort.",
+  "categorySport": "Sport",
+  "categoryAdresse": "Adresse",
+  "categoryArcade": "Arcade",
+  "categoryReflexion": "Réflexion",
+  "highlightSurvivor": "SURVIVANT !",
+  "gameSurvivalName": "Survie 2:00",
+  "gameSurvivalRule": "Glisse pour esquiver les blocs. Tiens 2 minutes !",
+  "gameSurvivalShare": "☄️ {seconds} s · {orbs} orbes",
+  "@gameSurvivalShare": {
+    "placeholders": {
+      "orbs": {
+        "type": "Object"
+      },
+      "seconds": {
+        "type": "Object"
+      }
+    }
+  },
+  "statSeconds": "Secondes survécues",
+  "statOrbs": "Orbes"
 }

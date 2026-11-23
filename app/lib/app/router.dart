@@ -7,9 +7,13 @@ import '../core/l10n/l10n.dart';
 import '../features/game_lab/game_lab_screen.dart';
 import '../features/home/home_screen.dart';
 import '../features/leaderboard/leaderboard_screen.dart';
+import '../features/play/play_request.dart';
+import '../features/play/play_screen.dart';
 import '../features/profile/profile_screen.dart';
+import '../features/results/results_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/training/training_screen.dart';
+import '../games/common/game_types.dart';
 
 abstract final class Routes {
   static const home = '/';
@@ -18,6 +22,8 @@ abstract final class Routes {
   static const settings = '/settings';
   static const training = '/training';
   static const gameLab = '/game-lab';
+  static const play = '/play';
+  static const results = '/results';
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -32,6 +38,18 @@ final routerProvider = Provider<GoRouter>((ref) {
           _branch(Routes.profile, const ProfileScreen()),
           _branch(Routes.settings, const SettingsScreen()),
         ],
+      ),
+      GoRoute(
+        path: Routes.play,
+        builder: (context, state) =>
+            PlayScreen(request: state.extra! as PlayRequest),
+      ),
+      GoRoute(
+        path: Routes.results,
+        builder: (context, state) {
+          final (req, result) = state.extra! as (PlayRequest, GameResult);
+          return ResultsScreen(request: req, result: result);
+        },
       ),
       GoRoute(
         path: Routes.training,
