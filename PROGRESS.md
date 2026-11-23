@@ -3,7 +3,7 @@
 ## Phase 0 — Fondations
 - [x] 1. Projet Flutter (Android + iOS) + Firebase en émulateurs (`demo-onegame`), Functions TS, règles Firestore de base, CI GitHub Actions.
 - [x] 2. Thème (couleurs, Bungee + Inter, clair/sombre), l10n FR/EN (ARB), navigation go_router (4 onglets + Entraînement + Game Lab debug), Riverpod.
-- [ ] 3. `SeededRandom` (mulberry32) en Dart et TS + tests de parité ; `Clock` injectable + tests.
+- [x] 3. `SeededRandom` (mulberry32) en Dart et TS + tests de parité ; `Clock` injectable + tests.
 
 ## Phase 1 — Le cadre de jeu
 - [ ] 4. `MiniGameDefinition`, `GameRegistry`, écran de règle + 3-2-1-GO, HUD, chrono, Résultats.
