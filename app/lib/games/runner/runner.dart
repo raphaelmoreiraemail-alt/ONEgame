@@ -142,7 +142,7 @@ class RunnerSim extends GameSim {
   Color get backgroundColor => const Color(0xFF263238);
 
   @override
-  Offset get focus => Offset(_x, playerY);
+  Offset get focus => _cam.project(_w(_x, distance, 24)) ?? Offset(_x, playerY);
 
   @override
   void onPointer(PointerPhase phase, int pointer, Offset pos) {
@@ -244,14 +244,16 @@ class RunnerSim extends GameSim {
 
   V3 _w(double x, double at, [double h = 0]) => V3(x, h, distance - at);
 
+  Camera3D get _cam => Camera3D(
+    eye: V3(180 + (_x - 180) * 0.35, 120, 220),
+    target: V3(180 + (_x - 180) * 0.2, 10, -320),
+    fovDegrees: 58,
+    center: const Offset(180, 300),
+  );
+
   @override
   void render(Canvas canvas) {
-    final cam = Camera3D(
-      eye: V3(180 + (_x - 180) * 0.35, 120, 220),
-      target: V3(180 + (_x - 180) * 0.2, 10, -320),
-      fovDegrees: 58,
-      center: const Offset(180, 300),
-    );
+    final cam = _cam;
     final horizon = cam.project(const V3(180, 120, -100000))?.dy ?? 200;
     drawSky(
       canvas,

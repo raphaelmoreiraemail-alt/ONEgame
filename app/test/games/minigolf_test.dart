@@ -15,7 +15,7 @@ MinigolfSim aimbot(int seed, {String? modifier}) {
   var cooldown = 0;
   while (!sim.over && sim.step < 120 * 120) {
     if (cooldown-- <= 0 && sim.holeIndex < sim.holes.length) {
-      final ball = sim.focus;
+      final ball = sim.debugBall;
       final toCup = sim.hole.cup - ball;
       final pull =
           toCup / toCup.distance * math.min(140, toCup.distance * 0.45);

@@ -9,6 +9,7 @@ import '../common/fingerprint.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart';
 
 /// 7.15 Pêche — cast, strike at the bite, reel without breaking the line.
 class FishingGame extends MiniGameDefinition {
@@ -327,111 +328,264 @@ class FishingSim extends GameSim {
     'breaks': breaks,
   };
 
+  // ── 3D rendering ──────────────────────────────────────────────────────
+  // Casting distance x (sim) runs away from the camera across the lake:
+  // depth z = 560 − (x − 60)·4. The angler stands at the end of a dock.
+  static final Camera3D _camera = Camera3D(
+    eye: const V3(230, 150, 860),
+    target: const V3(180, 0, 60),
+    fovDegrees: 54,
+    center: const Offset(180, 330),
+  );
+  static double _z(double x) => 560 - (x - 60) * 4;
+  static const V3 _tip = V3(190, 92, 470);
+
+  double _wave(double x, double z) =>
+      math.sin(x * 0.03 + elapsed * 1.7) * 0.6 +
+      math.sin(z * 0.025 - elapsed * 1.3) * 0.6;
+
   @override
   void render(Canvas canvas) {
-    canvas
-      ..drawRect(
-        const Rect.fromLTRB(0, 0, 360, waterY),
-        Paint()..color = const Color(0xFFFFCC80),
-      )
-      ..drawRect(
-        const Rect.fromLTRB(0, waterY, 360, 640),
-        Paint()
-          ..shader = const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF29B6F6), Color(0xFF01579B)],
-          ).createShader(const Rect.fromLTRB(0, waterY, 360, 640)),
-      );
-    // Zone markers.
-    for (final x in [180.0, 260.0]) {
-      canvas.drawLine(
-        Offset(x, waterY + 4),
-        Offset(x, waterY + 14),
-        Paint()
-          ..color = Colors.white38
-          ..strokeWidth = 2,
+    final horizon = _camera.project(const V3(230, 150, -100000))?.dy ?? 150;
+    drawSky(
+      canvas,
+      Rect.fromLTWH(0, 0, 360, horizon + 1),
+      const Color(0xFF5CA9E6),
+      const Color(0xFFFCE3C4),
+    );
+    final hills = Path()..moveTo(0, horizon + 1);
+    for (var x = 0.0; x <= 360; x += 8) {
+      hills.lineTo(
+        x,
+        horizon - 18 - 22 * math.sin(x / 53 + 0.6).abs() - 7 * math.sin(x / 17),
       );
     }
+    hills
+      ..lineTo(360, horizon + 1)
+      ..close();
+    canvas
+      ..drawPath(hills, Paint()..color = const Color(0xFF6C8F84))
+      ..drawRect(
+        Rect.fromLTWH(0, horizon, 360, 640 - horizon),
+        Paint()..color = const Color(0xFF3D7FA8),
+      );
+    final s = Scene3D(
+      _camera,
+      light: const V3(-0.4, 1, 0.3),
+      ambient: 0.5,
+      fogColor: const Color(0xFFB9CCD2),
+      fogStart: 1300,
+      fogEnd: 3400,
+    );
+    // Lake with gentle animated ripples; brighter towards the horizon.
+    const cell = 90.0;
+    for (var i = -10; i < 14; i++) {
+      for (var j = -32; j < 10; j++) {
+        final x0 = i * cell, z0 = j * cell;
+        final w = _wave(x0, z0);
+        final far = ((-z0) / 2900).clamp(0.0, 1.0);
+        final col = tint(
+          Color.lerp(const Color(0xFF1F6E99), const Color(0xFF7FB6CF), far)!,
+          w * 0.05 + (cellNoise(i, j, 3) - 0.5) * 0.03,
+        );
+        s.quad(
+          V3(x0, 0, z0),
+          V3(x0, 0, z0 + cell),
+          V3(x0 + cell, 0, z0 + cell),
+          V3(x0 + cell, 0, z0),
+          col,
+          layer: Layer.ground,
+        );
+      }
+    }
+    // Far shore with a pine forest.
+    s.ground(
+      const Rect.fromLTRB(-1400, -3300, 1800, -2900),
+      (i, j) => tint(const Color(0xFF557A45), (cellNoise(i, j, 7) - 0.5) * 0.1),
+      cell: 200,
+      height: 2,
+      layer: Layer.surface,
+    );
+    for (var k = 0; k < 34; k++) {
+      final x = -1300 + k * 92.0 + cellNoise(k, 1, 4) * 60;
+      final z = -2960 - cellNoise(k, 2, 4) * 260;
+      final h = 90 + cellNoise(k, 3, 4) * 90;
+      s
+        ..tube(
+          V3(x, 0, z),
+          V3(x, h * 0.3, z),
+          6,
+          6,
+          const Color(0xFF4E342E),
+          segments: 4,
+        )
+        ..tube(
+          V3(x, h * 0.2, z),
+          V3(x, h, z),
+          h * 0.28,
+          0,
+          const Color(0xFF2F5D3A),
+          segments: 6,
+        );
+    }
+    // Near bank (reeds) and the wooden dock.
+    s.ground(
+      const Rect.fromLTRB(-400, 640, 800, 900),
+      (i, j) => tint(const Color(0xFF7A9A4A), (cellNoise(i, j, 8) - 0.5) * 0.1),
+      cell: 100,
+      height: 4,
+      layer: Layer.surface,
+    );
+    for (var k = 0; k < 18; k++) {
+      final x = -60 + k * 28.0 + cellNoise(k, 5, 4) * 14;
+      if (x > 120 && x < 260) continue;
+      final b = V3(x, 2, 640 + cellNoise(k, 6, 4) * 20);
+      s.tube(
+        b,
+        b + V3(cellNoise(k, 7, 4) * 6 - 3, 30 + cellNoise(k, 8, 4) * 20, 0),
+        1.4,
+        0.5,
+        const Color(0xFF8AA04A),
+        segments: 3,
+      );
+    }
+    for (var k = 0; k < 9; k++) {
+      final z = 700 - k * 24.0;
+      s.box(
+        V3(190, 12, z),
+        70,
+        4,
+        22,
+        tint(const Color(0xFF8D6E63), (cellNoise(k, 0, 2) - 0.5) * 0.2),
+        top: tint(const Color(0xFFA1887F), (cellNoise(k, 1, 2) - 0.5) * 0.2),
+      );
+    }
+    for (final x in [158.0, 222.0]) {
+      for (final z in [500.0, 600.0, 690.0]) {
+        s.tube(
+          V3(x, -20, z),
+          V3(x, 16, z),
+          3.5,
+          3.5,
+          const Color(0xFF5D4037),
+          segments: 6,
+        );
+      }
+    }
+    // Zone buoys and their species labels.
+    for (final x in [180.0, 260.0]) {
+      for (final lat in [-140.0, 140.0]) {
+        final b = V3(180 + lat, _wave(lat, _z(x)) * 2, _z(x));
+        s
+          ..sphere(b, 7, const Color(0xFFFF7043), lat: 4, lon: 8)
+          ..tube(
+            b,
+            b + const V3(0, 14, 0),
+            1,
+            1,
+            const Color(0xFFF5F5F5),
+            segments: 4,
+          );
+      }
+    }
+    // Angler from behind, rod raised; the rod bends in a fight.
+    final fighting = _phase == _Phase.fight;
+    s
+      ..shadow(const Offset(190, 520), 16, height: 16.3, opacity: 0.3)
+      ..figure(
+        const V3(190, 16, 520),
+        const Color(0xFF2E7D32),
+        scale: 1.5,
+        arms: 0.12,
+        shorts: const Color(0xFF3E4A59),
+      )
+      ..sphere(
+        const V3(190, 77, 520),
+        9.6,
+        const Color(0xFFF2C14E),
+        lat: 4,
+        lon: 8,
+      );
+    const hand = V3(204, 52, 512);
+    final bend = fighting ? (0.4 + tension * 0.6) : 0.0;
+    final mid = hand + (_tip - hand) * 0.55 + V3(0, -bend * 8, -bend * 6);
+    final tip = _tip + V3(0, -bend * 26, bend * 10);
+    s
+      ..tube(hand, mid, 1.6, 1.1, const Color(0xFF3E2723), segments: 4)
+      ..tube(mid, tip, 1.1, 0.5, const Color(0xFF3E2723), segments: 4);
+    void line(V3 to, Color c) =>
+        s.tube(tip, to, 0.35, 0.35, c, segments: 3, layer: Layer.overlay);
+
+    if (_phase == _Phase.sinking || _phase == _Phase.bite) {
+      final dunk = _phase == _Phase.bite ? -6.0 : math.sin(elapsed * 3) * 1.5;
+      final bob = V3(180, dunk + _wave(180, _z(_lureX)) * 2, _z(_lureX));
+      line(bob + const V3(0, 9, 0), const Color(0xFFEEEEEE));
+      s
+        ..sphere(
+          bob + const V3(0, 3, 0),
+          6,
+          const Color(0xFFE53935),
+          lat: 4,
+          lon: 8,
+        )
+        ..sphere(
+          bob + const V3(0, 8, 0),
+          4,
+          const Color(0xFFF5F5F5),
+          lat: 3,
+          lon: 6,
+        )
+        ..tube(
+          bob + const V3(0, 11, 0),
+          bob + const V3(0, 18, 0),
+          0.8,
+          0.8,
+          const Color(0xFFF5F5F5),
+          segments: 3,
+        );
+      _ripples(s, bob, _phase == _Phase.bite ? 2.2 : 1);
+      if (_phase == _Phase.bite) {
+        final p = _camera.project(bob + const V3(0, 40, 0));
+        if (p != null) {
+          drawText(
+            canvas,
+            '!',
+            p,
+            size: 34,
+            display: true,
+            align: TextAlign.center,
+            color: const Color(0xFFFFD23F),
+          );
+        }
+      }
+    } else if (fighting) {
+      final x = rodTip.dx + distance;
+      final thrash = math.sin(elapsed * 5);
+      final head = V3(
+        180 + thrash * 24,
+        2 + math.sin(elapsed * 9).abs() * 6 * tension,
+        _z(x),
+      );
+      line(
+        head,
+        tension > 0.8 ? const Color(0xFFE53935) : const Color(0xFFFFFFFF),
+      );
+      _fish3d(s, head, thrash);
+      _ripples(s, head, 2.5);
+    }
+    s.render(canvas);
     for (var i = 0; i < 3; i++) {
+      final p = _camera.project(V3(180, 26, _z(145 + i * 80.0)));
+      if (p == null) continue;
       drawText(
         canvas,
-        lake.zones[i].map((s) => s.emoji).toSet().join(),
-        Offset(145 + i * 80.0, waterY + 24),
+        lake.zones[i].map((sp) => sp.emoji).toSet().join(),
+        p,
         size: 12,
         align: TextAlign.center,
       );
     }
-    // Dock + angler.
-    canvas.drawRect(
-      const Rect.fromLTWH(0, 230, 70, 30),
-      Paint()..color = const Color(0xFF6D4C41),
-    );
-    drawBox(
-      canvas,
-      const Rect.fromLTWH(28, 190, 18, 40),
-      const Color(0xFFE8322F),
-      radius: 6,
-    );
-    canvas.drawCircle(
-      const Offset(37, 182),
-      9,
-      Paint()..color = const Color(0xFFFFCC80),
-    );
-    canvas.drawLine(
-      const Offset(44, 210),
-      rodTip,
-      Paint()
-        ..color = const Color(0xFF3E2723)
-        ..strokeWidth = 3,
-    );
-    // Line + bobber / fish.
-    if (_phase == _Phase.sinking || _phase == _Phase.bite) {
-      final dunk = _phase == _Phase.bite ? 8.0 : 2 * math.sin(elapsed * 3);
-      final bob = Offset(_lureX, waterY + dunk);
-      canvas
-        ..drawLine(
-          rodTip,
-          bob,
-          Paint()
-            ..color = Colors.white70
-            ..strokeWidth = 1,
-        )
-        ..drawCircle(bob, 6, Paint()..color = const Color(0xFFE8322F))
-        ..drawRect(
-          Rect.fromCenter(center: bob.translate(0, -5), width: 3, height: 6),
-          Paint()..color = Colors.white,
-        );
-      if (_phase == _Phase.bite) {
-        drawText(
-          canvas,
-          '!',
-          bob.translate(0, -30),
-          size: 34,
-          display: true,
-          align: TextAlign.center,
-          color: const Color(0xFFFFD23F),
-        );
-      }
-    } else if (_phase == _Phase.fight) {
-      final fishPos = Offset(
-        rodTip.dx + distance,
-        waterY + 50 + 14 * math.sin(elapsed * 5),
-      );
-      canvas.drawLine(
-        rodTip,
-        fishPos,
-        Paint()
-          ..color = tension > 0.8 ? const Color(0xFFE53935) : Colors.white
-          ..strokeWidth = 1.5,
-      );
-      drawText(
-        canvas,
-        _species!.emoji,
-        fishPos,
-        size: 26,
-        align: TextAlign.center,
-      );
+    if (fighting) {
       // Tension gauge (red zone at the top).
       const g = Rect.fromLTWH(320, 300, 18, 220);
       canvas
@@ -477,11 +631,11 @@ class FishingSim extends GameSim {
         align: TextAlign.center,
         color: const Color(0xFF01579B),
       );
-    } else {
+    } else if (_phase == _Phase.idle) {
       drawText(
         canvas,
         '👆',
-        const Offset(180, 560),
+        const Offset(180, 600),
         size: 30,
         align: TextAlign.center,
       );
@@ -493,5 +647,56 @@ class FishingSim extends GameSim {
       size: 15,
       color: const Color(0xFF3E2723),
     );
+  }
+
+  /// Expanding rings on the water around [at].
+  void _ripples(Scene3D s, V3 at, double strength) {
+    for (var k = 0; k < 2; k++) {
+      final t = (elapsed * 0.9 + k * 0.5) % 1;
+      final r = 8 + t * 30 * strength;
+      final col = Color.fromRGBO(255, 255, 255, (1 - t) * 0.6);
+      const n = 18;
+      for (var i = 0; i < n; i++) {
+        final a0 = i / n * 2 * math.pi, a1 = (i + 1) / n * 2 * math.pi;
+        V3 p(double a, double rr) =>
+            V3(at.x + math.cos(a) * rr, 0.4, at.z + math.sin(a) * rr);
+        s.quad(
+          p(a0, r),
+          p(a1, r),
+          p(a1, r + 1.6),
+          p(a0, r + 1.6),
+          col,
+          lit: false,
+          doubleSided: true,
+          layer: Layer.decal,
+        );
+      }
+    }
+  }
+
+  /// Fish thrashing at the surface: body, tail and dorsal fin.
+  void _fish3d(Scene3D s, V3 head, double thrash) {
+    final body = _species!.color;
+    final dir = V3(math.sin(thrash) * 0.6, 0, 1).normalized; // head → tail
+    final side = V3(dir.z, 0, -dir.x);
+    final mid = head + dir * 16;
+    final tail = head + dir * 34;
+    s
+      ..tube(head, mid, 2, 8, body, segments: 8, capped: true)
+      ..tube(mid, tail, 8, 2, tint(body, -0.1), segments: 8)
+      ..tri(
+        tail,
+        tail + dir * 10 + side * 9 + const V3(0, 4, 0),
+        tail + dir * 10 - side * 9 + const V3(0, 4, 0),
+        tint(body, -0.2),
+        doubleSided: true,
+      )
+      ..tri(
+        mid - dir * 6 + const V3(0, 7, 0),
+        mid + dir * 8 + const V3(0, 7, 0),
+        mid + const V3(0, 14, 0),
+        tint(body, -0.25),
+        doubleSided: true,
+      );
   }
 }

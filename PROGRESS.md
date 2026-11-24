@@ -28,3 +28,6 @@
 - [x] 18. App Check (Play Integrity / App Attest), Crashlytics, Analytics (alarm_seen, game_start, game_end, share), Remote Config (`games`, `gameWeights`). Activation finale : voir `RELEASE.md`.
 - [x] 19. Icône (réveil rouge, `tools/gen_icons.py`), écran de lancement Android / iOS, fiches stores FR / EN (`docs/store/`), politique de confidentialité FR / EN (`docs/`).
 - [~] 20. Signature release Android prête (`key.properties`), checklist de publication (`RELEASE.md`). **Reste à faire sur ta machine** : builds `appbundle` / `ipa` (le conteneur n'a ni SDK Android ni Xcode, et Google Maven y est bloqué).
+
+## Après la v1 — Rendu réaliste
+- [x] 21. Les 24 jeux en 3D (moteur maison `render3d.dart`, décisions 58 à 60), test d'orientation des primitives et test de rendu de chaque jeu (avec chaque modificateur). Outil d'aperçu : `PREVIEW_DIR=… PREVIEW_GAMES=… PREVIEW_SCRIPT=… flutter test test/render/preview_test.dart`.

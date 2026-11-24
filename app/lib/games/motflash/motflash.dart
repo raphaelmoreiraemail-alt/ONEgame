@@ -207,8 +207,27 @@ class MotflashSim extends GameSim {
 
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(Arena.rect, Paint()..color = const Color(0xFF1A1A2E));
-    // Found words, newest first.
+    drawTabletop(canvas, const Color(0xFF2E5D4B));
+    // Found words on a paper notepad, newest first.
+    const pad = Rect.fromLTRB(18, 96, 342, 262);
+    canvas
+      ..drawRect(
+        pad.shift(const Offset(3, 5)),
+        Paint()
+          ..color = const Color(0x66000000)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6),
+      )
+      ..drawRect(pad, Paint()..color = const Color(0xFFFBF6E9));
+    for (var k = 0; k < 7; k++) {
+      final y = pad.top + 18 + k * 24.0;
+      canvas.drawLine(
+        Offset(pad.left + 8, y + 10),
+        Offset(pad.right - 8, y + 10),
+        Paint()
+          ..color = const Color(0x332F80ED)
+          ..strokeWidth = 1,
+      );
+    }
     final recent = found.reversed.take(18).toList();
     for (var i = 0; i < recent.length; i++) {
       drawText(
@@ -216,7 +235,9 @@ class MotflashSim extends GameSim {
         recent[i],
         Offset(30 + (i % 3) * 105.0, 110 + (i ~/ 3) * 24.0),
         size: 14,
-        color: recent[i].length == 7 ? const Color(0xFFFFD23F) : Colors.white70,
+        color: recent[i].length == 7
+            ? const Color(0xFFB8860B)
+            : const Color(0xFF2B2B2B),
       );
     }
     final shown = current.isEmpty ? '…' : current;
@@ -231,22 +252,36 @@ class MotflashSim extends GameSim {
           ? (_flashOk ? const Color(0xFF66BB6A) : const Color(0xFFE53935))
           : Colors.white,
     );
+    // Wooden letter tiles.
     for (var i = 0; i < 7; i++) {
       final used = _picked.contains(i);
-      drawBox(
+      final top = drawKey3d(
         canvas,
         tiles[i],
-        used ? const Color(0xFF37474F) : const Color(0xFFF4ECE4),
-        radius: 12,
+        used ? const Color(0xFF8A7A62) : const Color(0xFFE9C98F),
+        radius: 8,
+        depth: used ? 3 : 8,
+        pressed: used,
       );
+      final grain = Paint()
+        ..color = const Color(0x1F6B3E14)
+        ..strokeWidth = 1;
+      for (var k = 1; k < 4; k++) {
+        final y = top.top + top.height * k / 4 + (k.isEven ? 2 : -1);
+        canvas.drawLine(
+          Offset(top.left + 6, y),
+          Offset(top.right - 6, y + 1.5),
+          grain,
+        );
+      }
       drawText(
         canvas,
         letters[i],
-        tiles[i].center,
+        top.center,
         size: 30,
         display: true,
         align: TextAlign.center,
-        color: used ? Colors.white38 : const Color(0xFF120D0E),
+        color: used ? const Color(0x88120D0E) : const Color(0xFF2A1A0E),
       );
     }
     for (final (r, label, c) in [
@@ -254,11 +289,11 @@ class MotflashSim extends GameSim {
       (shuffleButton, '🔀', const Color(0xFF455A64)),
       (submitButton, '✓', const Color(0xFFE8322F)),
     ]) {
-      drawBox(canvas, r, c, radius: 14);
+      final top = drawKey3d(canvas, r, c, radius: 14, depth: 7);
       drawText(
         canvas,
         label,
-        r.center,
+        top.center,
         size: 24,
         display: true,
         align: TextAlign.center,

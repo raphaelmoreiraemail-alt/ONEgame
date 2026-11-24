@@ -129,3 +129,105 @@ void drawDashed(Canvas c, Offset from, Offset dir, double maxLen, Paint p) {
     c.drawLine(from + d * t, from + d * math.min(t + 4, maxLen), p);
   }
 }
+
+/// Physical-looking key or tile: soft shadow, extruded side, lit top face
+/// with a bevel highlight. [pressed] sinks it into its base, [glow] adds a
+/// coloured halo (lit pads). Returns the top face, to center labels on.
+Rect drawKey3d(
+  Canvas c,
+  Rect r,
+  Color color, {
+  double radius = 14,
+  double depth = 7,
+  bool pressed = false,
+  bool glow = false,
+}) {
+  final travel = pressed ? depth * 0.7 : 0.0;
+  final top = r.translate(0, -depth + travel);
+  final base = RRect.fromRectAndRadius(r, Radius.circular(radius));
+  final face = RRect.fromRectAndRadius(top, Radius.circular(radius));
+  if (glow) {
+    c.drawRRect(
+      face.inflate(10),
+      Paint()
+        ..color = color.withValues(alpha: 0.55)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 18),
+    );
+  }
+  c
+    ..drawRRect(
+      base.shift(const Offset(0, 5)),
+      Paint()
+        ..color = const Color(0x66000000)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6),
+    )
+    // Side walls: a darker extrusion between the base and the top face.
+    ..drawRRect(base, Paint()..color = _shade(color, -0.42))
+    ..drawRect(
+      Rect.fromLTRB(r.left, top.center.dy, r.right, r.center.dy),
+      Paint()..color = _shade(color, -0.42),
+    )
+    ..drawRRect(
+      face,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [_shade(color, 0.16), color, _shade(color, -0.12)],
+          stops: const [0, 0.55, 1],
+        ).createShader(top),
+    )
+    // Bevel: bright rim on the top edge, dark on the bottom edge.
+    ..drawRRect(
+      face.deflate(1.5),
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.white.withValues(alpha: 0.45),
+            Colors.white.withValues(alpha: 0),
+            Colors.black.withValues(alpha: 0.18),
+          ],
+          stops: const [0, 0.25, 1],
+        ).createShader(top)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
+  return top;
+}
+
+/// Lit tabletop behind board-style games: [base] material with a warm
+/// overhead light and dark corners.
+void drawTabletop(Canvas c, Color base, {bool grain = false}) {
+  c.drawRect(Arena.rect, Paint()..color = base);
+  if (grain) {
+    final line = Paint()
+      ..color = _shade(base, -0.12)
+      ..strokeWidth = 1;
+    for (var k = 0; k < 46; k++) {
+      final y = k * 14.0 + math.sin(k * 1.7) * 4;
+      final path = Path()..moveTo(0, y);
+      for (var x = 0.0; x <= 360; x += 30) {
+        path.lineTo(x, y + math.sin(x / 47 + k) * 3);
+      }
+      c.drawPath(path, line..style = PaintingStyle.stroke);
+    }
+  }
+  c.drawRect(
+    Arena.rect,
+    Paint()
+      ..shader = const RadialGradient(
+        center: Alignment(0, -0.25),
+        radius: 1.05,
+        colors: [Color(0x33FFF3E0), Color(0x00000000), Color(0xAA000000)],
+        stops: [0, 0.5, 1],
+      ).createShader(Arena.rect),
+  );
+}
+
+Color _shade(Color c, double amount) {
+  final t = amount.clamp(-1.0, 1.0);
+  double ch(double v) => t >= 0 ? v + (1 - v) * t : v * (1 + t);
+  return Color.from(alpha: c.a, red: ch(c.r), green: ch(c.g), blue: ch(c.b));
+}

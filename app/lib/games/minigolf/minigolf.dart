@@ -160,8 +160,14 @@ class MinigolfSim extends GameSim {
   @override
   Color get backgroundColor => const Color(0xFF2E7D32);
 
+  /// Ball position in world coordinates (what onPointer receives).
+  @visibleForTesting
+  Offset get debugBall => _world == null ? Arena.center : _ball.px;
+
   @override
-  Offset get focus => _world == null ? Arena.center : _ball.px;
+  Offset get focus => _world == null
+      ? Arena.center
+      : _camera.project(V3.ground(_ball.px, 6)) ?? Arena.center;
 
   @override
   int get debugBodyCount => 1 + _dynamicObstacles.length;

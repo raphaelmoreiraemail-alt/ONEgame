@@ -4,11 +4,11 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../core/l10n/l10n.dart';
 import '../../core/rng/seeded_random.dart';
-import '../common/draw.dart';
 import '../common/fingerprint.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart';
 
 /// 7.17 Survie 2:00 — dodge falling blocks for two minutes.
 class SurvivalGame extends MiniGameDefinition {
@@ -196,7 +196,8 @@ class SurvivalSim extends GameSim {
   Color get backgroundColor => const Color(0xFF140F24);
 
   @override
-  Offset get focus => Offset(_x, _playerY);
+  Offset get focus =>
+      _camera.project(V3(_x, 20, _playerY)) ?? Offset(_x, _playerY);
 
   @override
   void onPointer(PointerPhase phase, int pointer, Offset pos) {
@@ -301,43 +302,172 @@ class SurvivalSim extends GameSim {
     'survived': survived ? 1 : 0,
   };
 
+  // ── 3D rendering ──────────────────────────────────────────────────────
+  // Arena (x, y) → V3(x, h, y): obstacles come from the far end of a neon
+  // track towards the camera.
+  static final Camera3D _camera = Camera3D(
+    eye: const V3(180, 210, 880),
+    target: const V3(180, 0, 180),
+    fovDegrees: 50,
+    center: const Offset(180, 330),
+  );
+
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(
-      Arena.rect,
-      Paint()
-        ..shader = const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFF1B1430), Color(0xFF2B1A3A)],
-        ).createShader(Arena.rect),
+    final horizon = _camera.project(const V3(180, 210, -100000))?.dy ?? 120;
+    drawSky(
+      canvas,
+      Rect.fromLTWH(0, 0, 360, horizon + 1),
+      const Color(0xFF0B0620),
+      const Color(0xFF3A1250),
     );
-    final star = Paint()..color = const Color(0x55FFFFFF);
-    for (final s in _stars) {
-      final y = (s.dy + elapsed * 20) % Arena.height;
-      canvas.drawCircle(Offset(s.dx, y), 1.2, star);
+    final star = Paint()..color = const Color(0x88FFFFFF);
+    for (final st in _stars) {
+      if (st.dy * 0.4 < horizon - 4) {
+        canvas.drawCircle(Offset(st.dx, st.dy * 0.4), 1, star);
+      }
+    }
+    // Striped retro sun sitting on the horizon.
+    final sun = Rect.fromCircle(center: Offset(180, horizon - 4), radius: 62);
+    canvas
+      ..save()
+      ..clipRect(Rect.fromLTRB(0, 0, 360, horizon))
+      ..drawCircle(
+        sun.center,
+        62,
+        Paint()
+          ..shader = const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFFFFE259), Color(0xFFFF4E8A)],
+          ).createShader(sun),
+      );
+    for (var k = 0; k < 5; k++) {
+      final y = horizon - 8 - k * 9.0;
+      canvas.drawRect(
+        Rect.fromLTRB(0, y, 360, y + 2.5 + (4 - k) * 0.6),
+        Paint()..color = const Color(0xFF3A1250),
+      );
+    }
+    canvas
+      ..restore()
+      ..drawRect(
+        Rect.fromLTWH(0, horizon, 360, 640 - horizon),
+        Paint()..color = const Color(0xFF120A24),
+      );
+    final s = Scene3D(
+      _camera,
+      light: const V3(-0.3, 1, 0.5),
+      ambient: 0.45,
+      fogColor: const Color(0xFF241040),
+      fogStart: 900,
+      fogEnd: 3200,
+    );
+    // Neon grid scrolling towards the player.
+    const grid = Color(0xFFFF3FD0);
+    final scroll = (elapsed * 260) % 80;
+    for (var k = -40; k < 9; k++) {
+      final z = k * 80.0 + scroll;
+      s.quad(
+        V3(-900, 0, z - 1.5),
+        V3(-900, 0, z + 1.5),
+        V3(1260, 0, z + 1.5),
+        V3(1260, 0, z - 1.5),
+        grid,
+        lit: false,
+        layer: Layer.decal,
+      );
+    }
+    for (var k = -12; k <= 16; k++) {
+      final x = k * 60.0;
+      s.quad(
+        V3(x - 1.2, 0, -3200),
+        V3(x - 1.2, 0, 700),
+        V3(x + 1.2, 0, 700),
+        V3(x + 1.2, 0, -3200),
+        k == 0 || k == 6 ? const Color(0xFF39E8FF) : grid,
+        lit: false,
+        layer: Layer.decal,
+      );
     }
     for (final it in _items) {
+      final r = it.rect;
       if (it.kind == SpawnKind.orb) {
-        canvas.drawCircle(
-          it.rect.center,
-          18,
-          Paint()..color = const Color(0x44FFD23F),
+        final c = V3(
+          r.center.dx,
+          22 + math.sin(elapsed * 5 + r.center.dx) * 4,
+          r.center.dy,
         );
-        drawBall(canvas, it.rect.center, 10, it.color, shadow: false);
+        s
+          ..shadow(r.center, 12, height: 0.5, opacity: 0.4)
+          ..sphere(c, 10, it.color, lat: 6, lon: 10);
       } else {
-        drawBox(canvas, it.rect, it.color);
+        final h = it.kind == SpawnKind.wall ? 60.0 : 36.0;
+        s
+          ..shadow(
+            r.center.translate(6, 6),
+            math.max(r.width, r.height) * 0.6,
+            height: 0.5,
+            opacity: 0.35,
+          )
+          ..box(
+            V3(r.center.dx, 0, r.center.dy),
+            r.width,
+            h,
+            r.height,
+            it.color,
+            top: tint(it.color, 0.35),
+          );
+        // Neon edge on top.
+        s.box(
+          V3(r.center.dx, h, r.bottom - 1.5),
+          r.width,
+          2,
+          3,
+          tint(it.color, 0.6),
+        );
       }
     }
     if (!over || survived) {
-      drawBox(canvas, _player, const Color(0xFFE8322F), radius: 8);
-      final eye = Paint()..color = Colors.white;
-      final pupil = Paint()..color = const Color(0xFF120D0E);
+      // Hover robot: body, visor with eyes, glowing thruster.
+      final hover = 14 + math.sin(elapsed * 6) * 3;
+      final b = V3(_x, hover, _playerY);
+      final tiltX = ((_targetX - _x) / 120).clamp(-0.4, 0.4);
+      s
+        ..shadow(Offset(_x, _playerY), 20, height: 0.5, opacity: 0.5)
+        ..sphere(
+          V3(_x, hover - 4, _playerY),
+          9,
+          const Color(0xFF39E8FF),
+          lat: 4,
+          lon: 8,
+        )
+        ..box(
+          b,
+          _playerSize,
+          _playerSize * 0.8,
+          _playerSize,
+          const Color(0xFFE8322F),
+          yaw: tiltX,
+          top: const Color(0xFFFF6E5A),
+        )
+        ..box(
+          b + const V3(0, _playerSize * 0.36, _playerSize / 2 + 1.5),
+          _playerSize * 0.8,
+          11,
+          4,
+          const Color(0xFF1A1030),
+        );
       for (final dx in [-7.0, 7.0]) {
-        canvas
-          ..drawCircle(_player.center.translate(dx, -4), 5, eye)
-          ..drawCircle(_player.center.translate(dx, -5), 2.4, pupil);
+        s.sphere(
+          b + V3(dx, _playerSize * 0.36 + 5.5, _playerSize / 2 + 4),
+          3.2,
+          const Color(0xFF39E8FF),
+          lat: 3,
+          lon: 6,
+        );
       }
     }
+    s.render(canvas);
   }
 }

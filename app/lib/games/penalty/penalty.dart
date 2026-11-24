@@ -230,10 +230,16 @@ class PenaltySim extends GameSim {
 
   @override
   Offset get focus {
+    final st = _stadium;
+    final V3 p;
     if (_phase == _Phase.shotFlying || _phase == _Phase.keepFlying) {
-      return _ballPos();
+      p = _ball3d();
+    } else if (_shooting) {
+      p = V3(180, 6, st.spotDistance);
+    } else {
+      p = st.goal(_ku, _kv);
     }
-    return _shooting ? spot : goalPoint(_ku, _kv);
+    return st.camera.project(p) ?? Arena.center;
   }
 
   @override
@@ -321,16 +327,6 @@ class PenaltySim extends GameSim {
     }
     _keeperCommitted = true;
     cue(haptic: Haptic.light);
-  }
-
-  Offset _ballPos() {
-    final t = (_phaseStep / stepsPerSecond / _flight).clamp(0.0, 1.0);
-    final from = _shooting ? spot : const Offset(180, 470);
-    final to = goalPoint(_u, _v);
-    final base = Offset.lerp(from, to, Curves.easeOut.transform(t))!;
-    final bend = math.sin(t * math.pi) * _curve * 120;
-    final chip = _panenka ? -math.sin(t * math.pi) * 60 : 0.0;
-    return base.translate(bend, chip);
   }
 
   @override

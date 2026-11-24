@@ -9,6 +9,7 @@ import '../common/fingerprint.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart';
 
 /// 7.16 Créneau — park 4 cars in tighter and tighter spots.
 class ParkingGame extends MiniGameDefinition {
@@ -378,86 +379,178 @@ class ParkingSim extends GameSim {
     'precision': precisionTotal,
   };
 
-  void _drawCar(Canvas c, Obb o, Color color) {
-    c
-      ..save()
-      ..translate(o.center.dx, o.center.dy)
-      ..rotate(o.angle);
-    drawBox(
-      c,
-      Rect.fromCenter(
-        center: Offset.zero,
-        width: o.halfL * 2,
-        height: o.halfW * 2,
-      ),
-      color,
-      radius: 6,
-    );
-    c
-      ..drawRect(
-        Rect.fromLTWH(
-          o.halfL * 0.15,
-          -o.halfW + 3,
-          o.halfL * 0.5,
-          o.halfW * 2 - 6,
-        ),
-        Paint()..color = const Color(0xAA90CAF9),
-      )
-      ..drawCircle(
-        Offset(o.halfL - 3, -o.halfW + 4),
-        2.5,
-        Paint()..color = const Color(0xFFFFF59D),
-      )
-      ..drawCircle(
-        Offset(o.halfL - 3, o.halfW - 4),
-        2.5,
-        Paint()..color = const Color(0xFFFFF59D),
-      )
-      ..restore();
-  }
+  // ── 3D rendering ──────────────────────────────────────────────────────
+  // The lot (x, y) → V3(x, h, y), seen from above the entrance; the wheel
+  // and pedals below stay flat on-screen controls.
+  static final Camera3D _camera = Camera3D(
+    eye: const V3(180, 640, 1010),
+    target: const V3(180, 0, 300),
+    fovDegrees: 40,
+    center: const Offset(180, 292),
+  );
 
   @override
   void render(Canvas canvas) {
-    canvas
-      ..drawRect(Arena.rect, Paint()..color = const Color(0xFF263238))
-      ..drawRect(lot, Paint()..color = const Color(0xFF546E7A));
-    final s = _l.spot;
-    final ok = car.corners.every((p) => s.inflate(2).contains(p));
-    canvas
-      ..drawRect(
-        s,
-        Paint()..color = ok ? const Color(0x5566BB6A) : const Color(0x33FFFFFF),
+    drawSky(
+      canvas,
+      Arena.rect,
+      const Color(0xFF1C262B),
+      const Color(0xFF2B3A42),
+    );
+    final s = Scene3D(_camera, light: const V3(-0.4, 1, 0.35), ambient: 0.5);
+    // Pavement around, asphalt lot with low concrete kerbs.
+    s
+      ..ground(
+        lot.inflate(420),
+        (i, j) =>
+            tint(const Color(0xFF9E9E9E), (cellNoise(i, j, 2) - 0.5) * 0.06),
+        cell: 70,
+        height: -2,
       )
-      ..drawRect(
-        s,
-        Paint()
-          ..color = Colors.white
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2,
+      ..ground(
+        lot,
+        (i, j) =>
+            tint(const Color(0xFF4A5056), (cellNoise(i, j, 3) - 0.5) * 0.05),
+        cell: 41,
+        layer: Layer.surface,
       );
-    for (final p in _l.parked) {
-      _drawCar(canvas, p, const Color(0xFF90A4AE));
+    final k = lot.inflate(6);
+    for (final r in [
+      Rect.fromLTRB(k.left, k.top, k.right, lot.top),
+      Rect.fromLTRB(k.left, lot.bottom, k.right, k.bottom),
+      Rect.fromLTRB(k.left, lot.top, lot.left, lot.bottom),
+      Rect.fromLTRB(lot.right, lot.top, k.right, lot.bottom),
+    ]) {
+      s.box(
+        V3(r.center.dx, -2, r.center.dy),
+        r.width,
+        8,
+        r.height,
+        const Color(0xFFBDBDBD),
+        layer: Layer.surface,
+      );
     }
-    _drawCar(canvas, car, const Color(0xFFE8322F));
-    // Steering wheel.
+    // Painted bays around the parked cars, the target spot highlighted.
+    void outline(List<Offset> c, Color col, double w) {
+      for (var i = 0; i < 4; i++) {
+        final a = c[i], b = c[(i + 1) % 4];
+        final d = b - a;
+        final n = Offset(-d.dy, d.dx) / d.distance * (w / 2);
+        s.quad(
+          V3.ground(a - n, 0.3),
+          V3.ground(b - n, 0.3),
+          V3.ground(b + n, 0.3),
+          V3.ground(a + n, 0.3),
+          col,
+          layer: Layer.decal,
+          doubleSided: true,
+          lit: false,
+        );
+      }
+    }
+
+    for (final p in _l.parked) {
+      outline(
+        Obb(p.center, p.halfW + 6, p.halfL + 8, p.angle).corners,
+        const Color(0xFFE0E0E0),
+        2,
+      );
+    }
+    final spot = _l.spot;
+    final ok = car.corners.every((p) => spot.inflate(2).contains(p));
+    s.ground(
+      spot,
+      (_, _) => ok ? const Color(0xFF4CAF50) : const Color(0xFF5A6B4A),
+      cell: 400,
+      height: 0.2,
+      layer: Layer.decal,
+    );
+    outline(
+      [spot.topLeft, spot.topRight, spot.bottomRight, spot.bottomLeft],
+      const Color(0xFFFFFFFF),
+      2.5,
+    );
+    final pp = _camera.project(V3.ground(spot.center, 0.5));
+    for (final p in _l.parked) {
+      _car3d(s, p, const Color(0xFF90A4AE), braking: false);
+    }
+    _car3d(s, car, const Color(0xFFE8322F), braking: _speed.abs() < 1 || _rev);
+    // Lamp posts at the corners.
+    for (final c in [lot.topLeft, lot.topRight]) {
+      final b = V3.ground(c + Offset(c.dx < 180 ? -14 : 14, -14));
+      s
+        ..tube(
+          b,
+          b + const V3(0, 120, 0),
+          2.2,
+          1.6,
+          const Color(0xFF37474F),
+          segments: 5,
+        )
+        ..box(b + const V3(0, 118, 0), 16, 4, 8, const Color(0xFFFFF3C4));
+    }
+    s.render(canvas);
+    if (pp != null && !ok) {
+      drawText(
+        canvas,
+        'P',
+        pp,
+        size: 20,
+        display: true,
+        align: TextAlign.center,
+        color: const Color(0x99FFFFFF),
+      );
+    }
+
+    // Controls: steering wheel and pedals.
     canvas
+      ..drawRect(
+        const Rect.fromLTRB(0, 480, 360, 640),
+        Paint()
+          ..shader = const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF1A1F23), Color(0xFF0E1214)],
+          ).createShader(const Rect.fromLTRB(0, 480, 360, 640)),
+      )
       ..save()
       ..translate(wheelCenter.dx, wheelCenter.dy)
-      ..rotate(_steer * 2.5)
+      ..rotate(_steer * 2.5);
+    final rim = Paint()
+      ..shader = const SweepGradient(
+        colors: [
+          Color(0xFF424242),
+          Color(0xFF1B1B1B),
+          Color(0xFF555555),
+          Color(0xFF1B1B1B),
+          Color(0xFF424242),
+        ],
+      ).createShader(Rect.fromCircle(center: Offset.zero, radius: 56))
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 13;
+    final spoke = Paint()
+      ..color = const Color(0xFF2B2B2B)
+      ..strokeWidth = 9
+      ..strokeCap = StrokeCap.round;
+    canvas
       ..drawCircle(
-        Offset.zero,
+        const Offset(2, 4),
         50,
         Paint()
-          ..color = const Color(0xFF212121)
+          ..color = const Color(0x55000000)
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 12,
+          ..strokeWidth = 13,
       )
-      ..drawLine(
-        const Offset(-50, 0),
-        const Offset(50, 0),
+      ..drawCircle(Offset.zero, 50, rim)
+      ..drawLine(const Offset(-44, 0), const Offset(44, 0), spoke)
+      ..drawLine(Offset.zero, const Offset(0, 44), spoke)
+      ..drawCircle(
+        Offset.zero,
+        14,
         Paint()
-          ..color = const Color(0xFF212121)
-          ..strokeWidth = 8,
+          ..shader = const RadialGradient(
+            colors: [Color(0xFF616161), Color(0xFF212121)],
+          ).createShader(Rect.fromCircle(center: Offset.zero, radius: 14)),
       )
       ..drawCircle(
         const Offset(0, -50),
@@ -469,14 +562,27 @@ class ParkingSim extends GameSim {
       (forward, '▲', _fwd),
       (reverse, '▼ R', _rev),
     ]) {
-      canvas.drawRRect(
-        RRect.fromRectAndRadius(r, const Radius.circular(12)),
-        Paint()..color = on ? const Color(0xFFFFD23F) : const Color(0xFF455A64),
-      );
+      final rr = RRect.fromRectAndRadius(r, const Radius.circular(12));
+      canvas
+        ..drawRRect(
+          rr.shift(const Offset(0, 3)),
+          Paint()..color = const Color(0xFF050708),
+        )
+        ..drawRRect(
+          on ? rr.shift(const Offset(0, 2)) : rr,
+          Paint()
+            ..shader = LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: on
+                  ? const [Color(0xFFFFE27A), Color(0xFFE6B800)]
+                  : const [Color(0xFF5B6B74), Color(0xFF37444B)],
+            ).createShader(r),
+        );
       drawText(
         canvas,
         label,
-        r.center,
+        r.center.translate(0, on ? 2 : 0),
         size: 20,
         display: true,
         align: TextAlign.center,
@@ -489,5 +595,65 @@ class ParkingSim extends GameSim {
       const Offset(16, 100),
       size: 16,
     );
+  }
+
+  /// Small hatchback: body, glass cabin with painted roof, wheels, lights.
+  static void _car3d(Scene3D s, Obb o, Color color, {required bool braking}) {
+    final a = o.angle;
+    final f = V3(math.cos(a), 0, math.sin(a));
+    final r = V3(-math.sin(a), 0, math.cos(a));
+    final c = V3.ground(o.center);
+    final l = o.halfL, w = o.halfW;
+    s
+      ..shadow(o.center.translate(4, 4), l * 1.05, opacity: 0.4, stretch: 1)
+      ..box(
+        c + const V3(0, 3, 0),
+        l * 2,
+        10,
+        w * 2,
+        color,
+        yaw: a,
+        top: tint(color, 0.1),
+      )
+      ..box(
+        c - f * (l * 0.12) + const V3(0, 13, 0),
+        l * 1.05,
+        9,
+        w * 1.7,
+        const Color(0xFF22313A),
+        yaw: a,
+        top: tint(color, 0.05),
+      );
+    for (final fx in [l * 0.62, -l * 0.62]) {
+      for (final side in [-1.0, 1.0]) {
+        final h = c + f * fx + r * (side * w) + const V3(0, 5, 0);
+        s.tube(
+          h - r * 2.4,
+          h + r * 2.4,
+          5,
+          5,
+          const Color(0xFF151515),
+          segments: 8,
+          capped: true,
+        );
+      }
+    }
+    for (final side in [-1.0, 1.0]) {
+      s
+        ..sphere(
+          c + f * (l - 0.5) + r * (side * w * 0.62) + const V3(0, 9, 0),
+          2.2,
+          const Color(0xFFFFF8D6),
+          lat: 3,
+          lon: 5,
+        )
+        ..sphere(
+          c - f * (l - 0.5) + r * (side * w * 0.62) + const V3(0, 9, 0),
+          2,
+          braking ? const Color(0xFFFF1744) : const Color(0xFF8E1B1B),
+          lat: 3,
+          lon: 5,
+        );
+    }
   }
 }

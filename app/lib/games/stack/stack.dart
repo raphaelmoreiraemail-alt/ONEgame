@@ -166,7 +166,10 @@ class StackSim extends GameSim {
 
   @override
   Offset get focus =>
-      Offset(_moving.x + _moving.w / 2, _yOf(_moving.level) + blockH / 2);
+      _cam.project(
+        V3(_moving.x + _moving.w / 2, (_moving.level + 0.5) * blockH, 0),
+      ) ??
+      Arena.center;
 
   double _yOf(int level) => baseY - level * blockH + _camera;
 
@@ -270,6 +273,16 @@ class StackSim extends GameSim {
   // Level L occupies heights [L·blockH, (L+1)·blockH]; slabs are 200 deep.
   static const double _depth = 200;
 
+  Camera3D get _cam {
+    final target = V3(180, _camera + 6 * blockH, 0);
+    return Camera3D(
+      eye: target + const V3(120, 330, 640),
+      target: target,
+      fovDegrees: 52,
+      center: const Offset(180, 330),
+    );
+  }
+
   @override
   void render(Canvas canvas) {
     final t = (height / 80).clamp(0.0, 1.0);
@@ -289,14 +302,7 @@ class StackSim extends GameSim {
         );
       }
     }
-    final focusH = _camera + 6 * blockH;
-    final target = V3(180, focusH, 0);
-    final cam = Camera3D(
-      eye: target + const V3(120, 330, 640),
-      target: target,
-      fovDegrees: 52,
-      center: const Offset(180, 330),
-    );
+    final cam = _cam;
     final s = Scene3D(
       cam,
       light: const V3(0.55, 0.85, 0.35),

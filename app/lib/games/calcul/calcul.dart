@@ -211,41 +211,74 @@ class CalculSim extends GameSim {
 
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(Arena.rect, Paint()..color = const Color(0xFF0D1B2A));
+    drawTabletop(canvas, const Color(0xFF6B4A33), grain: true);
+    // Calculator body with an LCD screen showing the question.
+    const body = Rect.fromLTRB(10, 140, 350, 590);
+    drawKey3d(canvas, body, const Color(0xFF2C3440), radius: 26, depth: 10);
+    const lcd = Rect.fromLTRB(28, 160, 332, 300);
+    canvas
+      ..drawRRect(
+        RRect.fromRectAndRadius(lcd.inflate(4), const Radius.circular(14)),
+        Paint()..color = const Color(0xFF14181E),
+      )
+      ..drawRRect(
+        RRect.fromRectAndRadius(lcd, const Radius.circular(10)),
+        Paint()
+          ..shader = const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFFB9C9A0), Color(0xFF8FA37A)],
+          ).createShader(lcd),
+      )
+      ..drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTRB(lcd.left + 6, lcd.top + 6, lcd.right - 6, lcd.top + 20),
+          const Radius.circular(6),
+        ),
+        Paint()..color = const Color(0x22FFFFFF),
+      );
     drawText(
       canvas,
       '${_q.text} = ?',
-      const Offset(180, 220),
-      size: 40,
+      const Offset(180, 210),
+      size: 38,
       display: true,
       align: TextAlign.center,
-      maxWidth: 340,
+      maxWidth: 290,
+      color: const Color(0xFF1E2A16),
     );
-    for (var i = 0; i < 4; i++) {
-      var c = const Color(0xFF1B3A5C);
-      if (_picked != null && _feedback > 0) {
-        if (_q.choices[i] == _q.answer) c = const Color(0xFF43A047);
-        if (i == _picked && !_lastOk) c = const Color(0xFFE53935);
-      }
-      drawBox(canvas, buttons[i], c, radius: 18);
-      drawText(
-        canvas,
-        '${_q.choices[i]}',
-        buttons[i].center,
-        size: 32,
-        display: true,
-        align: TextAlign.center,
-      );
-    }
     if (streak >= 5) {
       drawText(
         canvas,
         '🔥 ×1.5',
-        const Offset(180, 290),
-        size: 18,
+        const Offset(180, 272),
+        size: 16,
         display: true,
         align: TextAlign.center,
-        color: const Color(0xFFFFD23F),
+        color: const Color(0xFF6B2A10),
+      );
+    }
+    for (var i = 0; i < 4; i++) {
+      var c = const Color(0xFF3E5F8A);
+      if (_picked != null && _feedback > 0) {
+        if (_q.choices[i] == _q.answer) c = const Color(0xFF43A047);
+        if (i == _picked && !_lastOk) c = const Color(0xFFE53935);
+      }
+      final top = drawKey3d(
+        canvas,
+        buttons[i].deflate(3),
+        c,
+        radius: 18,
+        depth: 9,
+        pressed: i == _picked && _feedback > 0,
+      );
+      drawText(
+        canvas,
+        '${_q.choices[i]}',
+        top.center,
+        size: 32,
+        display: true,
+        align: TextAlign.center,
       );
     }
     drawText(canvas, '✓ $correct  ✗ $wrong', const Offset(16, 100), size: 15);

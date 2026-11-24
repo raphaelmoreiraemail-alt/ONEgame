@@ -9,6 +9,7 @@ import '../common/fingerprint.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart' show tint;
 
 /// 7.23 Mémoire flash — Simon-like: repeat a growing sequence.
 class MemoryGame extends MiniGameDefinition {
@@ -179,26 +180,55 @@ class MemorySim extends GameSim {
 
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(Arena.rect, Paint()..color = const Color(0xFF1A1A2E));
+    drawTabletop(canvas, const Color(0xFF1C1A2E));
+    // Round arcade console holding the four pads.
+    const ctr = Offset(180, 406);
+    canvas
+      ..drawCircle(
+        ctr.translate(0, 12),
+        190,
+        Paint()
+          ..color = const Color(0x99000000)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 16),
+      )
+      ..drawCircle(
+        ctr.translate(0, 8),
+        186,
+        Paint()..color = const Color(0xFF0E0E12),
+      )
+      ..drawCircle(
+        ctr,
+        186,
+        Paint()
+          ..shader = const RadialGradient(
+            center: Alignment(-0.3, -0.4),
+            colors: [Color(0xFF4A4A55), Color(0xFF26262E), Color(0xFF18181D)],
+            stops: [0, 0.6, 1],
+          ).createShader(Rect.fromCircle(center: ctr, radius: 186)),
+      );
     for (var i = 0; i < 4; i++) {
       final on = _lit == i;
-      final c = on
-          ? Color.lerp(colors[i], Colors.white, 0.45)!
-          : colors[i].withValues(alpha: 0.45);
-      drawBox(canvas, pads[i], c, radius: 24);
-      if (on) {
-        canvas.drawRRect(
-          RRect.fromRectAndRadius(
-            pads[i].inflate(4),
-            const Radius.circular(28),
-          ),
-          Paint()
-            ..color = Colors.white
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 4,
-        );
-      }
+      drawKey3d(
+        canvas,
+        pads[i].deflate(4),
+        on
+            ? Color.lerp(colors[i], Colors.white, 0.35)!
+            : tint(colors[i], -0.25),
+        radius: 26,
+        depth: 12,
+        pressed: on,
+        glow: on,
+      );
     }
+    canvas.drawCircle(
+      ctr,
+      30,
+      Paint()
+        ..shader = const RadialGradient(
+          center: Alignment(-0.3, -0.4),
+          colors: [Color(0xFF5A5A66), Color(0xFF1E1E24)],
+        ).createShader(Rect.fromCircle(center: ctr, radius: 30)),
+    );
     final label = switch (_phase) {
       _Phase.show => '👀  $_length',
       _Phase.input => '👆  ${_inputIndex + 1}/$_length',
