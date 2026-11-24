@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:material_ui/material_ui.dart';
 
@@ -9,6 +10,7 @@ import '../common/fingerprint.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart';
 
 /// 7.13 Fléchettes — 9 darts, hold to aim (drifting sight), release to throw.
 class DartsGame extends MiniGameDefinition {
@@ -291,46 +293,71 @@ class DartsSim extends GameSim {
     'bestTurn': bestTurn,
   };
 
+  // ── 3D rendering ──────────────────────────────────────────────────────
+  // The board plane (z = 0) maps 1:1 to arena coordinates; darts stick out
+  // towards the player (+z) and get real perspective.
+  static final double _focal = 320 / math.tan(25 * math.pi / 180);
+  static final Camera3D _camera = Camera3D(
+    eye: V3(180, 0, _focal),
+    target: const V3(180, 0, 0),
+  );
+  static V3 _p(Offset o, [double z = 0]) => V3(o.dx, 320 - o.dy, z);
+  static const V3 _stuckDir = V3(0.2, 0.45, 1);
+  static ui.Picture? _boardPicture;
+
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(
-      Arena.rect,
-      Paint()
-        ..shader = const RadialGradient(
-          colors: [Color(0xFF37474F), Color(0xFF1C262B)],
-        ).createShader(Rect.fromCircle(center: Board.center, radius: 360)),
-    );
-    _drawBoard(canvas);
+    _drawRoom(canvas);
+    canvas.drawPicture(_boardPicture ??= _recordBoard());
+    // Soft shadows of the darts on the board (light from the top left).
+    final shade = Paint()
+      ..color = const Color(0x66000000)
+      ..strokeWidth = 4
+      ..strokeCap = StrokeCap.round
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
     for (final d in _onBoard) {
-      _drawDart(canvas, d.at, 1);
+      canvas.drawLine(d.at, d.at.translate(22, 60), shade);
+    }
+    final s = Scene3D(_camera, light: const V3(-0.4, 0.8, 0.9), ambient: 0.45);
+    for (final d in _onBoard) {
+      _dart3d(s, _p(d.at), _stuckDir);
     }
     if (_flight > 0 && _flyingTo != null) {
       final t = 1 - _flight / (0.22 * stepsPerSecond);
-      final from = _flyingTo!.translate(0, 220);
-      _drawDart(canvas, Offset.lerp(from, _flyingTo!, t)!, 1.6 - 0.6 * t);
+      final to = _p(_flyingTo!);
+      final from = V3(to.x * 0.7 + 54, to.y - 160, 430);
+      final arc = math.sin(t * math.pi) * 40;
+      final tip = from + (to - from) * t + V3(0, arc, 0);
+      _dart3d(s, tip, V3(0, 0.15 - 0.3 * t, 1));
     }
+    // Darts left, standing in a rack at the bottom.
+    for (var i = 0; i < totalDarts - thrown; i++) {
+      _dart3d(
+        s,
+        _p(Offset(26 + i * 15.0, 632), 30),
+        const V3(0.05, 1, 0.25),
+        scale: 0.5,
+      );
+    }
+    s.render(canvas);
     if (_pointer != null) {
-      final s = _sight;
+      final sight = _sight;
       final p = Paint()
         ..color = const Color(0xFF00E676)
         ..strokeWidth = 2
         ..style = PaintingStyle.stroke;
       canvas
-        ..drawCircle(s, 10, p)
-        ..drawLine(s.translate(-16, 0), s.translate(16, 0), p)
-        ..drawLine(s.translate(0, -16), s.translate(0, 16), p);
+        ..drawCircle(sight, 10, p)
+        ..drawLine(sight.translate(-16, 0), sight.translate(16, 0), p)
+        ..drawLine(sight.translate(0, -16), sight.translate(0, 16), p);
     } else if (thrown < totalDarts && _pullIn == 0) {
       drawText(
         canvas,
         '☝️',
-        const Offset(180, 560),
+        const Offset(180, 540),
         size: 32,
         align: TextAlign.center,
       );
-    }
-    // Remaining darts.
-    for (var i = 0; i < totalDarts - thrown; i++) {
-      _drawDart(canvas, Offset(30 + i * 16.0, 610), 0.7);
     }
     if (_onBoard.isNotEmpty) {
       drawText(
@@ -347,13 +374,77 @@ class DartsSim extends GameSim {
     }
   }
 
-  void _drawBoard(Canvas c) {
+  /// Pub wall: wood panelling, a spotlight on the board, the oche shelf.
+  void _drawRoom(Canvas c) {
+    c.drawRect(Arena.rect, Paint()..color = const Color(0xFF2A1B14));
+    for (var i = 0; i < 9; i++) {
+      final x = i * 42.0 - 8;
+      c
+        ..drawRect(
+          Rect.fromLTWH(x, 0, 40, 600),
+          Paint()
+            ..color = tint(
+              const Color(0xFF4A2F22),
+              (cellNoise(i, 3) - 0.5) * 0.2,
+            ),
+        )
+        ..drawRect(
+          Rect.fromLTWH(x + 40, 0, 2, 600),
+          Paint()..color = const Color(0xFF1A100B),
+        );
+    }
+    c
+      ..drawRect(
+        const Rect.fromLTWH(0, 600, 360, 40),
+        Paint()..color = const Color(0xFF1C120D),
+      )
+      ..drawRect(
+        const Rect.fromLTWH(0, 598, 360, 4),
+        Paint()..color = const Color(0xFF6D4C41),
+      )
+      // Warm spotlight from above, dark corners.
+      ..drawRect(
+        Arena.rect,
+        Paint()
+          ..shader = const RadialGradient(
+            center: Alignment(0, -0.2),
+            radius: 0.95,
+            colors: [Color(0x40FFE0B2), Color(0x00000000), Color(0xB0000000)],
+            stops: [0, 0.45, 1],
+          ).createShader(Arena.rect),
+      );
+  }
+
+  /// The board never changes: record it once (sisal, wires, numbers).
+  static ui.Picture _recordBoard() {
+    final rec = ui.PictureRecorder();
+    final c = Canvas(rec);
     const ctr = Board.center;
-    c.drawCircle(
-      ctr,
-      Board.radius + 18,
-      Paint()..color = const Color(0xFF111111),
-    );
+    // Cast shadow on the wall, then the black catch ring.
+    c
+      ..drawCircle(
+        ctr.translate(10, 18),
+        Board.radius + 26,
+        Paint()
+          ..color = const Color(0xA0000000)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 14),
+      )
+      ..drawCircle(
+        ctr,
+        Board.radius + 24,
+        Paint()
+          ..shader =
+              const RadialGradient(
+                colors: [
+                  Color(0xFF2B2B2B),
+                  Color(0xFF151515),
+                  Color(0xFF050505),
+                ],
+                stops: [0.8, 0.95, 1],
+              ).createShader(
+                Rect.fromCircle(center: ctr, radius: Board.radius + 24),
+              ),
+      );
     for (var i = 0; i < 20; i++) {
       final start = (-90 - 9 + i * 18) * math.pi / 180;
       const sweep = 18 * math.pi / 180;
@@ -371,8 +462,8 @@ class DartsSim extends GameSim {
         c.drawPath(path, Paint()..color = col);
       }
 
-      final base = dark ? const Color(0xFF1B1B1B) : const Color(0xFFF1E3C8);
-      final special = dark ? const Color(0xFFD32F2F) : const Color(0xFF2E7D32);
+      final base = dark ? const Color(0xFF1C1A18) : const Color(0xFFE9D9B4);
+      final special = dark ? const Color(0xFFC62828) : const Color(0xFF1B7F3B);
       ring(Board.bullOut, Board.tripleIn, base);
       ring(Board.tripleIn, Board.tripleOut, special);
       ring(Board.tripleOut, Board.doubleIn, base);
@@ -381,31 +472,89 @@ class DartsSim extends GameSim {
       drawText(
         c,
         '${Board.sectors[i]}',
-        ctr + Offset(math.cos(a), math.sin(a)) * (Board.radius + 10),
-        size: 11,
+        ctr + Offset(math.cos(a), math.sin(a)) * (Board.radius + 12),
+        size: 12,
+        display: true,
+        color: const Color(0xFFE0E0E0),
         align: TextAlign.center,
       );
     }
     c
-      ..drawCircle(ctr, Board.bullOut, Paint()..color = const Color(0xFF2E7D32))
-      ..drawCircle(ctr, Board.bullIn, Paint()..color = const Color(0xFFD32F2F));
+      ..drawCircle(ctr, Board.bullOut, Paint()..color = const Color(0xFF1B7F3B))
+      ..drawCircle(ctr, Board.bullIn, Paint()..color = const Color(0xFFC62828));
+    // Sisal fibres: tiny deterministic flecks.
+    final light = Paint()..color = const Color(0x22FFFFFF);
+    final dark = Paint()..color = const Color(0x26000000);
+    for (var k = 0; k < 1400; k++) {
+      final r = math.sqrt(cellNoise(k, 1, 77)) * Board.doubleOut;
+      final a = cellNoise(k, 2, 77) * 2 * math.pi;
+      final p = ctr + Offset(math.cos(a), math.sin(a)) * r;
+      c.drawCircle(p, 0.6 + cellNoise(k, 3, 77), k.isEven ? light : dark);
+    }
+    // Wire spider: rings and radial wires, with a highlight.
+    final wire = Paint()
+      ..color = const Color(0xFFCFD8DC)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.1;
+    for (final r in [
+      Board.bullIn,
+      Board.bullOut,
+      Board.tripleIn,
+      Board.tripleOut,
+      Board.doubleIn,
+      Board.doubleOut,
+    ]) {
+      c.drawCircle(ctr, r, wire);
+    }
+    for (var i = 0; i < 20; i++) {
+      final a = (-90 - 9 + i * 18) * math.pi / 180;
+      final d = Offset(math.cos(a), math.sin(a));
+      c.drawLine(ctr + d * Board.bullOut, ctr + d * Board.doubleOut, wire);
+    }
+    // Spotlight sheen on the board face.
+    c.drawCircle(
+      ctr,
+      Board.radius + 24,
+      Paint()
+        ..shader = const RadialGradient(
+          center: Alignment(-0.35, -0.45),
+          radius: 1.1,
+          colors: [Color(0x30FFFFFF), Color(0x00FFFFFF), Color(0x40000000)],
+          stops: [0, 0.55, 1],
+        ).createShader(Rect.fromCircle(center: ctr, radius: Board.radius + 24)),
+    );
+    return rec.endRecording();
   }
 
-  void _drawDart(Canvas c, Offset at, double scale) {
-    final p = Paint()
-      ..color = const Color(0xFFFFD23F)
-      ..strokeWidth = 3 * scale
-      ..strokeCap = StrokeCap.round;
-    c
-      ..drawLine(at, at.translate(6 * scale, 22 * scale), p)
-      ..drawPath(
-        Path()
-          ..moveTo(at.dx + 6 * scale, at.dy + 18 * scale)
-          ..lineTo(at.dx + 13 * scale, at.dy + 28 * scale)
-          ..lineTo(at.dx + 1 * scale, at.dy + 28 * scale)
-          ..close(),
-        Paint()..color = const Color(0xFFE8322F),
-      )
-      ..drawCircle(at, 2 * scale, Paint()..color = Colors.white);
+  /// A steel-tip dart: point, tungsten barrel, shaft and four flights.
+  /// [tip] is the point, [dir] goes from the point towards the flights.
+  static void _dart3d(Scene3D s, V3 tip, V3 dir, {double scale = 1}) {
+    final d = dir.normalized;
+    V3 at(double l) => tip + d * (l * scale);
+    const steel = Color(0xFFB0BEC5);
+    const tungsten = Color(0xFF78909C);
+    const grip = Color(0xFF455A64);
+    const shaft = Color(0xFF212121);
+    const flight = Color(0xFFE8322F);
+    s
+      ..tube(at(0), at(16), 0.2 * scale, 1.1 * scale, steel, segments: 6)
+      ..tube(at(16), at(22), 2.2 * scale, 2.7 * scale, tungsten)
+      ..tube(at(22), at(32), 2.7 * scale, 2.7 * scale, grip)
+      ..tube(at(32), at(44), 2.7 * scale, 2.0 * scale, tungsten)
+      ..tube(at(44), at(72), 1.3 * scale, 1.3 * scale, shaft, segments: 6);
+    // Flights: two crossed kite shapes.
+    final helper = d.y.abs() < 0.9 ? const V3(0, 1, 0) : const V3(1, 0, 0);
+    final u = d.cross(helper).normalized;
+    final v = d.cross(u);
+    for (final side in [u, v, u * -1, v * -1]) {
+      s.quad(
+        at(60),
+        at(66) + side * (9 * scale),
+        at(82) + side * (11 * scale),
+        at(84),
+        flight,
+        doubleSided: true,
+      );
+    }
   }
 }

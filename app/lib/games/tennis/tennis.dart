@@ -9,6 +9,7 @@ import '../common/fingerprint.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart';
 
 /// 7.7 Tennis de table — first to 7 points against an AI, 2 minutes max.
 class TennisGame extends MiniGameDefinition {
@@ -356,50 +357,175 @@ class TennisSim extends GameSim {
     'smashes': smashes,
   };
 
+  // ── 3D rendering ──────────────────────────────────────────────────────
+  // Table top at height 0 in sim coordinates (x, y) → V3(x, h, y); the
+  // camera stands behind the player. Input is a relative drag, so it does
+  // not depend on the projection.
+  static final Camera3D _camera = Camera3D(
+    eye: const V3(180, 360, 1130),
+    target: const V3(180, -20, 330),
+    fovDegrees: 46,
+    center: const Offset(180, 330),
+  );
+  static const double _floor = -133;
+  static const double _netH = 27;
+
+  /// Synthetic ball height: an arc over the net, one bounce on the
+  /// receiver's half, then rising to the paddle.
+  double get _ballHeight {
+    if (_waitingServe || !_live) return 24;
+    final toAi = _vel.dy < 0;
+    final from = toAi ? playerY : aiY, to = toAi ? aiY : playerY;
+    final t = ((_ball.dy - from) / (to - from)).clamp(0.0, 1.0);
+    const b = 0.72;
+    final arc = _lastWasSmash ? 0.8 : 1.0;
+    if (t < b) {
+      final u = t / b;
+      return 24 * (1 - u) + 42 * arc * math.sin(math.pi * u);
+    }
+    return 26 * math.sin(math.pi / 2 * (t - b) / (1 - b));
+  }
+
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(Arena.rect, Paint()..color = const Color(0xFF1B263B));
-    drawShadowRRect(
+    drawSky(
       canvas,
-      RRect.fromRectAndRadius(table, const Radius.circular(4)),
-      dy: 8,
+      Arena.rect,
+      const Color(0xFF0D1B2A),
+      const Color(0xFF1B263B),
     );
-    canvas
-      ..drawRect(table, Paint()..color = const Color(0xFF1565C0))
-      ..drawRect(
-        table,
-        Paint()
-          ..color = Colors.white
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 3,
-      )
-      ..drawLine(
-        Offset(180, table.top),
-        Offset(180, table.bottom),
-        Paint()
-          ..color = Colors.white54
-          ..strokeWidth = 1.5,
-      )
-      ..drawRect(
-        Rect.fromLTRB(table.left - 10, 357, table.right + 10, 363),
-        Paint()..color = const Color(0xFFECEFF1),
-      );
-    void paddle(double x, double y, Color c) {
-      drawBox(
-        canvas,
-        Rect.fromCenter(
-          center: Offset(x, y),
-          width: paddleHalf * 2,
-          height: 12,
-        ),
-        c,
-        radius: 6,
+    final s = Scene3D(
+      _camera,
+      light: const V3(-0.3, 1, 0.45),
+      ambient: 0.5,
+      fogColor: const Color(0xFF14202F),
+      fogStart: 1300,
+      fogEnd: 2600,
+    );
+    // Sports floor and the surround barriers.
+    s.ground(
+      const Rect.fromLTRB(-700, -700, 1060, 1200),
+      (i, j) => tint(const Color(0xFF8E3B2C), (cellNoise(i, j) - 0.5) * 0.025),
+      cell: 110,
+      height: _floor,
+    );
+    for (var k = -4; k <= 7; k++) {
+      s.box(
+        V3(k * 110.0 - 10, _floor, -420),
+        106,
+        60,
+        6,
+        k.isEven ? const Color(0xFF0D47A1) : const Color(0xFF1565C0),
       );
     }
+    // Table: legs, thick top, white lines, net with its posts.
+    const t = table;
+    for (final x in [t.left + 30, t.right - 30]) {
+      for (final z in [t.top + 50, t.bottom - 50]) {
+        s.box(V3(x, _floor, z), 10, -_floor - 6, 10, const Color(0xFF263238));
+      }
+    }
+    s.shadow(
+      t.center,
+      t.width * 0.62,
+      height: _floor + 0.5,
+      opacity: 0.45,
+      stretch: 1,
+    );
+    // Opponent behind the far end (under the table's edge).
+    s.figure(
+      V3(_ax, _floor, aiY - 105),
+      const Color(0xFF37474F),
+      scale: 5.4,
+      arms: 0.45,
+    );
+    s.render(canvas);
+    s
+      ..box(
+        V3(t.center.dx, -6, t.center.dy),
+        t.width,
+        6,
+        t.height,
+        const Color(0xFF0B2E59),
+        layer: Layer.ground,
+      )
+      ..ground(
+        t,
+        (i, j) =>
+            tint(const Color(0xFF1E5AA8), (cellNoise(i, j, 3) - 0.5) * 0.03),
+        cell: 40,
+        layer: Layer.surface,
+      );
+    void line(Rect r) => s.ground(
+      r,
+      (_, _) => const Color(0xFFF5F5F5),
+      cell: 600,
+      height: 0.3,
+      layer: Layer.decal,
+    );
+    line(Rect.fromLTRB(t.left, t.top, t.left + 3.5, t.bottom));
+    line(Rect.fromLTRB(t.right - 3.5, t.top, t.right, t.bottom));
+    line(Rect.fromLTRB(t.left, t.top, t.right, t.top + 3.5));
+    line(Rect.fromLTRB(t.left, t.bottom - 3.5, t.right, t.bottom));
+    line(Rect.fromLTRB(t.center.dx - 1, t.top, t.center.dx + 1, t.bottom));
+    const netZ = 360.0;
+    for (final x in [t.left - 12, t.right + 12]) {
+      s.tube(
+        V3(x, 0, netZ),
+        V3(x, _netH + 2, netZ),
+        1.6,
+        1.6,
+        const Color(0xFF212121),
+      );
+    }
+    s
+      ..quad(
+        V3(t.left - 12, 0, netZ),
+        V3(t.right + 12, 0, netZ),
+        V3(t.right + 12, _netH, netZ),
+        V3(t.left - 12, _netH, netZ),
+        const Color(0x99101418),
+        doubleSided: true,
+        lit: false,
+      )
+      ..box(
+        V3(t.center.dx, _netH - 2, netZ),
+        t.width + 24,
+        3,
+        1.2,
+        const Color(0xFFF5F5F5),
+      );
 
-    paddle(_ax, aiY, const Color(0xFF212121));
-    paddle(_px, playerY, const Color(0xFFE8322F));
-    drawBall(canvas, _ball, 6, Colors.white);
+    _paddle(
+      s,
+      V3(_ax, 22, aiY - 6),
+      const Color(0xFF212121),
+      towardsCamera: false,
+    );
+    _paddle(
+      s,
+      V3(_px, 26, playerY + 10),
+      const Color(0xFFF44336),
+      towardsCamera: true,
+    );
+    final h = _ballHeight;
+    if (t.contains(_ball)) {
+      s.shadow(
+        _ball,
+        5 + h * 0.05,
+        height: 0.6,
+        opacity: math.max(0.15, 0.45 - h * 0.006),
+      );
+    }
+    s.sphere(
+      V3(_ball.dx, h + 4, _ball.dy),
+      4.5,
+      const Color(0xFFFFF3E0),
+      lat: 6,
+      lon: 10,
+    );
+    s.render(canvas);
+
     drawText(
       canvas,
       '$me',
@@ -422,10 +548,45 @@ class TennisSim extends GameSim {
       drawText(
         canvas,
         '👆',
-        const Offset(180, 520),
+        const Offset(180, 600),
         size: 30,
         align: TextAlign.center,
       );
     }
+  }
+
+  /// Round blade with rubber, wooden edge and handle.
+  static void _paddle(
+    Scene3D s,
+    V3 c,
+    Color rubber, {
+    required bool towardsCamera,
+  }) {
+    final n = V3(0, 0, towardsCamera ? 1 : -1);
+    s
+      ..tube(
+        c - n * 1.2,
+        c + n * 1.2,
+        17,
+        17,
+        rubber,
+        segments: 14,
+        capped: true,
+      )
+      ..tube(
+        c - n * 0.4,
+        c + n * 0.4,
+        17.6,
+        17.6,
+        const Color(0xFFD7A86E),
+        segments: 14,
+      )
+      ..tube(
+        c - const V3(0, 15, 0),
+        c - const V3(0, 34, 0),
+        3.2,
+        3.6,
+        const Color(0xFFBC8A55),
+      );
   }
 }

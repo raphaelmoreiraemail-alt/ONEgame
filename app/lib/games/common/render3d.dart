@@ -432,6 +432,54 @@ class Scene3D {
     }
   }
 
+  /// Tube from [a] to [b] (radius [ra] at a, [rb] at b; 0 makes a cone),
+  /// for shafts, barrels, rods and limbs in any direction.
+  void tube(
+    V3 a,
+    V3 b,
+    double ra,
+    double rb,
+    Color color, {
+    int segments = 8,
+    bool capped = false,
+    int layer = Layer.solid,
+  }) {
+    final axis = (b - a).normalized;
+    final helper = axis.y.abs() < 0.9 ? const V3(0, 1, 0) : const V3(1, 0, 0);
+    final u = axis.cross(helper).normalized;
+    final v = axis.cross(u);
+    for (var i = 0; i < segments; i++) {
+      final a0 = i / segments * 2 * math.pi;
+      final a1 = (i + 1) / segments * 2 * math.pi;
+      final n0 = u * math.cos(a0) + v * math.sin(a0);
+      final n1 = u * math.cos(a1) + v * math.sin(a1);
+      final p0 = a + n0 * ra, p1 = a + n1 * ra;
+      final q0 = b + n0 * rb, q1 = b + n1 * rb;
+      tri(
+        p0,
+        q1,
+        p1,
+        color,
+        vertexNormals: [n0, n1, n1],
+        normal: (n0 + n1).normalized,
+        layer: layer,
+      );
+      tri(
+        p0,
+        q0,
+        q1,
+        color,
+        vertexNormals: [n0, n0, n1],
+        normal: (n0 + n1).normalized,
+        layer: layer,
+      );
+      if (capped) {
+        tri(b, q1, q0, color, normal: axis, layer: layer);
+        tri(a, p0, p1, color, normal: axis * -1, layer: layer);
+      }
+    }
+  }
+
   /// Smooth-shaded sphere.
   void sphere(
     V3 center,
