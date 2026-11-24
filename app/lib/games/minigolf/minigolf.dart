@@ -11,6 +11,7 @@ import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
 import '../common/physics.dart';
+import '../common/render3d.dart';
 import 'minigolf_level.dart';
 
 /// 7.1 Mini-Golf — 3 holes in 2 minutes, slingshot shots.
@@ -436,174 +437,318 @@ class MinigolfSim extends GameSim {
 
   // ---------------------------------------------------------------- render
 
+  // ---------------------------------------------------------------- 3D
+
+  /// Elevated camera behind the tee, looking down the course.
+  static final Camera3D _camera = Camera3D(
+    eye: const V3(180, 520, 930),
+    target: const V3(180, 0, 330),
+    fovDegrees: 46,
+    center: const Offset(180, 330),
+  );
+
+  @override
+  Camera3D get camera3d => _camera;
+
+  static const _grassA = Color(0xFF4CAF50);
+  static const _grassB = Color(0xFF43A047);
+  static const _wood = Color(0xFF8D6E63);
+  static const _woodTop = Color(0xFFBCAAA4);
+
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(Arena.rect, Paint()..color = const Color(0xFF1B5E20));
-    const b = Course.bounds;
-    for (var y = b.top; y < b.bottom; y += 40) {
-      canvas.drawRect(
-        Rect.fromLTRB(b.left, y, b.right, math.min(y + 40, b.bottom)),
-        Paint()
-          ..color = ((y - b.top) ~/ 40).isEven
-              ? const Color(0xFF43A047)
-              : const Color(0xFF4CAF50),
-      );
-    }
+    drawSky(
+      canvas,
+      Arena.rect,
+      const Color(0xFF7EC8F2),
+      const Color(0xFFD7F0FF),
+    );
+    final scene = Scene3D(
+      _camera,
+      fogColor: const Color(0xFFD7F0FF),
+      fogStart: 1100,
+      fogEnd: 2600,
+    );
     final h = holeIndex < holes.length ? hole : holes.last;
-    for (final o in h.obstacles) {
-      _renderZone(canvas, o);
-    }
-    // Cup + flag.
-    canvas
-      ..drawCircle(
-        h.cup,
-        Course.cupRadius + 2,
-        Paint()..color = const Color(0xFF2E7D32),
-      )
-      ..drawCircle(
-        h.cup,
-        Course.cupRadius,
-        Paint()..color = const Color(0xFF111111),
-      )
-      ..drawLine(
-        h.cup,
-        h.cup.translate(0, -40),
-        Paint()
-          ..color = Colors.white
-          ..strokeWidth = 2,
-      );
-    canvas.drawPath(
-      Path()
-        ..moveTo(h.cup.dx, h.cup.dy - 40)
-        ..lineTo(h.cup.dx + 22, h.cup.dy - 33)
-        ..lineTo(h.cup.dx, h.cup.dy - 26)
-        ..close(),
-      Paint()..color = const Color(0xFFE8322F),
+    const b = Course.bounds;
+    // Surrounding lawn, then the striped putting green.
+    scene.ground(
+      const Rect.fromLTRB(-400, -900, 760, 1000),
+      (i, j) => tint(const Color(0xFF2E7D32), (cellNoise(i, j) - 0.5) * 0.04),
+      cell: 80,
+      height: -2,
     );
-    // Tee mat.
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromCenter(center: h.tee, width: 34, height: 20),
-        const Radius.circular(4),
-      ),
-      Paint()..color = const Color(0x33000000),
-    );
-    for (final o in h.obstacles) {
-      _renderSolid(canvas, o);
-    }
-    // Border.
-    canvas.drawRect(
+    scene.ground(
       b,
-      Paint()
-        ..color = const Color(0xFF795548)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 8,
+      (i, j) =>
+          tint(j.isEven ? _grassA : _grassB, (cellNoise(i, j, 3) - 0.5) * 0.08),
+      cell: 20,
+      layer: Layer.surface,
     );
-
+    _scenery(scene);
+    for (final o in h.obstacles) {
+      _zone3d(scene, o);
+    }
+    // Cup: dark hole + white rim, flag on its pole.
+    scene
+      ..cylinder(
+        V3.ground(h.cup, -6),
+        Course.cupRadius + 1.5,
+        6.4,
+        const Color(0xFFF4ECE4),
+        top: const Color(0xFF111111),
+      )
+      ..cylinder(
+        V3.ground(h.cup, -6),
+        Course.cupRadius - 0.5,
+        6.5,
+        const Color(0xFF111111),
+      )
+      ..cylinder(
+        V3.ground(h.cup),
+        1.4,
+        70,
+        const Color(0xFFF4ECE4),
+        segments: 6,
+      );
+    final flapping = 4 * math.sin(elapsed * 5);
+    scene
+      ..tri(
+        V3.ground(h.cup, 70),
+        V3(h.cup.dx + 30, 62 + flapping, h.cup.dy),
+        V3.ground(h.cup, 54),
+        const Color(0xFFE8322F),
+        doubleSided: true,
+      )
+      ..shadow(h.cup.translate(12, 6), 10, opacity: 0.2, stretch: 2.2);
+    // Tee mat.
+    scene.box(V3.ground(h.tee, 0), 36, 1.5, 22, const Color(0xFF1B5E20));
+    // Border: wooden rails.
+    const t = 8.0, rail = 14.0;
+    scene
+      ..box(
+        V3(b.center.dx, 0, b.top - t / 2),
+        b.width + 2 * t,
+        rail,
+        t,
+        _wood,
+        top: _woodTop,
+      )
+      ..box(
+        V3(b.center.dx, 0, b.bottom + t / 2),
+        b.width + 2 * t,
+        rail,
+        t,
+        _wood,
+        top: _woodTop,
+      )
+      ..box(
+        V3(b.left - t / 2, 0, b.center.dy),
+        t,
+        rail,
+        b.height,
+        _wood,
+        top: _woodTop,
+      )
+      ..box(
+        V3(b.right + t / 2, 0, b.center.dy),
+        t,
+        rail,
+        b.height,
+        _wood,
+        top: _woodTop,
+      );
+    for (final o in h.obstacles) {
+      _solid3d(scene, o);
+    }
     if (_world != null) {
       final ball = _ball.px;
       final pull = _pull;
       if (pull != null && pull.distance > 4) {
         final power = math.min(pull.distance / 140, 1.0);
-        drawDashed(
-          canvas,
-          ball,
-          pull,
-          40,
-          Paint()
-            ..color = Colors.white
-            ..strokeWidth = 3
-            ..strokeCap = StrokeCap.round,
+        final dir = pull / pull.distance;
+        // Short dotted guide on the grass (40 px, section 7.1).
+        for (var d = 10.0; d < 50; d += 10) {
+          scene.shadow(ball + dir * d, 2.2, height: 0.6, opacity: 0.9);
+        }
+        final ring = Color.lerp(
+          const Color(0xFFFFD23F),
+          const Color(0xFFE8322F),
+          power,
+        )!;
+        for (var i = 0; i < 24; i++) {
+          final a0 = i / 24 * 2 * math.pi, a1 = (i + 0.6) / 24 * 2 * math.pi;
+          final r = 14 + power * 18;
+          scene.quad(
+            V3(ball.dx + math.cos(a0) * r, 0.8, ball.dy + math.sin(a0) * r),
+            V3(ball.dx + math.cos(a1) * r, 0.8, ball.dy + math.sin(a1) * r),
+            V3(
+              ball.dx + math.cos(a1) * (r + 3),
+              0.8,
+              ball.dy + math.sin(a1) * (r + 3),
+            ),
+            V3(
+              ball.dx + math.cos(a0) * (r + 3),
+              0.8,
+              ball.dy + math.sin(a0) * (r + 3),
+            ),
+            ring,
+            lit: false,
+            doubleSided: true,
+          );
+        }
+      }
+      scene
+        ..shadow(ball.translate(4, 3), Course.ballRadius * 1.1, stretch: 1.4)
+        ..sphere(
+          V3.ground(ball, Course.ballRadius),
+          Course.ballRadius,
+          Colors.white,
+          lat: 7,
+          lon: 12,
         );
+    }
+    scene.render(canvas);
+    // Specular glint on the ball.
+    if (_world != null) {
+      final p = _camera.project(V3.ground(_ball.px, Course.ballRadius * 1.6));
+      if (p != null) {
         canvas.drawCircle(
-          ball,
-          14 + power * 18,
-          Paint()
-            ..color = Color.lerp(
-              const Color(0xFFFFD23F),
-              const Color(0xFFE8322F),
-              power,
-            )!
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 3,
-        );
-      } else if (_state == _State.aiming) {
-        final pulse = 12 + 3 * math.sin(elapsed * 6);
-        canvas.drawCircle(
-          ball,
-          pulse,
-          Paint()
-            ..color = const Color(0x88FFFFFF)
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2,
+          p.translate(-1.5, 0),
+          1.6,
+          Paint()..color = Colors.white,
         );
       }
-      drawBall(canvas, ball, Course.ballRadius, Colors.white);
     }
-
     if (wind != Offset.zero) drawWind(canvas, const Offset(312, 600), wind);
     drawText(
       canvas,
       '⛳ ${math.min(holeIndex + 1, holes.length)}/${holes.length} · PAR ${h.par} · '
       '${_state == _State.transition || _state == _State.done ? holeStrokes.last : strokes}',
-      const Offset(180, 108),
-      size: 14,
+      const Offset(180, 104),
+      size: 15,
       align: TextAlign.center,
+      color: const Color(0xFF0D3B12),
     );
   }
 
-  void _renderZone(Canvas c, Obstacle o) {
+  /// Trees and bushes around the course (fixed, purely decorative).
+  static final List<(Offset, double, int)> _trees = () {
+    final out = <(Offset, double, int)>[];
+    for (var i = 0; i < 26; i++) {
+      final side = i.isEven ? -1 : 1;
+      final x = side < 0
+          ? -40 - cellNoise(i, 1) * 260
+          : 400 + cellNoise(i, 1) * 260;
+      final z = -700 + i * 60 + cellNoise(i, 2) * 40;
+      out.add((Offset(x, z), 0.7 + cellNoise(i, 3) * 0.6, i % 3));
+    }
+    for (var i = 0; i < 9; i++) {
+      out.add((
+        Offset(
+          -200 + i * 95.0 + cellNoise(i, 4) * 30,
+          -120 - cellNoise(i, 5) * 500,
+        ),
+        0.8 + cellNoise(i, 6) * 0.7,
+        i % 3,
+      ));
+    }
+    return out;
+  }();
+
+  void _scenery(Scene3D s) {
+    for (final (p, k, kind) in _trees) {
+      if (kind == 2) {
+        s.sphere(
+          V3.ground(p, 14 * k),
+          22 * k,
+          const Color(0xFF388E3C),
+          lat: 5,
+          lon: 8,
+        );
+        continue;
+      }
+      s
+        ..cylinder(
+          V3.ground(p),
+          6 * k,
+          40 * k,
+          const Color(0xFF6D4C41),
+          segments: 6,
+        )
+        ..sphere(
+          V3.ground(p, 62 * k),
+          34 * k,
+          kind == 0 ? const Color(0xFF2E7D32) : const Color(0xFF558B2F),
+          lat: 5,
+          lon: 8,
+        );
+    }
+  }
+
+  void _zone3d(Scene3D s, Obstacle o) {
     switch (o.kind) {
       case ObstacleKind.sand:
-        c.drawRRect(
-          RRect.fromRectAndRadius(o.rect, const Radius.circular(22)),
-          Paint()..color = const Color(0xFFE6CF8B),
+        s.ground(
+          o.rect.deflate(2),
+          (i, j) =>
+              tint(const Color(0xFFE6CF8B), (cellNoise(i, j, 7) - 0.5) * 0.15),
+          cell: 12,
+          height: 0.4,
+          layer: Layer.decal,
         );
       case ObstacleKind.water:
-        c.drawRRect(
-          RRect.fromRectAndRadius(o.rect, const Radius.circular(18)),
-          Paint()..color = const Color(0xFF1E88E5),
+        final w = math.sin(elapsed * 2);
+        s.ground(
+          o.rect,
+          (i, j) => tint(
+            const Color(0xFF1E88E5),
+            0.15 * math.sin(i * 0.9 + j * 0.7 + elapsed * 3) + w * 0.03,
+          ),
+          cell: 14,
+          height: 0.5,
+          layer: Layer.decal,
         );
-        final wave = Paint()
-          ..color = const Color(0x66FFFFFF)
-          ..strokeWidth = 2
-          ..style = PaintingStyle.stroke;
-        for (var y = o.rect.top + 14; y < o.rect.bottom - 6; y += 16) {
-          final dx = 6 * math.sin(elapsed * 2 + y);
-          c.drawLine(
-            Offset(o.rect.left + 20 + dx, y),
-            Offset(o.rect.left + 40 + dx, y),
-            wave,
-          );
-        }
       case ObstacleKind.slope:
-        c.drawRect(o.rect, Paint()..color = const Color(0x2200332A));
+        s.ground(
+          o.rect,
+          (i, j) => const Color(0x2200332A),
+          cell: 40,
+          height: 0.3,
+          layer: Layer.decal,
+        );
         final dir = o.vector / o.vector.distance;
-        final p = Paint()
-          ..color = const Color(0x55FFFFFF)
-          ..strokeWidth = 3
-          ..strokeCap = StrokeCap.round;
+        final n = Offset(-dir.dy, dir.dx);
         final phase = (elapsed * 30) % 40;
         for (var x = o.rect.left + 30; x < o.rect.right; x += 60) {
           for (var y = o.rect.top + 20; y < o.rect.bottom; y += 40) {
             final at = Offset(x, y) + dir * (phase - 20);
-            final n = Offset(-dir.dy, dir.dx);
-            c
-              ..drawLine(at, at - dir * 8 + n * 6, p)
-              ..drawLine(at, at - dir * 8 - n * 6, p);
+            s.tri(
+              V3.ground(at + dir * 8, 0.7),
+              V3.ground(at - n * 6, 0.7),
+              V3.ground(at + n * 6, 0.7),
+              const Color(0x88FFFFFF),
+              lit: false,
+              doubleSided: true,
+              layer: Layer.decal,
+            );
           }
         }
       case ObstacleKind.portal:
         for (final p in [o.rect.center, o.vector]) {
-          c
-            ..drawCircle(p, 14, Paint()..color = const Color(0xFF4A148C))
-            ..drawCircle(
-              p,
-              10 + 2 * math.sin(elapsed * 8),
-              Paint()
-                ..color = const Color(0xFFB388FF)
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 3,
+          s
+            ..cylinder(
+              V3.ground(p, -2),
+              14,
+              2.6,
+              const Color(0xFF4A148C),
+              top: const Color(0xFF7B1FA2),
+            )
+            ..cylinder(
+              V3.ground(p, 0),
+              9 + 2 * math.sin(elapsed * 8),
+              1,
+              const Color(0xFFB388FF),
             );
         }
       default:
@@ -611,31 +756,29 @@ class MinigolfSim extends GameSim {
     }
   }
 
-  void _renderSolid(Canvas c, Obstacle o) {
+  void _solid3d(Scene3D s, Obstacle o) {
     switch (o.kind) {
       case ObstacleKind.wall:
-        c
-          ..save()
-          ..translate(o.rect.center.dx, o.rect.center.dy)
-          ..rotate(o.angle);
-        drawBox(
-          c,
-          Rect.fromCenter(
-            center: Offset.zero,
-            width: o.rect.width,
-            height: o.rect.height,
-          ),
-          const Color(0xFF8D6E63),
-          radius: 4,
+        s.box(
+          V3.ground(o.rect.center),
+          o.rect.width,
+          14,
+          o.rect.height,
+          _wood,
+          yaw: o.angle,
+          top: _woodTop,
         );
-        c.restore();
       case ObstacleKind.bumper:
-        drawBall(c, o.rect.center, o.rect.width / 2, const Color(0xFFE8322F));
-        c.drawCircle(
-          o.rect.center,
-          o.rect.width / 4,
-          Paint()..color = const Color(0xFFFFD23F),
-        );
+        final r = o.rect.width / 2;
+        s
+          ..shadow(o.rect.center.translate(5, 4), r * 1.1)
+          ..cylinder(
+            V3.ground(o.rect.center),
+            r,
+            16,
+            const Color(0xFFE8322F),
+            top: const Color(0xFFFFD23F),
+          );
       case ObstacleKind.windmill || ObstacleKind.mover:
         final body = _dynamicObstacles
             .where((e) => identical(e.$1, o))
@@ -644,34 +787,42 @@ class MinigolfSim extends GameSim {
         if (body == null || _world == null) return;
         final at = body.px;
         if (o.kind == ObstacleKind.mover) {
-          drawBox(
-            c,
-            Rect.fromCenter(
-              center: at,
-              width: o.rect.width,
-              height: o.rect.height,
-            ),
-            const Color(0xFFFF7043),
-            radius: 4,
-          );
+          s
+            ..shadow(at.translate(6, 5), o.rect.width / 2, stretch: 0.3)
+            ..box(
+              V3.ground(at),
+              o.rect.width,
+              12,
+              o.rect.height,
+              const Color(0xFFFF7043),
+              top: const Color(0xFFFFAB91),
+            );
         } else {
           final r = o.rect.width / 2;
-          c
-            ..save()
-            ..translate(at.dx, at.dy)
-            ..rotate(body.angle);
-          final blade = Paint()..color = const Color(0xFFF4ECE4);
-          c
-            ..drawRect(
-              Rect.fromCenter(center: Offset.zero, width: r * 2, height: 10),
-              blade,
+          s
+            ..cylinder(
+              V3.ground(at),
+              10,
+              18,
+              const Color(0xFFE8322F),
+              top: const Color(0xFFB71C1C),
             )
-            ..drawRect(
-              Rect.fromCenter(center: Offset.zero, width: 10, height: r * 2),
-              blade,
+            ..box(
+              V3.ground(at, 4),
+              r * 2,
+              8,
+              10,
+              const Color(0xFFF4ECE4),
+              yaw: body.angle,
             )
-            ..restore()
-            ..drawCircle(at, 9, Paint()..color = const Color(0xFFE8322F));
+            ..box(
+              V3.ground(at, 4),
+              10,
+              8,
+              r * 2,
+              const Color(0xFFF4ECE4),
+              yaw: body.angle,
+            );
         }
       default:
         break;

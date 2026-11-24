@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import '../../core/rng/seeded_random.dart';
 import 'game_types.dart';
+import 'render3d.dart';
 
 /// Logical world size shared by all mini-games (portrait 9:16).
 abstract final class Arena {
@@ -88,6 +89,13 @@ abstract class GameSim {
 
   /// Position (world units) the camera of the `night` modifier follows.
   Offset? get focus => null;
+
+  /// Games drawn in 3D expose their camera: touches are then mapped from
+  /// the screen onto the ground plane before reaching [onPointer].
+  Camera3D? get camera3d => null;
+
+  /// Height of the plane touches are projected on (3D games).
+  double get touchPlaneHeight => 0;
 
   void cue({Sfx? sfx, Haptic? haptic}) =>
       cues.add(GameCue(sfx: sfx, haptic: haptic));
