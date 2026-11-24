@@ -9,6 +9,7 @@ import '../common/fingerprint.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart';
 
 /// 7.11 Slalom — pass every gate, as fast as possible.
 class SkiGame extends MiniGameDefinition {
@@ -256,112 +257,230 @@ class SkiSim extends GameSim {
     'finished': finished ? 1 : 0,
   };
 
-  double _screenY(double worldY) => skierY + (worldY - _y);
+  // ── 3D rendering ──────────────────────────────────────────────────────
+  // Chase camera behind the skier. A course point (x, wy) sits at
+  // z = _y − wy (ahead is −z) on a slope going down the hill.
+  static const double _slope = 0.28;
+  static const Color _snow = Color(0xFFF4F8FC);
+
+  V3 _w(double x, double wy, [double h = 0]) {
+    final z = _y - wy;
+    return V3(x, z * _slope + h, z);
+  }
 
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(Arena.rect, Paint()..color = const Color(0xFFF5F9FC));
-    // Ski tracks.
-    final trail = Paint()
-      ..color = const Color(0x22000000)
-      ..strokeWidth = 2;
-    for (var i = 0; i < 8; i++) {
-      final y = (i * 90 - _y % 90) + 0.0;
-      canvas.drawLine(Offset(30, y), Offset(40, y + 20), trail);
-    }
-    for (final b in course.bumps) {
-      final sy = _screenY(b.dy);
-      if (sy < -30 || sy > 680) continue;
-      canvas.drawOval(
-        Rect.fromCenter(center: Offset(b.dx, sy), width: 46, height: 22),
-        Paint()..color = const Color(0x1A3949AB),
+    final cx = 180 + (_x - 180) * 0.55;
+    final cam = Camera3D(
+      eye: V3(cx, 250, 320),
+      target: V3(180 + (_x - 180) * 0.75, -110, -360),
+      fovDegrees: 56,
+      center: const Offset(180, 305),
+    );
+    final horizon =
+        cam.project(V3(cx, 250 - 100000 * _slope, 320 - 100000))?.dy ?? 120;
+    drawSky(
+      canvas,
+      Rect.fromLTWH(0, 0, 360, horizon + 1),
+      const Color(0xFF2F6FBF),
+      const Color(0xFFBFDDF2),
+    );
+    // Distant peaks with snowy tops, then the far snowfield.
+    final far = Path()..moveTo(0, horizon);
+    final near = Path()..moveTo(0, horizon);
+    for (var x = 0.0; x <= 360; x += 10) {
+      final sx = x - (_x - 180) * 0.1;
+      far.lineTo(
+        x,
+        horizon - 40 - 34 * (math.sin(sx / 37).abs()) - 12 * math.sin(sx / 13),
       );
+      near.lineTo(x, horizon - 14 - 16 * math.sin(sx / 23 + 2).abs());
+    }
+    for (final pth in [far, near]) {
+      pth
+        ..lineTo(360, horizon)
+        ..close();
+    }
+    canvas
+      ..drawPath(far, Paint()..color = const Color(0xFF9FB4CC))
+      ..drawPath(near, Paint()..color = const Color(0xFF7D93AE))
+      ..drawRect(
+        Rect.fromLTWH(0, horizon, 360, 640 - horizon),
+        Paint()..color = const Color(0xFFDDE8F2),
+      );
+
+    final s = Scene3D(
+      cam,
+      light: const V3(-0.4, 1, 0.3),
+      ambient: 0.55,
+      fogColor: const Color(0xFFDDE8F2),
+      fogStart: 700,
+      fogEnd: 2100,
+    );
+    // Groomed piste (corduroy rows) and deeper snow off-piste.
+    const ahead = 1900.0, behind = 260.0;
+    const cell = 70.0;
+    final j0 = ((_y - behind) / cell).floor();
+    final j1 = ((_y + ahead) / cell).ceil();
+    for (var j = j0; j < j1; j++) {
+      final y0 = j * cell, y1 = y0 + cell;
+      for (var i = -9; i < 15; i++) {
+        final x0 = i * 60.0, x1 = x0 + 60;
+        final onPiste = x0 >= 0 && x1 <= 360;
+        final n = cellNoise(i, j, 4) - 0.5;
+        final col = onPiste
+            ? tint(_snow, (j.isEven ? -0.02 : 0.0) + n * 0.02)
+            : tint(const Color(0xFFE6EEF6), n * 0.05);
+        s.quad(
+          _w(x0, y0),
+          _w(x0, y1),
+          _w(x1, y1),
+          _w(x1, y0),
+          col,
+          layer: Layer.ground,
+        );
+      }
+    }
+    bool visible(double wy) => wy > _y - behind && wy < _y + ahead;
+
+    for (final b in course.bumps) {
+      if (!visible(b.dy)) continue;
+      s
+        ..shadow(
+          _w(b.dx + 8, b.dy + 10).flat,
+          26,
+          height: _w(0, b.dy + 10).y + 0.3,
+          opacity: 0.1,
+          stretch: 1.6,
+        )
+        ..shadow(
+          _w(b.dx - 6, b.dy - 8).flat,
+          18,
+          height: _w(0, b.dy - 8).y + 0.35,
+          opacity: 0.05,
+          stretch: 1.6,
+        );
     }
     for (var i = 0; i < course.gates.length; i++) {
-      final sy = _screenY((i + 1) * SkiCourse.spacing);
-      if (sy < -30 || sy > 680) continue;
+      final wy = (i + 1) * SkiCourse.spacing;
+      if (!visible(wy)) continue;
       final gx = course.gates[i];
       final color = i.isEven
           ? const Color(0xFFE53935)
           : const Color(0xFF1E88E5);
-      for (final px in [gx - SkiCourse.gateHalf, gx + SkiCourse.gateHalf]) {
-        canvas
-          ..drawLine(
-            Offset(px, sy - 22),
-            Offset(px, sy),
-            Paint()
-              ..color = color
-              ..strokeWidth = 4,
+      for (final side in [-1.0, 1.0]) {
+        final inner = gx + side * SkiCourse.gateHalf;
+        final outer = inner + side * 24;
+        for (final px in [inner, outer]) {
+          s.tube(_w(px, wy), _w(px, wy, 58), 1.4, 1.4, color, segments: 5);
+        }
+        s
+          ..quad(
+            _w(inner, wy, 24),
+            _w(outer, wy, 24),
+            _w(outer, wy, 52),
+            _w(inner, wy, 52),
+            color,
+            doubleSided: true,
           )
-          ..drawRect(
-            Rect.fromLTWH(px - (px < gx ? 0 : 14), sy - 22, 14, 10),
-            Paint()..color = color,
+          ..shadow(
+            _w(inner + side * 12, wy).flat,
+            14,
+            height: _w(0, wy).y + 0.4,
+            opacity: 0.12,
           );
       }
     }
-    for (final t in course.trees) {
-      final sy = _screenY(t.dy);
-      if (sy < -30 || sy > 680) continue;
-      canvas.drawPath(
-        Path()
-          ..moveTo(t.dx, sy - 22)
-          ..lineTo(t.dx - 13, sy + 8)
-          ..lineTo(t.dx + 13, sy + 8)
-          ..close(),
-        Paint()..color = const Color(0xFF2E7D32),
-      );
-    }
-    final fy = _screenY(course.length);
-    if (fy > -10 && fy < 680) {
-      for (var x = 0.0; x < 360; x += 20) {
-        canvas.drawRect(
-          Rect.fromLTWH(x, fy, 10, 10),
-          Paint()..color = Colors.black,
+    void pine(double x, double wy, double size) {
+      final base = _w(x, wy);
+      s
+        ..shadow(
+          Offset(x + 10, base.z),
+          20 * size,
+          height: base.y + 0.3,
+          opacity: 0.2,
+        )
+        ..tube(
+          base,
+          base + V3(0, 14 * size, 0),
+          3 * size,
+          3 * size,
+          const Color(0xFF5D4037),
+          segments: 5,
         );
+      for (final (k, r) in [24.0, 19.0, 13.0].indexed) {
+        final y0 = (12 + k * 18) * size;
+        s
+          ..tube(
+            base + V3(0, y0, 0),
+            base + V3(0, y0 + 30 * size, 0),
+            r * size,
+            0,
+            tint(const Color(0xFF1F5E3A), k * 0.06),
+            segments: 7,
+          )
+          ..tube(
+            base + V3(0, y0 + 14 * size, 0),
+            base + V3(0, y0 + 30 * size, 0),
+            r * size * 0.45,
+            0,
+            const Color(0xFFF2F6FA),
+            segments: 7,
+          );
       }
     }
-    // Skier.
-    final lean = ((_targetX - _x) / 80).clamp(-0.5, 0.5);
-    canvas
-      ..save()
-      ..translate(_x, skierY)
-      ..rotate(lean);
-    canvas
-      ..drawLine(
-        const Offset(-7, 12),
-        const Offset(-7, -14),
-        Paint()
-          ..color = Colors.black87
-          ..strokeWidth = 3,
-      )
-      ..drawLine(
-        const Offset(7, 12),
-        const Offset(7, -14),
-        Paint()
-          ..color = Colors.black87
-          ..strokeWidth = 3,
+
+    for (final t in course.trees) {
+      if (visible(t.dy)) pine(t.dx, t.dy, 1);
+    }
+    // Forest along both sides of the piste.
+    for (var k = (_y - behind) ~/ 90; k < (_y + ahead) ~/ 90; k++) {
+      final wy = k * 90.0;
+      pine(
+        -40 - cellNoise(k, 1, 6) * 220,
+        wy + cellNoise(k, 2, 6) * 60,
+        1.2 + cellNoise(k, 3, 6) * 0.6,
       );
-    drawBox(
-      canvas,
-      Rect.fromCenter(
-        center: Offset(0, _tucking ? 2 : -2),
-        width: 16,
-        height: _tucking ? 14 : 20,
-      ),
-      const Color(0xFFE8322F),
-      radius: 5,
-    );
-    canvas
-      ..drawCircle(
-        Offset(0, _tucking ? -8 : -14),
+      pine(
+        400 + cellNoise(k, 4, 6) * 220,
+        wy + cellNoise(k, 5, 6) * 60,
+        1.2 + cellNoise(k, 6, 6) * 0.6,
+      );
+    }
+    // Finish arch and chequered line.
+    if (visible(course.length)) {
+      final wy = course.length;
+      for (var k = 0; k < 18; k++) {
+        s.quad(
+          _w(k * 20.0, wy - 6),
+          _w(k * 20.0, wy + 6),
+          _w(k * 20.0 + 20, wy + 6),
+          _w(k * 20.0 + 20, wy - 6),
+          k.isEven ? const Color(0xFF212121) : _snow,
+          layer: Layer.surface,
+        );
+      }
+      for (final x in [-12.0, 372.0]) {
+        s.box(_w(x, wy), 14, 120, 14, const Color(0xFFE8322F));
+      }
+      s.boxAxes(
+        _w(180, wy, 104),
+        const V3(1, 0, 0),
+        const V3(0, 1, 0),
+        const V3(0, 0, 1),
+        398,
+        28,
         6,
-        Paint()..color = const Color(0xFFFFD23F),
-      )
-      ..restore();
-    final s = centis;
+        const Color(0xFFE8322F),
+      );
+    }
+    _skier(s);
+    s.render(canvas);
+
+    final c = centis;
     drawText(
       canvas,
-      '${s ~/ 100}.${(s % 100).toString().padLeft(2, '0')}',
+      '${c ~/ 100}.${(c % 100).toString().padLeft(2, '0')}',
       const Offset(344, 100),
       size: 18,
       display: true,
@@ -383,6 +502,66 @@ class SkiSim extends GameSim {
         size: 14,
         align: TextAlign.right,
         color: const Color(0xFFE53935),
+      );
+    }
+  }
+
+  /// The racer: carving skis, poles, crouched when tucking, tumbling on a
+  /// crash.
+  void _skier(Scene3D s) {
+    final lean = ((_targetX - _x) / 80).clamp(-0.5, 0.5);
+    final feet = _w(_x, _y);
+    final yaw = -lean * 0.6;
+    s.shadow(
+      Offset(_x + 6, feet.z - 4),
+      16,
+      height: feet.y + 0.3,
+      opacity: 0.25,
+      stretch: 0.8,
+    );
+    final crash = _crashSteps > 0;
+    for (final dx in [-6.0, 6.0]) {
+      s.box(
+        feet + V3(dx, 0.5, -6),
+        4,
+        1.5,
+        72,
+        const Color(0xFF263238),
+        yaw: yaw,
+        top: const Color(0xFFFFD23F),
+      );
+    }
+    final scale = _tucking ? 0.9 : 1.05;
+    final body = feet + V3(0, _tucking ? -12 : 0, 0);
+    s.figure(
+      body,
+      const Color(0xFFE8322F),
+      roll: crash ? lean.sign * 1.2 + 0.4 : -lean * 0.8,
+      arms: 0,
+      scale: scale,
+      shorts: const Color(0xFF1A237E),
+    );
+    s.sphere(
+      body +
+          V3(
+            -math.sin(-lean * 0.8) * 40 * scale,
+            40 * scale * math.cos(lean * 0.8),
+            0,
+          ),
+      6.8 * scale,
+      const Color(0xFFFFD23F),
+      lat: 5,
+      lon: 8,
+    );
+    for (final dx in [-15.0, 15.0]) {
+      final hand = body + V3(dx * 0.75 * scale, 18 * scale, 0);
+      s.tube(
+        hand,
+        hand + V3(dx * 0.3, -32, 20),
+        0.8,
+        0.8,
+        const Color(0xFFB0BEC5),
+        segments: 4,
       );
     }
   }

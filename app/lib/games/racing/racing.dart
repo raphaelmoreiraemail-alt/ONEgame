@@ -9,6 +9,7 @@ import '../common/fingerprint.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart';
 
 /// 7.21 Course de karts — 3 laps against 3 AI karts.
 class RacingGame extends MiniGameDefinition {
@@ -395,56 +396,264 @@ class RacingSim extends GameSim {
     'laps': math.min(_me.laps, laps),
   };
 
+  // ── 3D rendering ──────────────────────────────────────────────────────
+  // Sim (x, y) → V3(x, h, y); chase camera behind the player's kart.
+  static const double _drawRange = 1700;
+
+  late final List<Offset> _normals = [
+    for (var i = 0; i < track.center.length; i++)
+      () {
+        final n = track.center.length;
+        final t = track.center[(i + 1) % n] - track.center[(i - 1 + n) % n];
+        final d = t / t.distance;
+        return Offset(-d.dy, d.dx);
+      }(),
+  ];
+
+  /// Trees placed once, away from the asphalt.
+  late final List<(Offset, double)> _trees = () {
+    final out = <(Offset, double)>[];
+    for (var gx = -1300; gx <= 1300; gx += 140) {
+      for (var gy = -1300; gy <= 1300; gy += 140) {
+        final i = gx ~/ 140, j = gy ~/ 140;
+        if (cellNoise(i, j, 31) < 0.45) continue;
+        final p = Offset(
+          gx + (cellNoise(i, j, 32) - 0.5) * 110,
+          gy + (cellNoise(i, j, 33) - 0.5) * 110,
+        );
+        final near = track.center.any(
+          (c) => (c - p).distance < RaceTrack.width / 2 + 70,
+        );
+        if (!near) out.add((p, 0.8 + cellNoise(i, j, 34) * 0.7));
+      }
+    }
+    return out;
+  }();
+
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(Arena.rect, Paint()..color = const Color(0xFF558B2F));
-    final cam = const Offset(180, 420) - _me.pos;
-    canvas
-      ..save()
-      ..translate(cam.dx, cam.dy);
-    final path = Path()..moveTo(track.center.first.dx, track.center.first.dy);
-    for (final p in track.center.skip(1)) {
-      path.lineTo(p.dx, p.dy);
+    final me = _me;
+    final fwd = Offset(math.cos(me.heading), math.sin(me.heading));
+    final eye = me.pos - fwd * 150;
+    final look = me.pos + fwd * 220;
+    final cam = Camera3D(
+      eye: V3(eye.dx, 78, eye.dy),
+      target: V3(look.dx, 0, look.dy),
+      fovDegrees: 60,
+      center: const Offset(180, 300),
+    );
+    final horizon =
+        cam.project(V3.ground(me.pos + fwd * 100000, 78))?.dy ?? 200;
+    drawSky(
+      canvas,
+      Rect.fromLTWH(0, 0, 360, horizon + 2),
+      const Color(0xFF3F88D6),
+      const Color(0xFFCDE6F7),
+    );
+    final hills = Path()..moveTo(0, horizon + 1);
+    for (var x = 0.0; x <= 360; x += 8) {
+      final a = me.heading * 120 + x;
+      hills.lineTo(
+        x,
+        horizon - 10 - 14 * math.sin(a / 41).abs() - 6 * math.sin(a / 17),
+      );
     }
-    path.close();
+    hills
+      ..lineTo(360, horizon + 1)
+      ..close();
     canvas
-      ..drawPath(
-        path,
-        Paint()
-          ..color = const Color(0xFFFFFFFF)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = RaceTrack.width + 10,
-      )
-      ..drawPath(
-        path,
-        Paint()
-          ..color = const Color(0xFF616161)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = RaceTrack.width,
+      ..drawPath(hills, Paint()..color = const Color(0xFF6E9A6A))
+      ..drawRect(
+        Rect.fromLTWH(0, horizon, 360, 640 - horizon),
+        Paint()..color = const Color(0xFF6E9A5A),
       );
-    final start = track.center[0];
-    canvas.drawCircle(start, 10, Paint()..color = Colors.white);
+    final s = Scene3D(
+      cam,
+      light: const V3(-0.4, 1, 0.3),
+      ambient: 0.5,
+      fogColor: const Color(0xFFB9D3C2),
+      fogStart: 700,
+      fogEnd: _drawRange,
+    );
+    // Grass around the car, on a fixed grid so it does not swim.
+    const cell = 220.0;
+    final gx0 = ((me.pos.dx - _drawRange) / cell).floor() * cell;
+    final gz0 = ((me.pos.dy - _drawRange) / cell).floor() * cell;
+    s.ground(
+      Rect.fromLTWH(gx0, gz0, _drawRange * 2 + cell, _drawRange * 2 + cell),
+      (i, j) {
+        final gi = (gx0 / cell).round() + i, gj = (gz0 / cell).round() + j;
+        return tint(
+          (gi + gj).isEven ? const Color(0xFF5E9E45) : const Color(0xFF68A84D),
+          (cellNoise(gi, gj, 5) - 0.5) * 0.05,
+        );
+      },
+      cell: cell,
+    );
+    bool near(Offset p) =>
+        (p - me.pos).distanceSquared < _drawRange * _drawRange;
+    final n = track.center.length;
+    const hw = RaceTrack.width / 2;
+    for (var i = 0; i < n; i++) {
+      final a = track.center[i], b = track.center[(i + 1) % n];
+      if (!near(a)) continue;
+      final na = _normals[i], nb = _normals[(i + 1) % n];
+      V3 at(Offset c, Offset nrm, double off, [double h = 0]) =>
+          V3.ground(c + nrm * off, h);
+      s.quad(
+        at(a, na, -hw),
+        at(a, na, hw),
+        at(b, nb, hw),
+        at(b, nb, -hw),
+        tint(const Color(0xFF55595C), (cellNoise(i, 0, 9) - 0.5) * 0.04),
+        layer: Layer.surface,
+        doubleSided: true,
+      );
+      final kerb = (i ~/ 2).isEven
+          ? const Color(0xFFE53935)
+          : const Color(0xFFF5F5F5);
+      for (final side in [-1.0, 1.0]) {
+        s
+          ..quad(
+            at(a, na, side * hw),
+            at(a, na, side * (hw + 9)),
+            at(b, nb, side * (hw + 9)),
+            at(b, nb, side * hw),
+            kerb,
+            layer: Layer.decal,
+            doubleSided: true,
+          )
+          // Low tyre-and-board barrier further out.
+          ..quad(
+            at(a, na, side * (hw + 46)),
+            at(b, nb, side * (hw + 46)),
+            at(b, nb, side * (hw + 46), 14),
+            at(a, na, side * (hw + 46), 14),
+            (i ~/ 3).isEven ? const Color(0xFF1565C0) : const Color(0xFFECEFF1),
+            doubleSided: true,
+          );
+      }
+      // Dashed centre line.
+      if (i.isEven) {
+        s.quad(
+          at(a, na, -1.2, 0.2),
+          at(a, na, 1.2, 0.2),
+          at(b, nb, 1.2, 0.2),
+          at(b, nb, -1.2, 0.2),
+          const Color(0xCCFFFFFF),
+          layer: Layer.decal,
+          doubleSided: true,
+        );
+      }
+    }
+    // Start / finish line, gantry and grandstand.
+    final st = track.center[0], sn = _normals[0];
+    final sd = Offset(sn.dy, -sn.dx);
+    for (var k = 0; k < 12; k++) {
+      for (var r = 0; r < 2; r++) {
+        final o0 = -hw + k * (RaceTrack.width / 12);
+        final o1 = o0 + RaceTrack.width / 12;
+        final f0 = r * 6.0 - 6, f1 = f0 + 6;
+        s.quad(
+          V3.ground(st + sn * o0 + sd * f0, 0.3),
+          V3.ground(st + sn * o1 + sd * f0, 0.3),
+          V3.ground(st + sn * o1 + sd * f1, 0.3),
+          V3.ground(st + sn * o0 + sd * f1, 0.3),
+          (k + r).isEven ? const Color(0xFF111111) : const Color(0xFFF5F5F5),
+          layer: Layer.decal,
+          doubleSided: true,
+        );
+      }
+    }
+    if (near(st)) {
+      for (final side in [-1.0, 1.0]) {
+        s.box(
+          V3.ground(st + sn * side * (hw + 20)),
+          8,
+          70,
+          8,
+          const Color(0xFF37474F),
+        );
+      }
+      s.boxAxes(
+        V3.ground(st, 62),
+        V3(sn.dx, 0, sn.dy),
+        const V3(0, 1, 0),
+        V3(sd.dx, 0, sd.dy),
+        RaceTrack.width + 48,
+        14,
+        4,
+        const Color(0xFFE8322F),
+      );
+      final stand = st + sn * (hw + 120);
+      s.boxAxes(
+        V3.ground(stand),
+        V3(sd.dx, 0, sd.dy),
+        const V3(0, 1, 0),
+        V3(sn.dx, 0, sn.dy),
+        260,
+        50,
+        60,
+        const Color(0xFF90A4AE),
+      );
+      for (var k = 0; k < 14; k++) {
+        final p = stand + sd * (-120 + k * 18.5) + sn * 6;
+        s.box(
+          V3.ground(p, 50),
+          12,
+          10 + cellNoise(k, 1, 3) * 6,
+          10,
+          Color.lerp(
+            const Color(0xFFE53935),
+            const Color(0xFF1E88E5),
+            cellNoise(k, 2, 3),
+          )!,
+        );
+      }
+    }
     for (final p in track.pads) {
-      canvas.drawCircle(
-        track.center[p],
-        16,
-        Paint()..color = const Color(0xFFFFD23F),
-      );
+      final c = track.center[p];
+      if (!near(c)) continue;
+      final nn = _normals[p], dd = Offset(nn.dy, -nn.dx);
+      for (var k = 0; k < 3; k++) {
+        final o = c - dd * (k * 12.0 - 12);
+        s.tri(
+          V3.ground(o + nn * 16 - dd * 6, 0.4),
+          V3.ground(o - dd * -8, 0.4),
+          V3.ground(o - nn * 16 - dd * 6, 0.4),
+          const Color(0xFFFFD23F),
+          layer: Layer.decal,
+          doubleSided: true,
+          lit: false,
+        );
+      }
+    }
+    for (final (p, sz) in _trees) {
+      if (!near(p)) continue;
+      final base = V3.ground(p);
+      s
+        ..shadow(p.translate(8, 4), 26 * sz, opacity: 0.25)
+        ..tube(
+          base,
+          base + V3(0, 26 * sz, 0),
+          4 * sz,
+          3 * sz,
+          const Color(0xFF5D4037),
+          segments: 5,
+        )
+        ..sphere(
+          base + V3(0, 46 * sz, 0),
+          24 * sz,
+          tint(const Color(0xFF3E7B3A), (sz - 1.1) * 0.3),
+          lat: 5,
+          lon: 8,
+        );
     }
     for (final k in [..._ai, _me]) {
-      canvas
-        ..save()
-        ..translate(k.pos.dx, k.pos.dy)
-        ..rotate(k.heading);
-      drawBox(canvas, const Rect.fromLTWH(-14, -9, 28, 18), k.color, radius: 5);
-      canvas
-        ..drawRect(
-          const Rect.fromLTWH(4, -6, 6, 12),
-          Paint()..color = Colors.black54,
-        )
-        ..restore();
+      if (near(k.pos)) _kart3d(s, k);
     }
-    canvas.restore();
+    s.render(canvas);
+
     drawText(
       canvas,
       'P$position',
@@ -481,5 +690,69 @@ class RacingSim extends GameSim {
         align: TextAlign.center,
       );
     }
+  }
+
+  /// Go-kart: chassis, side pods, four wheels, driver with helmet.
+  void _kart3d(Scene3D s, _Kart k) {
+    final h = k.heading;
+    final f = V3(math.cos(h), 0, math.sin(h));
+    final r = V3(-math.sin(h), 0, math.cos(h));
+    final base = V3.ground(k.pos);
+    s
+      ..shadow(k.pos, 22, opacity: 0.35, stretch: 1.3)
+      ..box(
+        base + const V3(0, 4, 0),
+        34,
+        5,
+        20,
+        const Color(0xFF263238),
+        yaw: h,
+      )
+      ..box(base + f * 4 + const V3(0, 6, 0), 26, 6, 24, k.color, yaw: h)
+      ..box(base + f * 18 + const V3(0, 5, 0), 6, 6, 22, k.color, yaw: h);
+    for (final (fx, rx) in [
+      (12.0, 12.0),
+      (12.0, -12.0),
+      (-12.0, 13.0),
+      (-12.0, -13.0),
+    ]) {
+      final c = base + f * fx + r * rx + const V3(0, 5, 0);
+      s.tube(
+        c - r * 3,
+        c + r * 3,
+        5,
+        5,
+        const Color(0xFF1A1A1A),
+        segments: 8,
+        capped: true,
+      );
+    }
+    final seat = base + f * -4 + const V3(0, 10, 0);
+    s
+      ..box(
+        seat,
+        9,
+        10,
+        10,
+        k.color == const Color(0xFFE8322F)
+            ? const Color(0xFF212121)
+            : tint(k.color, -0.4),
+        yaw: h,
+      )
+      ..sphere(
+        seat + const V3(0, 16, 0) + f * 1,
+        6,
+        tint(k.color, 0.35),
+        lat: 5,
+        lon: 8,
+      )
+      ..box(
+        base + f * -16 + const V3(0, 14, 0),
+        4,
+        2,
+        24,
+        const Color(0xFF212121),
+        yaw: h,
+      );
   }
 }
