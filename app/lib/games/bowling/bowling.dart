@@ -11,6 +11,7 @@ import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
 import '../common/physics.dart';
+import '../common/render3d.dart';
 import 'bowling_score.dart';
 
 /// 7.5 Bowling — 5 frames, official scoring, curved swipe = hook.
@@ -435,91 +436,215 @@ class BowlingSim extends GameSim {
     'frames': math.min(frame, frames),
   };
 
+  // ---------------------------------------------------------------- 3D
+
+  /// Low camera behind the bowler, looking down the lane.
+  static final Camera3D _camera = Camera3D(
+    eye: const V3(180, 150, 880),
+    target: const V3(180, 0, 250),
+    fovDegrees: 42,
+    center: const Offset(180, 300),
+  );
+
+  @override
+  Camera3D get camera3d => _camera;
+
+  static const _boardA = Color(0xFFE3B778);
+  static const _boardB = Color(0xFFD9A863);
+
+  void _pin(Scene3D s, Offset at, {double lean = 0, double yaw = 0}) {
+    if (lean > 0.5) {
+      // Knocked down: lying on the deck.
+      s
+        ..shadow(at, 12, stretch: 0.5, opacity: 0.25)
+        ..box(
+          V3.ground(at),
+          30,
+          10,
+          11,
+          Colors.white,
+          yaw: yaw,
+          top: const Color(0xFFF7F7F7),
+        );
+      return;
+    }
+    s
+      ..shadow(at.translate(5, 3), pinR * 1.3)
+      ..cylinder(V3.ground(at), pinR * 0.75, 4, Colors.white, segments: 10)
+      ..cylinder(V3.ground(at, 4), pinR, 14, Colors.white, segments: 10)
+      ..cylinder(
+        V3.ground(at, 18),
+        pinR * 0.75,
+        5,
+        const Color(0xFFE8322F),
+        segments: 10,
+      )
+      ..cylinder(V3.ground(at, 23), pinR * 0.5, 8, Colors.white, segments: 10)
+      ..sphere(V3.ground(at, 34), pinR * 0.7, Colors.white, lat: 6, lon: 10);
+  }
+
   @override
   void render(Canvas canvas) {
-    // Approach + lane wood.
-    canvas.drawRect(Arena.rect, Paint()..color = const Color(0xFF1A1A2E));
-    canvas.drawRect(
-      const Rect.fromLTRB(laneLeft - 18, 70, laneRight + 18, 640),
-      Paint()..color = const Color(0xFF424242),
+    drawSky(
+      canvas,
+      Arena.rect,
+      const Color(0xFF12101E),
+      const Color(0xFF2A2342),
     );
-    for (var i = 0; i < 10; i++) {
-      canvas.drawRect(
-        Rect.fromLTWH(laneLeft + i * 15.0, 70, 15, 570),
-        Paint()
-          ..color = i.isEven
-              ? const Color(0xFFE3B778)
-              : const Color(0xFFD9A863),
+    final scene = Scene3D(
+      _camera,
+      fogColor: const Color(0xFF1C1830),
+      fogStart: 500,
+      fogEnd: 1300,
+      ambient: 0.5,
+    );
+    // Floor, gutters, lane boards, approach.
+    scene
+      ..ground(
+        const Rect.fromLTRB(-300, -100, 660, 900),
+        (i, j) => const Color(0xFF2B2440),
+        cell: 120,
+        height: -8,
+      )
+      ..ground(
+        const Rect.fromLTRB(laneLeft - 22, 40, laneLeft, 700),
+        (i, j) => const Color(0xFF424242),
+        height: -5,
+        cell: 22,
+        layer: Layer.surface,
+      )
+      ..ground(
+        const Rect.fromLTRB(laneRight, 40, laneRight + 22, 700),
+        (i, j) => const Color(0xFF424242),
+        height: -5,
+        cell: 22,
+        layer: Layer.surface,
+      )
+      ..ground(
+        const Rect.fromLTRB(laneLeft, 40, laneRight, 700),
+        (i, j) => tint(
+          i.isEven ? _boardA : _boardB,
+          (cellNoise(i, j, 11) - 0.5) * 0.06,
+        ),
+        cell: 15,
+        layer: Layer.surface,
       );
-    }
-    // Oil sheen.
-    canvas.drawRect(
+    // Oil sheen, arrows, foul line.
+    scene.ground(
       Rect.fromLTRB(laneLeft, lane.oilEndY, laneRight, foulY),
-      Paint()..color = const Color(0x22FFFFFF),
+      (i, j) => const Color(0x1AFFFFFF),
+      cell: 50,
+      height: 0.3,
+      layer: Layer.decal,
     );
-    // Arrows + foul line.
-    final mark = Paint()..color = const Color(0xFF8D5524);
     for (var i = 1; i < 6; i++) {
       final x = laneLeft + i * 25.0;
-      canvas.drawPath(
-        Path()
-          ..moveTo(x, 440)
-          ..lineTo(x - 4, 452)
-          ..lineTo(x + 4, 452)
-          ..close(),
-        mark,
+      scene.tri(
+        V3(x, 0.4, 440),
+        V3(x + 4, 0.4, 454),
+        V3(x - 4, 0.4, 454),
+        const Color(0xFF8D5524),
+        doubleSided: true,
+        layer: Layer.decal,
       );
     }
-    canvas.drawLine(
-      const Offset(laneLeft, foulY + 16),
-      const Offset(laneRight, foulY + 16),
-      Paint()
-        ..color = const Color(0xFFB71C1C)
-        ..strokeWidth = 3,
+    scene.ground(
+      const Rect.fromLTRB(laneLeft, foulY + 14, laneRight, foulY + 18),
+      (i, j) => const Color(0xFFB71C1C),
+      cell: 150,
+      height: 0.4,
+      layer: Layer.decal,
     );
-    // Pins.
+    // Side kickbacks and the dark pit behind the pins.
+    scene
+      ..box(
+        const V3(laneLeft - 28, -8, 150),
+        10,
+        46,
+        220,
+        const Color(0xFF3949AB),
+      )
+      ..box(
+        const V3(laneRight + 28, -8, 150),
+        10,
+        46,
+        220,
+        const Color(0xFF3949AB),
+      )
+      ..box(
+        const V3(180, -8, 36),
+        220,
+        70,
+        10,
+        const Color(0xFF151226),
+        top: const Color(0xFF1F1A36),
+      );
     for (var i = 0; i < 10; i++) {
       final p = _pins[i];
       if (p == null) continue;
-      drawBall(canvas, p.px, pinR, Colors.white);
-      canvas.drawCircle(
+      final moved = (p.px - _pinHome[i]).distance;
+      _pin(
+        scene,
         p.px,
-        pinR * 0.45,
-        Paint()..color = const Color(0xFFE8322F),
+        lean: moved / 10,
+        yaw: math.atan2(p.velPx.dy, p.velPx.dx),
       );
     }
-    // Ball.
     final ball = _ball;
     final bp = ball?.px ?? Offset(_ballX, foulY);
-    drawBall(canvas, bp, ballR, const Color(0xFF283593));
-    for (final o in [
-      const Offset(-3, -4),
-      const Offset(3, -4),
-      const Offset(0, 2),
-    ]) {
-      canvas.drawCircle(bp + o, 2, Paint()..color = const Color(0xFF0D1440));
+    if (!_gutter || ball == null) {
+      scene
+        ..shadow(bp.translate(5, 4), ballR * 1.1)
+        ..sphere(
+          V3.ground(bp, ballR),
+          ballR,
+          const Color(0xFF283593),
+          lat: 8,
+          lon: 14,
+        );
+    } else {
+      scene.sphere(
+        V3.ground(bp, ballR - 5),
+        ballR,
+        const Color(0xFF283593),
+        lat: 8,
+        lon: 14,
+      );
+    }
+    scene.render(canvas);
+    final glint = _camera.project(V3.ground(bp, ballR * 1.7));
+    if (glint != null) {
+      canvas.drawCircle(
+        glint.translate(-3, 0),
+        _camera.scaleAt(V3.ground(bp), 2.4),
+        Paint()..color = Colors.white70,
+      );
     }
     if (_phase == _Phase.position && _path.length > 1 && _throwing) {
-      final path = Path()..moveTo(_path.first.$2.dx, _path.first.$2.dy);
-      for (final (_, p) in _path.skip(1)) {
-        path.lineTo(p.dx, p.dy);
+      final pts = [for (final (_, w) in _path) _camera.project(V3.ground(w))]
+          .whereType<Offset>()
+          .toList();
+      if (pts.length > 1) {
+        final path = Path()..moveTo(pts.first.dx, pts.first.dy);
+        for (final q in pts.skip(1)) {
+          path.lineTo(q.dx, q.dy);
+        }
+        canvas.drawPath(
+          path,
+          Paint()
+            ..color = const Color(0x88FFD23F)
+            ..strokeWidth = 6
+            ..style = PaintingStyle.stroke,
+        );
       }
-      canvas.drawPath(
-        path,
-        Paint()
-          ..color = const Color(0x88FFD23F)
-          ..strokeWidth = 6
-          ..style = PaintingStyle.stroke,
-      );
     }
     // Scorecard.
     final totals = bowlingTotals(rolls, frames: frames);
     for (var f = 0; f < frames; f++) {
-      final r = Rect.fromLTWH(20 + f * 64.0, 6 + 84, 60, 0);
       drawText(
         canvas,
         '${f + 1}:${totals[f] ?? (f == frame ? '…' : '')}',
-        Offset(r.left, 0 + 96),
+        Offset(20 + f * 64.0, 96),
         size: 12,
         color: f == frame ? const Color(0xFFFFD23F) : Colors.white70,
       );
