@@ -9,6 +9,7 @@ import '../common/fingerprint.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart';
 
 /// 7.14 Tour infinie — tap to drop the sliding block; overhang is cut.
 class StackGame extends MiniGameDefinition {
@@ -265,50 +266,100 @@ class StackSim extends GameSim {
     'maxCombo': maxCombo,
   };
 
+  // ── 3D rendering ──────────────────────────────────────────────────────
+  // Level L occupies heights [L·blockH, (L+1)·blockH]; slabs are 200 deep.
+  static const double _depth = 200;
+
   @override
   void render(Canvas canvas) {
     final t = (height / 80).clamp(0.0, 1.0);
-    canvas.drawRect(
+    drawSky(
+      canvas,
       Arena.rect,
-      Paint()
-        ..shader = LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color.lerp(const Color(0xFF6EC6FF), const Color(0xFF0B1026), t)!,
-            Color.lerp(const Color(0xFFFFE0B2), const Color(0xFF283593), t)!,
-          ],
-        ).createShader(Arena.rect),
+      Color.lerp(const Color(0xFF6EC6FF), const Color(0xFF0B1026), t)!,
+      Color.lerp(const Color(0xFFFFE0B2), const Color(0xFF283593), t)!,
     );
-    // Ground.
-    canvas.drawRect(
-      Rect.fromLTWH(0, baseY + blockH + _camera, 360, 400),
-      Paint()..color = const Color(0xFF3E2723),
+    if (t > 0.3) {
+      final star = Paint()..color = Color.fromRGBO(255, 255, 255, (t - 0.3));
+      for (var k = 0; k < 40; k++) {
+        canvas.drawCircle(
+          Offset(cellNoise(k, 1, 50) * 360, cellNoise(k, 2, 50) * 400),
+          0.6 + cellNoise(k, 3, 50),
+          star,
+        );
+      }
+    }
+    final focusH = _camera + 6 * blockH;
+    final target = V3(180, focusH, 0);
+    final cam = Camera3D(
+      eye: target + const V3(120, 330, 640),
+      target: target,
+      fovDegrees: 52,
+      center: const Offset(180, 330),
     );
+    final s = Scene3D(
+      cam,
+      light: const V3(0.55, 0.85, 0.35),
+      ambient: 0.48,
+      diffuse: 0.7,
+    );
+    // Stone plinth on a lawn.
+    s
+      ..ground(
+        const Rect.fromLTRB(-600, -700, 960, 700),
+        (i, j) =>
+            tint(const Color(0xFF4E8B3A), (cellNoise(i, j, 2) - 0.5) * 0.06),
+        cell: 120,
+        height: -60,
+      )
+      ..box(
+        const V3(180, -60, 0),
+        baseWidth + 80,
+        60,
+        _depth + 80,
+        const Color(0xFF8D8478),
+        top: const Color(0xFFA39A8D),
+        layer: Layer.surface,
+      )
+      ..shadow(
+        const Offset(220, 40),
+        230,
+        height: -59.5,
+        opacity: 0.3,
+        stretch: 0.9,
+      );
+    void slab(double x, double w, double y, Color c) {
+      s.box(
+        V3(x + w / 2, y, 0),
+        w,
+        blockH,
+        _depth,
+        c,
+        top: tint(c, 0.18),
+        depthBias: -y * 20,
+      );
+    }
+
     for (final b in _tower) {
-      final y = _yOf(b.level);
-      if (y > Arena.height || y < -blockH) continue;
-      drawBox(canvas, Rect.fromLTWH(b.x, y, b.w, blockH), b.color, radius: 3);
+      if (b.level * blockH < _camera - 300) continue;
+      slab(b.x, b.w, b.level * blockH, b.color);
     }
     for (final c in _chunks) {
-      drawBox(canvas, c.rect.translate(0, 0), c.color, radius: 3);
+      final y = baseY + _camera - c.rect.top;
+      slab(c.rect.left, c.rect.width, y, c.color);
     }
     if (!over) {
       final m = _moving;
-      drawBox(
-        canvas,
-        Rect.fromLTWH(m.x, _yOf(m.level), m.w, blockH),
-        m.color,
-        radius: 3,
+      slab(m.x, m.w, m.level * blockH, m.color);
+    }
+    s.render(canvas);
+    if (!over && plan.isTrap(_moving.level)) {
+      final m = _moving;
+      final p = cam.project(
+        V3(m.x + m.w / 2, m.level * blockH + blockH / 2, _depth / 2),
       );
-      if (plan.isTrap(m.level)) {
-        drawText(
-          canvas,
-          '⚡',
-          Offset(m.x + m.w / 2, _yOf(m.level) + 12),
-          size: 14,
-          align: TextAlign.center,
-        );
+      if (p != null) {
+        drawText(canvas, '⚡', p, size: 14, align: TextAlign.center);
       }
     }
     if (combo >= 2) {

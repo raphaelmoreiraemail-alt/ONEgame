@@ -9,6 +9,7 @@ import '../common/fingerprint.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart';
 
 /// 7.18 Vol — tap to flap through the pipes.
 class FlappyGame extends MiniGameDefinition {
@@ -200,82 +201,138 @@ class FlappySim extends GameSim {
   @override
   Map<String, num> get stats => {'pipes': passed, 'perfect': perfect};
 
+  // ── 3D rendering ──────────────────────────────────────────────────────
+  // The play plane (z = 0) maps 1:1 to arena coordinates; scenery further
+  // back scrolls at the same world speed and gets parallax from perspective.
+  static final double _focal = 320 / math.tan(25 * math.pi / 180);
+  static final Camera3D _camera = Camera3D(
+    eye: V3(180, 0, _focal),
+    target: const V3(180, 0, 0),
+  );
+  static V3 _p(double x, double y, [double z = 0]) => V3(x, 320 - y, z);
+  static const double _groundH = 320 - ground;
+
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(
+    drawSky(
+      canvas,
       Arena.rect,
-      Paint()
-        ..shader = const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFF4FC3F7), Color(0xFFB3E5FC)],
-        ).createShader(Arena.rect),
+      const Color(0xFF3FA9F5),
+      const Color(0xFFD7F0FB),
     );
-    // Parallax clouds.
-    for (var i = 0; i < 6; i++) {
-      final x = (i * 140 - _scroll * 0.3) % 500 - 70;
-      canvas.drawOval(
-        Rect.fromLTWH(x, 130 + (i % 3) * 70.0, 80, 26),
-        Paint()..color = Colors.white70,
+    final s = Scene3D(
+      _camera,
+      light: const V3(-0.35, 0.8, 0.7),
+      ambient: 0.5,
+      fogColor: const Color(0xFFCDEBF8),
+      fogStart: 1200,
+      fogEnd: 6000,
+    );
+    // Ground: scrolling grass strip in front of a meadow.
+    const cell = 40.0;
+    final shift = _scroll % cell;
+    final base = (_scroll / cell).floor();
+    s.ground(
+      Rect.fromLTRB(-1400 - shift, -2800, 1800 - shift, 300),
+      (i, j) {
+        final k = i + base;
+        final c = j > 66 ? const Color(0xFF7CB342) : const Color(0xFF8BC34A);
+        return tint(
+          c,
+          ((k + j).isEven ? 0.03 : -0.02) + (cellNoise(k, j, 3) - 0.5) * 0.04,
+        );
+      },
+      cell: cell,
+      height: _groundH,
+    );
+    s.box(
+      V3(180 - shift, _groundH - 30, 30),
+      3200,
+      30,
+      60,
+      const Color(0xFF9C7A4F),
+      top: const Color(0xFF7CB342),
+      layer: Layer.surface,
+    );
+    // Rolling hills, trees and clouds far behind (scrolling with the world).
+    for (var k = -4; k < 10; k++) {
+      final wx = (k * 380.0 - _scroll) % 4560 - 1400;
+      final h = 140 + cellNoise(k, 1, 8) * 160;
+      s.sphere(
+        V3(wx, _groundH - h * 1.3, -2200),
+        h * 1.5,
+        const Color(0xFF5E9A4A),
+        lat: 8,
+        lon: 16,
       );
     }
-    for (var i = math.max(0, _next - 1); i < _next + 3; i++) {
-      final x = _pipeX(i);
-      final gy = _gapY(i, _scroll);
-      final half = _pipes[i % _pipes.length].gap / 2;
-      const c = Color(0xFF43A047);
-      drawBox(
-        canvas,
-        Rect.fromLTRB(x, top, x + pipeW, gy - half),
-        c,
-        radius: 4,
-      );
-      drawBox(
-        canvas,
-        Rect.fromLTRB(x, gy + half, x + pipeW, ground),
-        c,
-        radius: 4,
-      );
-      for (final y in [gy - half - 16, gy + half]) {
-        drawBox(
-          canvas,
-          Rect.fromLTWH(x - 4, y, pipeW + 8, 16),
-          const Color(0xFF66BB6A),
-          radius: 4,
+    for (var k = 0; k < 14; k++) {
+      final wx = (k * 170.0 + cellNoise(k, 2, 8) * 80 - _scroll) % 2380 - 700;
+      final z = -380 - cellNoise(k, 3, 8) * 500;
+      final sz = 0.9 + cellNoise(k, 4, 8) * 0.8;
+      final b = V3(wx, _groundH, z);
+      s
+        ..tube(
+          b,
+          b + V3(0, 46 * sz, 0),
+          5 * sz,
+          4 * sz,
+          const Color(0xFF6D4C41),
+          segments: 5,
+        )
+        ..sphere(
+          b + V3(0, 70 * sz, 0),
+          30 * sz,
+          const Color(0xFF4C8C3F),
+          lat: 5,
+          lon: 8,
+        );
+    }
+    for (var k = 0; k < 6; k++) {
+      final wx = (k * 420.0 - _scroll * 0.6) % 2520 - 800;
+      final c = V3(wx, 160 + cellNoise(k, 5, 8) * 160, -1600);
+      for (var b = 0; b < 3; b++) {
+        s.sphere(
+          c + V3(b * 38.0 - 38, (b == 1 ? 14 : 0), 0),
+          b == 1 ? 46 : 34,
+          const Color(0xFFFFFFFF),
+          lat: 4,
+          lon: 8,
         );
       }
     }
-    canvas.drawRect(
-      const Rect.fromLTRB(0, ground, 360, 640),
-      Paint()..color = const Color(0xFFD7B98E),
-    );
-    // Bird.
-    final angle = (_vy / 900).clamp(-0.5, 1.0);
-    canvas
-      ..save()
-      ..translate(birdX, _y)
-      ..rotate(angle);
-    drawBall(canvas, Offset.zero, 13, const Color(0xFFFFD23F));
-    canvas
-      ..drawCircle(const Offset(5, -4), 4, Paint()..color = Colors.white)
-      ..drawCircle(const Offset(6, -4), 2, Paint()..color = Colors.black)
-      ..drawPath(
-        Path()
-          ..moveTo(11, 0)
-          ..lineTo(20, 3)
-          ..lineTo(11, 6)
-          ..close(),
-        Paint()..color = const Color(0xFFE8322F),
-      )
-      ..drawOval(
-        Rect.fromCenter(
-          center: Offset(-4, 3 + (step % 20 < 10 ? -3 : 3)),
-          width: 12,
-          height: 7,
-        ),
-        Paint()..color = const Color(0xFFFFB300),
-      )
-      ..restore();
+    // Pipes: real cylinders with lips.
+    const pipe = Color(0xFF43A047), lip = Color(0xFF5CBF5F);
+    for (var i = math.max(0, _next - 1); i < _next + 3; i++) {
+      final cx = _pipeX(i) + pipeW / 2;
+      final gy = _gapY(i, _scroll);
+      final half = _pipes[i % _pipes.length].gap / 2;
+      s
+        ..cylinder(
+          _p(cx, gy - half - 12),
+          pipeW / 2,
+          gy - half - 12 + 40,
+          pipe,
+          segments: 16,
+        )
+        ..cylinder(_p(cx, gy - half), pipeW / 2 + 5, 18, lip, segments: 16)
+        ..cylinder(
+          _p(cx, ground + 10),
+          pipeW / 2,
+          ground + 10 - (gy + half + 12),
+          pipe,
+          segments: 16,
+        )
+        ..cylinder(_p(cx, gy + half + 18), pipeW / 2 + 5, 18, lip, segments: 16)
+        ..shadow(
+          Offset(cx + 6, 10),
+          pipeW * 0.7,
+          height: _groundH + 0.5,
+          opacity: 0.3,
+        );
+    }
+    _bird3d(s);
+    s.render(canvas);
     if (!_started) {
       drawText(
         canvas,
@@ -293,5 +350,74 @@ class FlappySim extends GameSim {
       display: true,
       align: TextAlign.center,
     );
+  }
+
+  /// Round bird: body, belly, flapping wings, beak, eyes; pitches with
+  /// its vertical speed.
+  void _bird3d(Scene3D s) {
+    final angle = (_vy / 900).clamp(-0.5, 1.0);
+    final c = _p(birdX, _y);
+    final fx = V3(math.cos(angle), -math.sin(angle), 0); // beak direction
+    final up = V3(math.sin(angle), math.cos(angle), 0);
+    const side = V3(0, 0, 1);
+    final flap = math.sin(elapsed * (_started ? 22 : 10)) * 0.9;
+    s
+      ..shadow(
+        Offset(c.x, 10),
+        12,
+        height: _groundH + 0.6,
+        opacity: 0.25 * (1 - ((ground - _y) / 600).clamp(0.0, 0.8)),
+      )
+      ..sphere(c, 13, const Color(0xFFFFD23F), lat: 7, lon: 12)
+      ..sphere(
+        c + fx * 4 - up * 5 + side * 4,
+        8,
+        const Color(0xFFFFF3C4),
+        lat: 4,
+        lon: 8,
+      )
+      ..tube(
+        c + fx * 11 + up * 1,
+        c + fx * 22 - up * 1,
+        4.5,
+        0,
+        const Color(0xFFFF7043),
+        segments: 6,
+      )
+      ..tube(
+        c - fx * 10 + up * 2,
+        c - fx * 19 + up * 6,
+        4,
+        1,
+        const Color(0xFFFFB300),
+        segments: 5,
+      );
+    for (final z in [8.0, -8.0]) {
+      final e = c + fx * 6 + up * 5 + side * z;
+      s
+        ..sphere(e, 4, const Color(0xFFFFFFFF), lat: 4, lon: 6)
+        ..sphere(
+          e + fx * 1.8 + side * (z.sign * 2),
+          2,
+          const Color(0xFF111111),
+          lat: 3,
+          lon: 5,
+        );
+    }
+    for (final z in [1.0, -1.0]) {
+      final root = c - fx * 2 + side * (z * 10);
+      final tip =
+          root -
+          fx * 8 +
+          side * (z * 12 * math.cos(flap)) +
+          up * (14 * math.sin(flap));
+      s.tri(
+        root + fx * 6,
+        tip,
+        root - fx * 8,
+        const Color(0xFFFFB300),
+        doubleSided: true,
+      );
+    }
   }
 }

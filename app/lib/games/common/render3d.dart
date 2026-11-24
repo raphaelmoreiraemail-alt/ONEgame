@@ -293,6 +293,7 @@ class Scene3D {
     double yaw = 0,
     Color? top,
     int layer = Layer.solid,
+    double depthBias = 0,
   }) {
     final c = math.cos(yaw), s = math.sin(yaw);
     V3 p(double x, double y, double z) =>
@@ -306,11 +307,35 @@ class Scene3D {
         t1 = p(w, height, -d),
         t2 = p(w, height, d),
         t3 = p(-w, height, d);
-    quad(t0, t3, t2, t1, top ?? color, layer: layer); // top
-    quad(b3, b2, t2, t3, color, layer: layer); // front (+z)
-    quad(b1, b0, t0, t1, color, layer: layer); // back (−z)
-    quad(b0, b3, t3, t0, color, layer: layer); // left
-    quad(b2, b1, t1, t2, color, layer: layer); // right
+    quad(
+      t0,
+      t3,
+      t2,
+      t1,
+      top ?? color,
+      layer: layer,
+      depthBias: depthBias,
+    ); // top
+    quad(
+      b3,
+      b2,
+      t2,
+      t3,
+      color,
+      layer: layer,
+      depthBias: depthBias,
+    ); // front (+z)
+    quad(
+      b1,
+      b0,
+      t0,
+      t1,
+      color,
+      layer: layer,
+      depthBias: depthBias,
+    ); // back (−z)
+    quad(b0, b3, t3, t0, color, layer: layer, depthBias: depthBias); // left
+    quad(b2, b1, t1, t2, color, layer: layer, depthBias: depthBias); // right
   }
 
   /// Box with an arbitrary orientation: [ax], [ay], [az] are its unit axes
@@ -406,18 +431,18 @@ class Scene3D {
       final n0 = V3(c0, 0, s0), n1 = V3(c1, 0, s1);
       tri(
         a,
-        b,
         b + V3(0, height, 0),
+        b,
         color,
         vertexNormals: [n0, n1, n1],
         normal: (n0 + n1).normalized,
       );
       tri(
         a,
-        b + V3(0, height, 0),
         a + V3(0, height, 0),
+        b + V3(0, height, 0),
         color,
-        vertexNormals: [n0, n1, n0],
+        vertexNormals: [n0, n0, n1],
         normal: (n0 + n1).normalized,
       );
       if (capped) {
@@ -457,8 +482,8 @@ class Scene3D {
       final q0 = b + n0 * rb, q1 = b + n1 * rb;
       tri(
         p0,
-        q1,
         p1,
+        q1,
         color,
         vertexNormals: [n0, n1, n1],
         normal: (n0 + n1).normalized,
@@ -466,16 +491,16 @@ class Scene3D {
       );
       tri(
         p0,
-        q0,
         q1,
+        q0,
         color,
-        vertexNormals: [n0, n0, n1],
+        vertexNormals: [n0, n1, n0],
         normal: (n0 + n1).normalized,
         layer: layer,
       );
       if (capped) {
-        tri(b, q1, q0, color, normal: axis, layer: layer);
-        tri(a, p0, p1, color, normal: axis * -1, layer: layer);
+        tri(b, q0, q1, color, normal: axis, layer: layer);
+        tri(a, p1, p0, color, normal: axis * -1, layer: layer);
       }
     }
   }

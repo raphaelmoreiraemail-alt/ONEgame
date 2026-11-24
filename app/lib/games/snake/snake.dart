@@ -4,11 +4,11 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../core/l10n/l10n.dart';
 import '../../core/rng/seeded_random.dart';
-import '../common/draw.dart';
 import '../common/fingerprint.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart';
 
 /// 7.20 Serpent — classic snake on a 20 × 30 grid with seeded walls.
 class SnakeGame extends MiniGameDefinition {
@@ -240,82 +240,159 @@ class SnakeSim extends GameSim {
     'length': _body.length,
   };
 
+  // ── 3D rendering ──────────────────────────────────────────────────────
+  // Board (x, y) → V3(x, h, y), seen from the south. Swipes stay in screen
+  // space: up is still "away", so the controls are unchanged.
+  static final Camera3D _camera = Camera3D(
+    eye: const V3(180, 640, 960),
+    target: const V3(180, 0, 372),
+    fovDegrees: 46,
+    center: const Offset(180, 352),
+  );
+
+  V3 _c3((int, int) c, [double h = 0]) => V3.ground(_center(c), h);
+
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(Arena.rect, Paint()..color = const Color(0xFF1B2E1F));
+    drawSky(
+      canvas,
+      Arena.rect,
+      const Color(0xFF1E3B26),
+      const Color(0xFF0F2015),
+    );
+    final s = Scene3D(_camera, light: const V3(-0.45, 1, 0.4), ambient: 0.5);
     final board = Rect.fromLTWH(origin.dx, origin.dy, cols * cell, rows * cell);
-    canvas.drawRect(board, Paint()..color = const Color(0xFF2E4A33));
-    for (var x = 0; x < cols; x++) {
-      for (var y = 0; y < rows; y++) {
-        if ((x + y).isEven) {
-          canvas.drawRect(
-            Rect.fromLTWH(
-              origin.dx + x * cell,
-              origin.dy + y * cell,
-              cell,
-              cell,
-            ),
-            Paint()..color = const Color(0xFF2B4430),
-          );
-        }
-      }
-    }
-    for (final w in _walls) {
-      drawBox(
-        canvas,
-        Rect.fromLTWH(
-          origin.dx + w.$1 * cell,
-          origin.dy + w.$2 * cell,
-          cell,
-          cell,
-        ),
-        const Color(0xFF795548),
-        radius: 3,
+    // Soil around, a wooden frame, a chequered lawn.
+    s.ground(
+      board.inflate(260),
+      (i, j) =>
+          tint(const Color(0xFF3E2C1E), (cellNoise(i, j, 4) - 0.5) * 0.08),
+      cell: 80,
+      height: -10,
+    );
+    final frame = board.inflate(10);
+    for (final r in [
+      Rect.fromLTRB(frame.left, frame.top, frame.right, board.top),
+      Rect.fromLTRB(frame.left, board.bottom, frame.right, frame.bottom),
+      Rect.fromLTRB(frame.left, board.top, board.left, board.bottom),
+      Rect.fromLTRB(board.right, board.top, frame.right, board.bottom),
+    ]) {
+      s.box(
+        V3(r.center.dx, -10, r.center.dy),
+        r.width,
+        16,
+        r.height,
+        const Color(0xFF8D6E63),
+        top: const Color(0xFFA1887F),
+        layer: Layer.surface,
       );
     }
-    drawBall(canvas, _center(_fruit), 6, const Color(0xFFE53935));
+    s.ground(
+      board,
+      (i, j) => tint(
+        (i + j).isEven ? const Color(0xFF6DB34F) : const Color(0xFF5EA343),
+        (cellNoise(i, j, 9) - 0.5) * 0.05,
+      ),
+      cell: cell,
+      layer: Layer.surface,
+    );
+    for (final w in _walls) {
+      final c = _c3(w);
+      s
+        ..shadow(_center(w).translate(4, 3), cell * 0.75, opacity: 0.3)
+        ..box(
+          c,
+          cell,
+          14,
+          cell,
+          tint(
+            const Color(0xFF8A8580),
+            (cellNoise(w.$1, w.$2, 7) - 0.5) * 0.15,
+          ),
+          top: const Color(0xFFA9A49E),
+        );
+    }
+    _apple(s, _c3(_fruit), const Color(0xFFD32F2F), 6.5);
     if (_gold != null) {
       final blink = (_goldUntil - step) < stepsPerSecond && step % 20 < 10;
-      if (!blink) drawBall(canvas, _center(_gold!), 7, const Color(0xFFFFD23F));
+      if (!blink) {
+        _apple(
+          s,
+          _c3(_gold!, math.sin(elapsed * 4) * 2 + 2),
+          const Color(0xFFFFC107),
+          7.5,
+        );
+      }
     }
-    for (var i = _body.length - 1; i >= 0; i--) {
+    // Snake: chain of glossy spheres, the head bigger with eyes.
+    for (var i = _body.length - 1; i >= 1; i--) {
       final t = i / math.max(1, _body.length - 1);
-      final c = Color.lerp(
-        const Color(0xFF9CCC65),
-        const Color(0xFF33691E),
+      final col = Color.lerp(
+        const Color(0xFF8BC34A),
+        const Color(0xFF2E6B1A),
         t,
       )!;
-      canvas.drawRRect(
-        RRect.fromRectAndRadius(
-          Rect.fromCenter(
-            center: _center(_body[i]),
-            width: cell - 1,
-            height: cell - 1,
-          ),
-          const Radius.circular(5),
-        ),
-        Paint()..color = c,
-      );
+      final r = 7.6 - t * 1.6;
+      s
+        ..shadow(_center(_body[i]).translate(3, 2), r * 1.1, opacity: 0.3)
+        ..sphere(
+          _c3(_body[i], r),
+          r,
+          (i ~/ 2).isEven ? col : tint(col, -0.12),
+          lat: 5,
+          lon: 8,
+        );
+      // Fill the gap with the next segment.
+      final mid = (_c3(_body[i], r) + _c3(_body[i - 1], r)) * 0.5;
+      s.sphere(mid, r * 0.92, col, lat: 4, lon: 8);
     }
-    final h = _center(_body.first);
-    canvas
-      ..drawCircle(
-        h +
-            Offset(
-              _dir.$2 == 0 ? 3.0 * _dir.$1 : -3,
-              _dir.$1 == 0 ? 3.0 * _dir.$2 : -3,
-            ),
-        2,
-        Paint()..color = Colors.black,
+    final head = _c3(_body.first, 8.5);
+    final f = V3(_dir.$1.toDouble(), 0, _dir.$2.toDouble());
+    final side = V3(-f.z, 0, f.x);
+    s
+      ..shadow(_center(_body.first).translate(3, 2), 10, opacity: 0.35)
+      ..sphere(head, 9, const Color(0xFF9CCC65), lat: 6, lon: 10);
+    for (final k in [-1.0, 1.0]) {
+      final e = head + f * 5 + side * (k * 4.5) + const V3(0, 5, 0);
+      s
+        ..sphere(e, 3, const Color(0xFFFFFFFF), lat: 3, lon: 6)
+        ..sphere(
+          e + f * 1.8 + const V3(0, 0.8, 0),
+          1.6,
+          const Color(0xFF111111),
+          lat: 3,
+          lon: 5,
+        );
+    }
+    s.tube(
+      head + f * 8,
+      head + f * 14 + const V3(0, -2, 0),
+      0.9,
+      0.4,
+      const Color(0xFFE53935),
+      segments: 4,
+    );
+    s.render(canvas);
+  }
+
+  static void _apple(Scene3D s, V3 at, Color c, double r) {
+    s
+      ..shadow(Offset(at.x + 3, at.z + 2), r * 1.1, opacity: 0.3)
+      ..sphere(at + V3(0, r, 0), r, c, lat: 6, lon: 10)
+      ..tube(
+        at + V3(0, r * 1.8, 0),
+        at + V3(0.8, r * 2.4, 0),
+        0.7,
+        0.5,
+        const Color(0xFF5D4037),
+        segments: 4,
       )
-      ..drawCircle(
-        h +
-            Offset(
-              _dir.$2 == 0 ? 3.0 * _dir.$1 : 3,
-              _dir.$1 == 0 ? 3.0 * _dir.$2 : 3,
-            ),
-        2,
-        Paint()..color = Colors.black,
+      ..tri(
+        at + V3(0.8, r * 2.2, 0),
+        at + V3(4.5, r * 2.5, -1.5),
+        at + V3(2, r * 2.0, 2),
+        const Color(0xFF43A047),
+        doubleSided: true,
       );
   }
 }
