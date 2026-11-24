@@ -11,6 +11,7 @@ import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
 import '../common/physics.dart';
+import '../common/render3d.dart';
 
 /// 7.9 Curling — 6 stones as close as possible to the button.
 class CurlingGame extends MiniGameDefinition {
@@ -313,11 +314,63 @@ class CurlingSim extends GameSim {
     'sweeps': _sweeps,
   };
 
+  // ---------------------------------------------------------------- 3D
+
+  static final Camera3D _camera = Camera3D(
+    eye: const V3(180, 240, 860),
+    target: const V3(180, 0, 250),
+    fovDegrees: 46,
+    center: const Offset(180, 300),
+  );
+
+  @override
+  Camera3D get camera3d => _camera;
+
+  void _stone3d(Scene3D s, Body? b, Color handle) {
+    if (b == null) return;
+    final p = b.px;
+    s
+      ..shadow(p.translate(3, 3), stoneR * 1.1)
+      ..cylinder(
+        V3.ground(p),
+        stoneR,
+        7,
+        const Color(0xFF78909C),
+        top: const Color(0xFF90A4AE),
+        segments: 16,
+      )
+      ..box(V3.ground(p, 7), 13, 4, 5, handle, yaw: b.angle);
+  }
+
   @override
   void render(Canvas canvas) {
-    canvas
-      ..drawRect(Arena.rect, Paint()..color = const Color(0xFF90A4AE))
-      ..drawRect(sheet, Paint()..color = const Color(0xFFF5FBFF));
+    drawSky(
+      canvas,
+      Arena.rect,
+      const Color(0xFF90A4AE),
+      const Color(0xFFECEFF1),
+    );
+    final s = Scene3D(
+      _camera,
+      ambient: 0.6,
+      fogColor: const Color(0xFFECEFF1),
+      fogStart: 700,
+      fogEnd: 1800,
+    );
+    s
+      ..ground(
+        const Rect.fromLTRB(-400, -400, 760, 1100),
+        (i, j) => const Color(0xFFB0BEC5),
+        cell: 100,
+        height: -2,
+      )
+      ..ground(
+        sheet,
+        (i, j) =>
+            tint(const Color(0xFFF5FBFF), (cellNoise(i, j, 6) - 0.5) * 0.02),
+        cell: 30,
+        layer: Layer.surface,
+      );
     const ringColors = [
       Colors.white,
       Color(0xFFE53935),
@@ -325,72 +378,79 @@ class CurlingSim extends GameSim {
       Color(0xFF1E88E5),
     ];
     for (var i = rings.length - 1; i >= 0; i--) {
-      canvas.drawCircle(house, rings[i], Paint()..color = ringColors[i]);
-    }
-    canvas
-      ..drawLine(
-        Offset(sheet.left, house.dy),
-        Offset(sheet.right, house.dy),
-        Paint()..color = Colors.black26,
-      )
-      ..drawLine(
-        Offset(180, sheet.top),
-        const Offset(180, 640),
-        Paint()..color = Colors.black12,
-      )
-      ..drawLine(
-        Offset(sheet.left, 420),
-        Offset(sheet.right, 420),
-        Paint()
-          ..color = const Color(0x66E53935)
-          ..strokeWidth = 3,
+      s.cylinder(
+        V3.ground(house, -1 + (rings.length - i) * 0.01),
+        rings[i],
+        1.2,
+        ringColors[i],
+        segments: 32,
+        top: ringColors[i],
       );
-    void stone(Body? b, Color handle) {
-      if (b == null) return;
-      drawBall(canvas, b.px, stoneR, const Color(0xFF78909C));
-      canvas
-        ..save()
-        ..translate(b.px.dx, b.px.dy)
-        ..rotate(b.angle)
-        ..drawRRect(
-          RRect.fromRectAndRadius(
-            const Rect.fromLTWH(-7, -3, 14, 6),
-            const Radius.circular(3),
-          ),
-          Paint()..color = handle,
-        )
-        ..restore();
     }
-
+    s
+      ..ground(
+        Rect.fromLTRB(sheet.left, house.dy - 1, sheet.right, house.dy + 1),
+        (i, j) => const Color(0x55000000),
+        cell: 400,
+        height: 0.4,
+        layer: Layer.decal,
+      )
+      ..ground(
+        Rect.fromLTRB(sheet.left, 418, sheet.right, 422),
+        (i, j) => const Color(0x88E53935),
+        cell: 400,
+        height: 0.4,
+        layer: Layer.decal,
+      )
+      ..box(
+        V3(sheet.left - 5, 0, 368),
+        10,
+        10,
+        sheet.height,
+        const Color(0xFF455A64),
+      )
+      ..box(
+        V3(sheet.right + 5, 0, 368),
+        10,
+        10,
+        sheet.height,
+        const Color(0xFF455A64),
+      );
     for (final b in _them) {
-      stone(b, const Color(0xFFFFD23F));
+      _stone3d(s, b, const Color(0xFFFFD23F));
     }
     for (final b in _mine) {
-      stone(b, const Color(0xFFE8322F));
+      _stone3d(s, b, const Color(0xFFE8322F));
     }
-    if (_moving != null && _sweeping) {
-      final p = _moving!.px.translate(0, -22);
-      final brush = Paint()
-        ..color = const Color(0xFF263238)
-        ..strokeWidth = 4;
-      final wiggle = (step % 12 < 6 ? -6.0 : 6.0);
-      canvas.drawLine(
-        p.translate(-10 + wiggle, 0),
-        p.translate(10 + wiggle, 0),
-        brush,
-      );
+    final m = _moving;
+    if (m != null && _sweeping) {
+      final p = m.px.translate(step % 12 < 6 ? -6 : 6, -24);
+      s
+        ..box(V3.ground(p, 0.5), 26, 3, 6, const Color(0xFF263238))
+        ..figure(
+          V3.ground(p.translate(18, 8)),
+          const Color(0xFF1565C0),
+          arms: 0.2,
+          scale: 0.6,
+        );
     }
-    if (_moving == null && thrown < stones) {
-      drawBall(canvas, hack, stoneR, const Color(0xFF78909C));
-      drawText(
-        canvas,
-        '👆',
-        const Offset(180, 620),
-        size: 22,
-        align: TextAlign.center,
-      );
+    if (m == null && thrown < stones) {
+      _stone3d(s, null, const Color(0xFFE8322F));
     }
-    if (_moving != null) {
+    s.render(canvas);
+    if (m == null && thrown < stones) {
+      final p = _camera.project(V3.ground(hack));
+      if (p != null) {
+        drawText(
+          canvas,
+          '👆',
+          p.translate(0, 24),
+          size: 22,
+          align: TextAlign.center,
+        );
+      }
+    }
+    if (m != null) {
       drawText(
         canvas,
         'TAP TAP TAP',

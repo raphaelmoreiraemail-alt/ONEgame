@@ -292,6 +292,7 @@ class Scene3D {
     Color color, {
     double yaw = 0,
     Color? top,
+    int layer = Layer.solid,
   }) {
     final c = math.cos(yaw), s = math.sin(yaw);
     V3 p(double x, double y, double z) =>
@@ -305,11 +306,11 @@ class Scene3D {
         t1 = p(w, height, -d),
         t2 = p(w, height, d),
         t3 = p(-w, height, d);
-    quad(t0, t3, t2, t1, top ?? color); // top
-    quad(b3, b2, t2, t3, color); // front (+z)
-    quad(b1, b0, t0, t1, color); // back (−z)
-    quad(b0, b3, t3, t0, color); // left
-    quad(b2, b1, t1, t2, color); // right
+    quad(t0, t3, t2, t1, top ?? color, layer: layer); // top
+    quad(b3, b2, t2, t3, color, layer: layer); // front (+z)
+    quad(b1, b0, t0, t1, color, layer: layer); // back (−z)
+    quad(b0, b3, t3, t0, color, layer: layer); // left
+    quad(b2, b1, t1, t2, color, layer: layer); // right
   }
 
   /// Box with an arbitrary orientation: [ax], [ay], [az] are its unit axes

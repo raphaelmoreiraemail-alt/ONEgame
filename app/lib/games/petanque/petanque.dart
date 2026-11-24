@@ -11,6 +11,7 @@ import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
 import '../common/physics.dart';
+import '../common/render3d.dart';
 
 /// 7.6 Pétanque — 3 ends against an AI, 3 boules each.
 class PetanqueGame extends MiniGameDefinition {
@@ -502,83 +503,141 @@ class PetanqueSim extends GameSim {
     'carreaux': carreaux,
   };
 
+  // ---------------------------------------------------------------- 3D
+
+  static final Camera3D _camera = Camera3D(
+    eye: const V3(180, 220, 840),
+    target: const V3(180, 0, 300),
+    fovDegrees: 46,
+    center: const Offset(180, 300),
+  );
+
+  @override
+  Camera3D get camera3d => _camera;
+
+  void _boule3d(Scene3D s, V3 c, bool mine) {
+    s
+      ..shadow(
+        c.flat.translate(3, 3),
+        bouleR * (1 + c.y / 60),
+        opacity: 0.35 / (1 + c.y / 80),
+      )
+      ..sphere(
+        c,
+        bouleR,
+        mine ? const Color(0xFFB0BEC5) : const Color(0xFFA1887F),
+        lat: 7,
+        lon: 12,
+        stripe: mine ? const Color(0xFFE8322F) : const Color(0xFF4E342E),
+      );
+  }
+
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(
+    drawSky(
+      canvas,
       Arena.rect,
-      Paint()
-        ..shader = const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFFD7B98E), Color(0xFFC9A375)],
-        ).createShader(Arena.rect),
+      const Color(0xFF81D4FA),
+      const Color(0xFFFFF3E0),
     );
-    final grit = SeededRandom(9);
-    final dot = Paint()..color = const Color(0x22000000);
-    for (var i = 0; i < 160; i++) {
-      canvas.drawCircle(
-        Offset(grit.nextDouble() * 360, 96 + grit.nextDouble() * 530),
-        1.3,
-        dot,
-      );
-    }
+    final s = Scene3D(
+      _camera,
+      fogColor: const Color(0xFFFFF3E0),
+      fogStart: 800,
+      fogEnd: 1900,
+    );
+    s.ground(
+      const Rect.fromLTRB(-500, -500, 860, 1100),
+      (i, j) => tint(const Color(0xFF8BC34A), (cellNoise(i, j) - 0.5) * 0.06),
+      cell: 90,
+      height: -1,
+    );
+    s.ground(
+      field,
+      (i, j) =>
+          tint(const Color(0xFFD7B98E), (cellNoise(i, j, 12) - 0.5) * 0.07),
+      cell: 16,
+      layer: Layer.surface,
+    );
     for (final b in terrain.bumps) {
-      canvas.drawCircle(b, 30, Paint()..color = const Color(0x22000000));
+      s.shadow(b, 30, height: 0.4, opacity: 0.15);
     }
-    canvas
-      ..drawRect(
-        field,
-        Paint()
-          ..color = const Color(0x55FFFFFF)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2,
+    // Wooden boards around the terrain, plane trees at the back.
+    const board = Color(0xFF8D6E63);
+    s
+      ..box(
+        V3(field.center.dx, 0, field.top - 4),
+        field.width + 8,
+        10,
+        8,
+        board,
       )
-      ..drawCircle(
-        circle,
-        22,
-        Paint()
-          ..color = Colors.white70
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 3,
+      ..box(V3(field.left - 4, 0, field.center.dy), 8, 10, field.height, board)
+      ..box(
+        V3(field.right + 4, 0, field.center.dy),
+        8,
+        10,
+        field.height,
+        board,
       );
-    if (_jack != null) {
-      drawBall(canvas, _jack!.px, jackR, const Color(0xFFFFB300));
+    for (var i = 0; i < 7; i++) {
+      final x = -120.0 + i * 100;
+      s
+        ..cylinder(V3(x, 0, -60), 9, 70, const Color(0xFF8D6E63), segments: 6)
+        ..sphere(V3(x, 110, -60), 55, const Color(0xFF558B2F), lat: 5, lon: 8);
+    }
+    // Throwing circle.
+    for (var k = 0; k < 24; k++) {
+      final a0 = k / 24 * 2 * math.pi, a1 = (k + 1) / 24 * 2 * math.pi;
+      s.quad(
+        V3.ground(circle + Offset(math.cos(a0), math.sin(a0)) * 22, 0.5),
+        V3.ground(circle + Offset(math.cos(a1), math.sin(a1)) * 22, 0.5),
+        V3.ground(circle + Offset(math.cos(a1), math.sin(a1)) * 25, 0.5),
+        V3.ground(circle + Offset(math.cos(a0), math.sin(a0)) * 25, 0.5),
+        Colors.white,
+        doubleSided: true,
+        layer: Layer.decal,
+      );
+    }
+    final jack = _jack;
+    if (jack != null) {
+      s
+        ..shadow(jack.px.translate(2, 2), jackR)
+        ..sphere(
+          V3.ground(jack.px, jackR),
+          jackR,
+          const Color(0xFFFFB300),
+          lat: 5,
+          lon: 8,
+        );
     }
     for (final b in _boules) {
       if (b.dead) continue;
-      _drawBoule(canvas, b.body.px, bouleR, b.mine);
+      _boule3d(s, V3.ground(b.body.px, bouleR), b.mine);
     }
     if (_phase == _Phase.flying) {
       final t = _flySteps / _flyTotal;
       final p = Offset.lerp(_flyFrom, _flyTo, t)!;
-      final h = math.sin(math.pi * t) * (_shoot ? 90 : 60);
-      canvas.drawOval(
-        Rect.fromCenter(center: p, width: 16, height: 7),
-        Paint()..color = const Color(0x55000000),
-      );
-      _drawBoule(
-        canvas,
-        p.translate(0, -h),
-        bouleR * (1 + h / 200),
+      _boule3d(
+        s,
+        V3.ground(p, bouleR + math.sin(math.pi * t) * (_shoot ? 110 : 70)),
         _flyingIsMine,
       );
     }
-    if (_myTurn && (_phase == _Phase.aim || _phase == _Phase.power)) {
+    final aiming = _myTurn && (_phase == _Phase.aim || _phase == _Phase.power);
+    if (aiming) {
       final dir = Offset(math.sin(_angle), -math.cos(_angle));
-      drawDashed(
-        canvas,
-        circle,
-        dir,
-        120,
-        Paint()
-          ..color = Colors.white
-          ..strokeWidth = 2,
-      );
-      _drawBoule(canvas, circle, bouleR, true);
+      for (var d = 30.0; d < 150; d += 12) {
+        s.shadow(circle + dir * d, 2, height: 0.6, opacity: 0.8);
+      }
+      _boule3d(s, V3.ground(circle, bouleR), true);
+    }
+    s.render(canvas);
+    if (aiming) {
       drawText(
         canvas,
         _shoot ? '🎯 TIRER' : '🎳 POINTER',
-        const Offset(180, 540),
+        const Offset(180, 530),
         size: 14,
         display: true,
         align: TextAlign.center,
@@ -606,7 +665,6 @@ class PetanqueSim extends GameSim {
           );
       }
     }
-    // Score + remaining boules.
     drawText(
       canvas,
       '🔴 $myPoints – $aiPoints 🟤',
@@ -637,17 +695,5 @@ class PetanqueSim extends GameSim {
         color: const Color(0xFFFFD23F),
       );
     }
-  }
-
-  void _drawBoule(Canvas c, Offset p, double r, bool mine) {
-    drawBall(c, p, r, mine ? const Color(0xFF90A4AE) : const Color(0xFFA1887F));
-    c.drawCircle(
-      p,
-      r * 0.75,
-      Paint()
-        ..color = mine ? const Color(0xFFE8322F) : const Color(0xFF4E342E)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.5,
-    );
   }
 }

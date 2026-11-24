@@ -11,6 +11,7 @@ import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
 import '../common/physics.dart';
+import '../common/render3d.dart';
 
 /// 7.12 Billard — pot as many balls as possible in 2 minutes.
 class BillardGame extends MiniGameDefinition {
@@ -260,59 +261,160 @@ class BillardSim extends GameSim {
     'scratches': scratches,
   };
 
+  // ---------------------------------------------------------------- 3D
+
+  static final Camera3D _camera = Camera3D(
+    eye: const V3(180, 560, 930),
+    target: const V3(180, 0, 360),
+    fovDegrees: 44,
+    center: const Offset(180, 340),
+  );
+
+  @override
+  Camera3D get camera3d => _camera;
+
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(Arena.rect, Paint()..color = const Color(0xFF3E2723));
-    final rail = table.inflate(16);
-    canvas
-      ..drawRRect(
-        RRect.fromRectAndRadius(rail, const Radius.circular(14)),
-        Paint()..color = const Color(0xFF5D4037),
+    drawSky(
+      canvas,
+      Arena.rect,
+      const Color(0xFF1E1410),
+      const Color(0xFF3B2A20),
+    );
+    final s = Scene3D(
+      _camera,
+      ambient: 0.5,
+      fogColor: const Color(0xFF2B1D16),
+      fogStart: 900,
+      fogEnd: 2000,
+    );
+    // Room floor, table legs, wooden rails, cloth.
+    s.ground(
+      const Rect.fromLTRB(-400, -300, 760, 1100),
+      (i, j) => tint(const Color(0xFF4E342E), (cellNoise(i, j) - 0.5) * 0.05),
+      cell: 90,
+      height: -80,
+    );
+    final rail = table.inflate(18);
+    for (final x in [rail.left + 14, rail.right - 14]) {
+      for (final z in [rail.top + 14, rail.bottom - 14]) {
+        s.box(V3(x, -80, z), 22, 80, 22, const Color(0xFF3E2723));
+      }
+    }
+    s
+      ..box(
+        V3(rail.center.dx, -14, rail.center.dy),
+        rail.width,
+        13,
+        rail.height,
+        const Color(0xFF4E342E),
+        layer: Layer.ground,
       )
-      ..drawRect(table, Paint()..color = const Color(0xFF00695C))
-      ..drawLine(
-        Offset(table.left, 470),
-        Offset(table.right, 470),
-        Paint()..color = Colors.white24,
+      ..ground(
+        table,
+        (i, j) =>
+            tint(const Color(0xFF00796B), (cellNoise(i, j, 8) - 0.5) * 0.04),
+        cell: 24,
+        layer: Layer.surface,
+      );
+    const wood = Color(0xFF6D4C41), woodTop = Color(0xFF8D6E63);
+    s
+      ..box(
+        V3(table.center.dx, 0, table.top - 9),
+        table.width + 36,
+        8,
+        18,
+        wood,
+        top: woodTop,
+      )
+      ..box(
+        V3(table.center.dx, 0, table.bottom + 9),
+        table.width + 36,
+        8,
+        18,
+        wood,
+        top: woodTop,
+      )
+      ..box(
+        V3(table.left - 9, 0, table.center.dy),
+        18,
+        8,
+        table.height,
+        wood,
+        top: woodTop,
+      )
+      ..box(
+        V3(table.right + 9, 0, table.center.dy),
+        18,
+        8,
+        table.height,
+        wood,
+        top: woodTop,
       );
     for (final k in pockets) {
-      canvas.drawCircle(k, pocketR, Paint()..color = const Color(0xFF111111));
+      s.cylinder(
+        V3.ground(k, -6),
+        pocketR,
+        6.6,
+        const Color(0xFF111111),
+        top: const Color(0xFF0A0A0A),
+      );
     }
+    // Head string.
+    s.ground(
+      Rect.fromLTRB(table.left, 469, table.right, 471),
+      (i, j) => const Color(0x55FFFFFF),
+      cell: 400,
+      height: 0.3,
+      layer: Layer.decal,
+    );
     for (var i = 0; i < _balls.length; i++) {
       final b = _balls[i];
       if (b == null) continue;
-      drawBall(canvas, b.px, ballR, _colors[i]);
-      if (i >= 8) {
-        canvas.drawCircle(b.px, ballR * 0.55, Paint()..color = Colors.white);
-      }
+      s
+        ..shadow(b.px.translate(3, 3), ballR)
+        ..sphere(
+          V3.ground(b.px, ballR),
+          ballR,
+          _colors[i],
+          lat: 6,
+          lon: 10,
+          stripe: i >= 8 ? Colors.white : null,
+        );
     }
-    drawBall(canvas, _cue.px, ballR, const Color(0xFFFAFAFA));
+    s
+      ..shadow(_cue.px.translate(3, 3), ballR)
+      ..sphere(
+        V3.ground(_cue.px, ballR),
+        ballR,
+        const Color(0xFFFAFAFA),
+        lat: 6,
+        lon: 10,
+      );
+    // Aim: short guide + cue stick.
     final aim = _aim;
     if (aim != null) {
       final pull = _cue.px - aim;
       if (pull.distance > 4) {
         final power = math.min(pull.distance / 110, 1.0);
-        drawDashed(
-          canvas,
-          _cue.px,
-          pull,
-          60,
-          Paint()
-            ..color = Colors.white
-            ..strokeWidth = 2,
-        );
-        // Cue stick behind the ball.
         final dir = pull / pull.distance;
-        canvas.drawLine(
-          _cue.px - dir * (14 + power * 40),
-          _cue.px - dir * (200 + power * 40),
-          Paint()
-            ..color = const Color(0xFFD7A86E)
-            ..strokeWidth = 5
-            ..strokeCap = StrokeCap.round,
+        for (var d = 16.0; d < 70; d += 9) {
+          s.shadow(_cue.px + dir * d, 1.6, height: 0.6, opacity: 0.9);
+        }
+        final back = _cue.px - dir * (14 + power * 40);
+        final butt = _cue.px - dir * (220 + power * 40);
+        final side = Offset(-dir.dy, dir.dx) * 2.5;
+        s.quad(
+          V3.ground(back + side, ballR + 2),
+          V3.ground(back - side, ballR + 2),
+          V3.ground(butt - side * 1.6, ballR + 16),
+          V3.ground(butt + side * 1.6, ballR + 16),
+          const Color(0xFFD7A86E),
+          doubleSided: true,
         );
       }
     }
+    s.render(canvas);
     if (series >= 2) {
       drawText(
         canvas,

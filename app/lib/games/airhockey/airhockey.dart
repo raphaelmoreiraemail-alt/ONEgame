@@ -11,6 +11,7 @@ import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
 import '../common/physics.dart';
+import '../common/render3d.dart';
 
 /// 7.8 Air hockey — first to 5 goals against an AI, 2 minutes max.
 class AirhockeyGame extends MiniGameDefinition {
@@ -348,56 +349,160 @@ class AirhockeySim extends GameSim {
   @override
   Map<String, num> get stats => {'me': me, 'ai': opp, 'direct': direct};
 
+  // ---------------------------------------------------------------- 3D
+
+  static final Camera3D _camera = Camera3D(
+    eye: const V3(180, 600, 960),
+    target: const V3(180, 0, 360),
+    fovDegrees: 44,
+    center: const Offset(180, 330),
+  );
+
+  @override
+  Camera3D get camera3d => _camera;
+
+  @override
+  double get touchPlaneHeight => 8;
+
+  void _mallet(Scene3D s, Offset p, Color c) {
+    s
+      ..shadow(p.translate(4, 4), malletR)
+      ..cylinder(V3.ground(p), malletR, 6, c, top: tint(c, 0.15))
+      ..cylinder(V3.ground(p, 6), malletR * 0.45, 14, c, top: tint(c, 0.3));
+  }
+
   @override
   void render(Canvas canvas) {
-    canvas
-      ..drawRect(Arena.rect, Paint()..color = const Color(0xFF0D1B2A))
-      ..drawRRect(
-        RRect.fromRectAndRadius(rink, const Radius.circular(24)),
-        Paint()..color = const Color(0xFFE3F2FD),
-      );
-    final line = Paint()
-      ..color = const Color(0x66E8322F)
-      ..strokeWidth = 3
-      ..style = PaintingStyle.stroke;
-    canvas
-      ..drawLine(Offset(rink.left, 360), Offset(rink.right, 360), line)
-      ..drawCircle(const Offset(180, 360), 50, line);
-    final goal = Paint()..color = const Color(0xFF212121);
-    final gh = level.goalHalf;
-    canvas
-      ..drawRect(
-        Rect.fromLTRB(180 - gh, rink.top - 6, 180 + gh, rink.top + 4),
-        goal,
+    drawSky(
+      canvas,
+      Arena.rect,
+      const Color(0xFF0D1B2A),
+      const Color(0xFF1B263B),
+    );
+    final s = Scene3D(
+      _camera,
+      ambient: 0.55,
+      fogColor: const Color(0xFF0D1B2A),
+      fogStart: 900,
+      fogEnd: 2000,
+    );
+    s.ground(
+      const Rect.fromLTRB(-400, -300, 760, 1100),
+      (i, j) => const Color(0xFF14213D),
+      cell: 100,
+      height: -60,
+    );
+    final frame = rink.inflate(14);
+    s
+      ..box(
+        V3(frame.center.dx, -60, frame.center.dy),
+        frame.width,
+        59,
+        frame.height,
+        const Color(0xFF263238),
+        layer: Layer.ground,
       )
-      ..drawRect(
-        Rect.fromLTRB(180 - gh, rink.bottom - 4, 180 + gh, rink.bottom + 6),
-        goal,
+      ..ground(
+        rink,
+        (i, j) =>
+            tint(const Color(0xFFE3F2FD), (cellNoise(i, j, 2) - 0.5) * 0.03),
+        cell: 32,
+        layer: Layer.surface,
+      );
+    // Air holes + markings.
+    for (var x = rink.left + 20; x < rink.right; x += 28) {
+      for (var z = rink.top + 20; z < rink.bottom; z += 28) {
+        s.shadow(Offset(x, z), 1.2, height: 0.3, opacity: 0.25);
+      }
+    }
+    s.ground(
+      Rect.fromLTRB(rink.left, 358, rink.right, 362),
+      (i, j) => const Color(0x99E8322F),
+      cell: 400,
+      height: 0.4,
+      layer: Layer.decal,
+    );
+    // Rails with goal gaps.
+    final gh = level.goalHalf;
+    const rail = Color(0xFF1E88E5), railTop = Color(0xFF64B5F6);
+    final railW = (rink.width / 2) - gh;
+    for (final z in [rink.top - 6, rink.bottom + 6]) {
+      s
+        ..box(
+          V3(rink.left + railW / 2, 0, z),
+          railW,
+          14,
+          12,
+          rail,
+          top: railTop,
+        )
+        ..box(
+          V3(rink.right - railW / 2, 0, z),
+          railW,
+          14,
+          12,
+          rail,
+          top: railTop,
+        )
+        ..box(
+          V3(180, -12, z + (z < 360 ? -14 : 14)),
+          gh * 2,
+          12,
+          16,
+          const Color(0xFF111111),
+        );
+    }
+    s
+      ..box(
+        V3(rink.left - 6, 0, 360),
+        12,
+        14,
+        rink.height + 24,
+        rail,
+        top: railTop,
+      )
+      ..box(
+        V3(rink.right + 6, 0, 360),
+        12,
+        14,
+        rink.height + 24,
+        rail,
+        top: railTop,
       );
     for (final p in level.pegs) {
-      drawBall(canvas, p, 14, const Color(0xFF546E7A));
+      s.cylinder(
+        V3.ground(p),
+        14,
+        16,
+        const Color(0xFF546E7A),
+        top: const Color(0xFF90A4AE),
+      );
     }
-    drawBall(canvas, _puck.px, puckR, const Color(0xFF212121));
-    for (final (m, c) in [
-      (_me, const Color(0xFFE8322F)),
-      (_ai, const Color(0xFF1E88E5)),
-    ]) {
-      drawBall(canvas, m, malletR, c);
-      canvas.drawCircle(m, malletR * 0.45, Paint()..color = Colors.white24);
-    }
+    s
+      ..shadow(_puck.px.translate(3, 3), puckR)
+      ..cylinder(
+        V3.ground(_puck.px),
+        puckR,
+        5,
+        const Color(0xFF212121),
+        top: const Color(0xFF424242),
+      );
+    _mallet(s, _me, const Color(0xFFE8322F));
+    _mallet(s, _ai, const Color(0xFF1E88E5));
+    s.render(canvas);
     drawText(
       canvas,
       '$me',
-      const Offset(30, 380),
-      size: 30,
+      const Offset(24, 560),
+      size: 32,
       display: true,
       color: const Color(0xFFE8322F),
     );
     drawText(
       canvas,
       '$opp',
-      const Offset(30, 310),
-      size: 30,
+      const Offset(24, 110),
+      size: 32,
       display: true,
       color: const Color(0xFF1E88E5),
     );
