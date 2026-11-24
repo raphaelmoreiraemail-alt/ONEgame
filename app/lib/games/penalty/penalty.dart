@@ -6,9 +6,11 @@ import '../../core/l10n/l10n.dart';
 import '../../core/rng/seeded_random.dart';
 import '../common/draw.dart';
 import '../common/fingerprint.dart';
+import '../common/football3d.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart';
 
 /// 7.2 Tirs au but — 5 shots + sudden death, then 5 saves as the keeper.
 class PenaltyGame extends MiniGameDefinition {
@@ -512,105 +514,75 @@ class PenaltySim extends GameSim {
 
   // ---------------------------------------------------------------- render
 
+  // ---------------------------------------------------------------- 3D
+
+  late final Football3D _stadium = Football3D(
+    halfWidth: _halfW,
+    spotDistance: 390,
+  );
+
+  /// 3D ball position during a flight.
+  V3 _ball3d() {
+    final st = _stadium;
+    final t = (_phaseStep / stepsPerSecond / _flight).clamp(0.0, 1.0);
+    final e = Curves.easeOut.transform(t);
+    final from = V3(180, 6, st.spotDistance);
+    final to = st.goal(_u, _v);
+    final base = from + (to - from) * e;
+    final bend = math.sin(t * math.pi) * _curve * st.halfWidth * 0.9;
+    final lift = math.sin(t * math.pi) * (_panenka ? 45 : 10 * _v);
+    return V3(base.x + bend, math.max(6, base.y + lift), base.z);
+  }
+
   @override
   void render(Canvas canvas) {
-    // Pitch with mowing stripes.
-    for (var i = 0; i < 16; i++) {
-      canvas.drawRect(
-        Rect.fromLTWH(0, i * 40.0, 360, 40),
-        Paint()
-          ..color = i.isEven
-              ? const Color(0xFF2E8B47)
-              : const Color(0xFF289040),
-      );
-    }
-    final line = Paint()
-      ..color = Colors.white70
-      ..strokeWidth = 3
-      ..style = PaintingStyle.stroke;
-    canvas
-      ..drawLine(const Offset(0, _groundY), const Offset(360, _groundY), line)
-      ..drawRect(const Rect.fromLTRB(40, _groundY, 320, 380), line)
-      ..drawCircle(spot, 4, Paint()..color = Colors.white);
-
-    // Net + goal frame.
-    final gl = goalPoint(-1, 1), gr = goalPoint(1, 0);
-    final net = Paint()
-      ..color = Colors.white24
-      ..strokeWidth = 1;
-    for (var x = gl.dx; x <= gr.dx; x += 12) {
-      canvas.drawLine(Offset(x, gl.dy), Offset(x, gr.dy), net);
-    }
-    for (var y = gl.dy; y <= gr.dy; y += 12) {
-      canvas.drawLine(Offset(gl.dx, y), Offset(gr.dx, y), net);
-    }
-    final post = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 6
-      ..strokeCap = StrokeCap.round;
-    canvas
-      ..drawLine(goalPoint(-1, 0), goalPoint(-1, 1), post)
-      ..drawLine(goalPoint(1, 0), goalPoint(1, 1), post)
-      ..drawLine(goalPoint(-1, 1), goalPoint(1, 1), post);
-
-    // Keeper.
+    final st = _stadium;
+    st.sky(canvas);
+    final s = st.scene();
+    st.stadium(s, spotZ: st.spotDistance);
+    // Keeper (player is red when keeping).
     final playerKeeps = !_shooting;
-    final kp = goalPoint(_ku, _kv);
-    final kColor = playerKeeps
-        ? const Color(0xFFE8322F)
-        : const Color(0xFF212121);
-    final lean = (_ku - 0) * 0.6;
-    canvas
-      ..save()
-      ..translate(kp.dx, kp.dy)
-      ..rotate(lean);
-    drawBox(canvas, const Rect.fromLTWH(-16, -24, 32, 44), kColor, radius: 8);
-    canvas
-      ..drawCircle(
-        const Offset(0, -34),
-        11,
-        Paint()..color = const Color(0xFFFFCC80),
-      )
-      ..drawLine(
-        const Offset(-16, -18),
-        const Offset(-36, -36),
-        Paint()
-          ..color = kColor
-          ..strokeWidth = 8
-          ..strokeCap = StrokeCap.round,
-      )
-      ..drawLine(
-        const Offset(16, -18),
-        const Offset(36, -36),
-        Paint()
-          ..color = kColor
-          ..strokeWidth = 8
-          ..strokeCap = StrokeCap.round,
-      )
-      ..restore();
-
-    // AI shooter during the keeper part + 0.4 s hint.
+    final kp = st.goal(_ku, math.max(0, _kv - 0.3));
+    s.figure(
+      V3(kp.x, kp.y, 4),
+      playerKeeps ? const Color(0xFFE8322F) : const Color(0xFF263238),
+      roll: -_ku * 0.9,
+      arms: 0.3 + (_kv - 0.3).abs() * 1.2,
+      scale: 1.15,
+      shorts: const Color(0xFF111111),
+    );
+    s.shadow(Offset(kp.x, 6), 14, stretch: 1.4);
+    // AI shooter running up during the keeper part.
+    if (playerKeeps && _phase == _Phase.keepRunup) {
+      final t = (_phaseStep / stepsPerSecond / 1.2).clamp(0.0, 1.0);
+      final feet = V3(150 + 22 * t, 0, st.spotDistance + 60 - 50 * t);
+      s
+        ..figure(feet, const Color(0xFF1565C0), scale: 1.1)
+        ..shadow(feet.flat, 10);
+    }
+    // Ball.
+    V3 ball;
+    if (_phase == _Phase.shotFlying || _phase == _Phase.keepFlying) {
+      ball = _ball3d();
+    } else if (_phase == _Phase.shotResult || _phase == _Phase.keepResult) {
+      final inside = _u.abs() < 1 && _v < 1;
+      ball = st.goal(
+        _u.clamp(-1.3, 1.3),
+        _v.clamp(0.06, 1.3),
+        inside ? -38 : 8,
+      );
+    } else {
+      ball = V3(180, 6, st.spotDistance);
+    }
+    st.ball(s, ball);
+    s.render(canvas);
+    // Keeper-part hint: 0.4 s before the kick.
     if (playerKeeps && _phase == _Phase.keepRunup) {
       final t = _phaseStep / stepsPerSecond;
-      final runner = Offset.lerp(
-        const Offset(140, 600),
-        const Offset(170, 490),
-        (t / 1.2).clamp(0, 1),
-      )!;
-      drawBox(
-        canvas,
-        Rect.fromCenter(center: runner, width: 26, height: 36),
-        const Color(0xFF1565C0),
-      );
-      canvas.drawCircle(
-        runner.translate(0, -26),
-        10,
-        Paint()..color = const Color(0xFFFFCC80),
-      );
       if (t >= 0.8 && saveIndex < saveRounds) {
-        final s = plan.aiShots[saveIndex];
-        final side = s.u < -0.3 ? -1 : (s.u > 0.3 ? 1 : 0);
-        const a = Offset(180, 420);
+        final shot = plan.aiShots[saveIndex];
+        final side = shot.u < -0.3 ? -1 : (shot.u > 0.3 ? 1 : 0);
+        const a = Offset(180, 470);
         final p = Paint()
           ..color = const Color(0xFFFFD23F)
           ..strokeWidth = 6
@@ -621,35 +593,14 @@ class PenaltySim extends GameSim {
           ..drawCircle(tip, 8, Paint()..color = const Color(0xFFFFD23F));
       }
     }
-
-    // Ball.
-    Offset ball;
-    double r;
-    if (_phase == _Phase.shotFlying || _phase == _Phase.keepFlying) {
-      ball = _ballPos();
-      final t = (_phaseStep / stepsPerSecond / _flight).clamp(0.0, 1.0);
-      r = 12 - 5 * t;
-    } else if (_phase == _Phase.shotResult || _phase == _Phase.keepResult) {
-      ball = goalPoint(_u, _v);
-      r = 7;
-    } else if (playerKeeps) {
-      ball = const Offset(180, 470);
-      r = 12;
-    } else {
-      ball = spot;
-      r = 12;
-    }
-    drawBall(canvas, ball, r, Colors.white);
-    canvas.drawCircle(ball, r * 0.35, Paint()..color = const Color(0xFF222222));
-
-    // Swipe trail while shooting.
+    // Swipe trail.
     if (_pointer != null && _path.length > 1) {
-      final p = Path()..moveTo(_path.first.dx, _path.first.dy);
+      final path = Path()..moveTo(_path.first.dx, _path.first.dy);
       for (final q in _path.skip(1)) {
-        p.lineTo(q.dx, q.dy);
+        path.lineTo(q.dx, q.dy);
       }
       canvas.drawPath(
-        p,
+        path,
         Paint()
           ..color = const Color(0x88FFD23F)
           ..strokeWidth = 6
@@ -657,7 +608,6 @@ class PenaltySim extends GameSim {
           ..strokeCap = StrokeCap.round,
       );
     }
-
     // Scoreboard.
     final dots = StringBuffer();
     for (final o in outcomes) {
@@ -669,7 +619,7 @@ class PenaltySim extends GameSim {
         _ => '●',
       });
     }
-    final saveDots = saveResults.map((s) => s ? '●' : '✗').join();
+    final saveDots = saveResults.map((ok) => ok ? '●' : '✗').join();
     drawText(canvas, '⚽ $dots', const Offset(16, 96), size: 15);
     drawText(
       canvas,
@@ -678,28 +628,25 @@ class PenaltySim extends GameSim {
       size: 15,
       align: TextAlign.right,
     );
+    String? banner;
     if (_phase == _Phase.shotResult && _lastOutcome != null) {
+      banner = switch (_lastOutcome!) {
+        ShotOutcome.saved => '✋',
+        ShotOutcome.post || ShotOutcome.wide || ShotOutcome.over => '✗',
+        _ => 'GOAL!',
+      };
+    } else if (_phase == _Phase.keepResult && _lastSave != null) {
+      banner = _lastSave! ? '🧤' : '✗';
+    }
+    if (banner != null) {
       drawText(
         canvas,
-        switch (_lastOutcome!) {
-          ShotOutcome.saved => '✋',
-          ShotOutcome.post || ShotOutcome.wide || ShotOutcome.over => '✗',
-          _ => 'GOAL!',
-        },
-        const Offset(180, 320),
-        size: 40,
+        banner,
+        const Offset(180, 380),
+        size: 44,
         display: true,
         align: TextAlign.center,
         color: const Color(0xFFFFD23F),
-      );
-    }
-    if (_phase == _Phase.keepResult && _lastSave != null) {
-      drawText(
-        canvas,
-        _lastSave! ? '🧤' : '✗',
-        const Offset(180, 320),
-        size: 44,
-        align: TextAlign.center,
       );
     }
   }

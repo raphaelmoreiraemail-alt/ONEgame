@@ -6,9 +6,11 @@ import '../../core/l10n/l10n.dart';
 import '../../core/rng/seeded_random.dart';
 import '../common/draw.dart';
 import '../common/fingerprint.dart';
+import '../common/football3d.dart';
 import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
+import '../common/render3d.dart';
 
 /// 7.3 Coup franc — 8 free kicks, a wall that may jump, a keeper.
 class FreekickGame extends MiniGameDefinition {
@@ -313,109 +315,102 @@ class FreekickSim extends GameSim {
     'kicks': outcomes.length,
   };
 
+  // ---------------------------------------------------------------- 3D
+
+  /// Kick spot in 3D: the 2D spot's depth maps to 15–24 m from goal.
+  V3 _spot3d(FreekickPlan k) => V3(k.spot.dx, 6, 380 + (k.spot.dy - 400) * 2.6);
+
+  final Map<int, Football3D> _stadiums = {};
+
+  Football3D _stadiumFor(int i) => _stadiums.putIfAbsent(i, () {
+    final sp = _spot3d(plan[i]);
+    return Football3D(
+      halfWidth: _halfW,
+      spotDistance: sp.z,
+      camera: Camera3D(
+        eye: V3(sp.x + (sp.x - 180) * 0.25, 100, sp.z + 230),
+        target: const V3(180, 30, 0),
+        fovDegrees: 50,
+        center: const Offset(180, 250),
+      ),
+    );
+  });
+
   @override
   void render(Canvas canvas) {
-    for (var i = 0; i < 16; i++) {
-      canvas.drawRect(
-        Rect.fromLTWH(0, i * 40.0, 360, 40),
-        Paint()
-          ..color = i.isEven
-              ? const Color(0xFF2E8B47)
-              : const Color(0xFF289040),
-      );
-    }
-    final line = Paint()
-      ..color = Colors.white70
-      ..strokeWidth = 3
-      ..style = PaintingStyle.stroke;
-    canvas
-      ..drawLine(const Offset(0, _groundY), const Offset(360, _groundY), line)
-      ..drawRect(const Rect.fromLTRB(20, _groundY, 340, 380), line);
-    final net = Paint()..color = Colors.white24;
-    for (var x = 180 - _halfW; x <= 180 + _halfW; x += 12) {
-      canvas.drawLine(Offset(x, _groundY - _goalH), Offset(x, _groundY), net);
-    }
-    final post = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 6
-      ..strokeCap = StrokeCap.round;
-    canvas
-      ..drawLine(goalPoint(-1, 0), goalPoint(-1, 1), post)
-      ..drawLine(goalPoint(1, 0), goalPoint(1, 1), post)
-      ..drawLine(goalPoint(-1, 1), goalPoint(1, 1), post);
+    final i = math.min(index, kicks - 1);
+    final k = plan[i];
+    final st = _stadiumFor(i);
+    final sp = _spot3d(k);
+    st.sky(canvas);
+    final s = st.scene();
+    st.stadium(s);
     // Keeper.
-    final kp = goalPoint(_ku, _kv);
-    drawBox(
-      canvas,
-      Rect.fromCenter(center: kp, width: 30, height: 40),
-      const Color(0xFF212121),
-      radius: 8,
-    );
-    canvas.drawCircle(
-      kp.translate(0, -28),
-      10,
-      Paint()..color = const Color(0xFFFFCC80),
-    );
-    if (index < kicks) {
-      final k = _k;
-      // Wall, drawn on the ball → goal line.
-      final (a, b) = _wallSpan;
-      final t = _flying ? _t / stepsPerSecond / _flight : 0.0;
-      final jump = _wallUp(t) && _flying ? 14.0 : 0.0;
-      final wallBase = Offset.lerp(k.spot, goalPoint((a + b) / 2, 0), _wallT)!;
-      final count = k.wallSize;
-      for (var i = 0; i < count; i++) {
-        final x = wallBase.dx + (i - (count - 1) / 2) * 20;
-        drawBox(
-          canvas,
-          Rect.fromCenter(
-            center: Offset(x, wallBase.dy - jump),
-            width: 18,
-            height: 30,
-          ),
+    final kp = st.goal(_ku, math.max(0, _kv - 0.3));
+    s
+      ..figure(
+        V3(kp.x, kp.y, 4),
+        const Color(0xFF263238),
+        roll: -_ku * 0.9,
+        arms: 0.4,
+        scale: 1.1,
+      )
+      ..shadow(Offset(kp.x, 6), 14, stretch: 1.4);
+    // Wall, 9.15 m from the ball toward its span.
+    final t = _flying ? _t / stepsPerSecond / _flight : 0.0;
+    final (a, b) = _wallSpan;
+    final aim = st.goal((a + b) / 2, 0);
+    final dir = (aim - sp).normalized;
+    final wallBase = sp + dir * 300;
+    final jump = _flying && _wallUp(t) ? 14.0 : 0.0;
+    final side = V3(-dir.z, 0, dir.x).normalized;
+    for (var p = 0; p < k.wallSize; p++) {
+      final feet = wallBase + side * ((p - (k.wallSize - 1) / 2) * 20);
+      s
+        ..figure(
+          V3(feet.x, jump, feet.z),
           const Color(0xFF1565C0),
-          radius: 6,
-        );
-        canvas.drawCircle(
-          Offset(x, wallBase.dy - 20 - jump),
-          7,
-          Paint()..color = const Color(0xFFFFCC80),
-        );
-      }
-      // Ball + shadow (height read from the shadow distance).
-      Offset ground;
-      var h = 0.0;
-      if (_flying) {
-        final tt = t.clamp(0.0, 1.0);
-        ground = Offset.lerp(k.spot, goalPoint(_uAt(tt), 0), tt)!;
-        h = _hAt(tt) * _goalH;
-      } else if (_resultSteps > 0) {
-        ground = goalPoint(_u, 0);
-        h = _v * _goalH;
-      } else {
-        ground = k.spot;
-      }
-      canvas.drawOval(
-        Rect.fromCenter(center: ground, width: 16, height: 6),
-        Paint()..color = const Color(0x55000000),
-      );
-      drawBall(canvas, ground.translate(0, -h), 9, Colors.white, shadow: false);
+          arms: jump > 0 ? 0.9 : 0,
+          scale: 1.05,
+        )
+        ..shadow(Offset(feet.x, feet.z), 9);
     }
+    // Ball.
+    V3 ball;
+    if (_flying) {
+      final tt = t.clamp(0.0, 1.0);
+      ball = V3(
+        180 + _uAt(tt) * _halfW,
+        6 + _hAt(tt) * st.height,
+        sp.z * (1 - tt),
+      );
+    } else if (_resultSteps > 0) {
+      final inside = _u.abs() < 1 && _v < 1;
+      ball = st.goal(
+        _u.clamp(-1.3, 1.3),
+        _v.clamp(0.07, 1.3),
+        inside ? -38 : 8,
+      );
+    } else {
+      ball = sp;
+    }
+    st.ball(s, ball);
+    s.render(canvas);
     if (_pointer != null && _path.length > 1) {
-      final p = Path()..moveTo(_path.first.dx, _path.first.dy);
+      final path = Path()..moveTo(_path.first.dx, _path.first.dy);
       for (final q in _path.skip(1)) {
-        p.lineTo(q.dx, q.dy);
+        path.lineTo(q.dx, q.dy);
       }
       canvas.drawPath(
-        p,
+        path,
         Paint()
           ..color = const Color(0x88FFD23F)
           ..strokeWidth = 6
           ..style = PaintingStyle.stroke,
       );
     }
-    if (_k.wind.abs() > 0.08) {
-      drawWind(canvas, const Offset(320, 300), Offset(_k.wind * 150, 0));
+    if (k.wind.abs() > 0.08) {
+      drawWind(canvas, const Offset(320, 300), Offset(k.wind * 150, 0));
     }
     drawText(
       canvas,
@@ -432,7 +427,7 @@ class FreekickSim extends GameSim {
           KickOutcome.post || KickOutcome.wide => '✗',
           _ => 'GOAL!',
         },
-        const Offset(180, 330),
+        const Offset(180, 380),
         size: 40,
         display: true,
         align: TextAlign.center,

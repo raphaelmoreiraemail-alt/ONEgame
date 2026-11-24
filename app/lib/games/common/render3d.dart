@@ -302,6 +302,73 @@ class Scene3D {
     quad(b2, b1, t1, t2, color); // right
   }
 
+  /// Box with an arbitrary orientation: [ax], [ay], [az] are its unit axes
+  /// (width, height, depth); [base] is the center of its bottom face.
+  void boxAxes(
+    V3 base,
+    V3 ax,
+    V3 ay,
+    V3 az,
+    double width,
+    double height,
+    double depth,
+    Color color,
+  ) {
+    final w = width / 2, d = depth / 2;
+    V3 p(double x, double y, double z) => base + ax * x + ay * y + az * z;
+    final b0 = p(-w, 0, -d),
+        b1 = p(w, 0, -d),
+        b2 = p(w, 0, d),
+        b3 = p(-w, 0, d);
+    final t0 = p(-w, height, -d),
+        t1 = p(w, height, -d),
+        t2 = p(w, height, d),
+        t3 = p(-w, height, d);
+    quad(t0, t3, t2, t1, color);
+    quad(b0, b1, b2, b3, color);
+    quad(b3, b2, t2, t3, color);
+    quad(b1, b0, t0, t1, color);
+    quad(b0, b3, t3, t0, color);
+    quad(b2, b1, t1, t2, color);
+  }
+
+  /// A simple athlete facing the camera (−z), leaning by [roll] radians
+  /// (sideways dive) with arms raised by [arms] (0 = down, 1 = up).
+  void figure(
+    V3 feet,
+    Color shirt, {
+    double roll = 0,
+    double arms = 0,
+    double scale = 1,
+    Color skin = const Color(0xFFFFCC80),
+    Color shorts = const Color(0xFF212121),
+  }) {
+    final c = math.cos(roll), s = math.sin(roll);
+    final up = V3(-s, c, 0), side = V3(c, s, 0);
+    const fwd = V3(0, 0, 1);
+    V3 at(double x, double y) => feet + side * (x * scale) + up * (y * scale);
+    boxAxes(at(-4, 0), side, up, fwd, 5 * scale, 16 * scale, 5 * scale, shorts);
+    boxAxes(at(4, 0), side, up, fwd, 5 * scale, 16 * scale, 5 * scale, shorts);
+    boxAxes(at(0, 15), side, up, fwd, 16 * scale, 19 * scale, 9 * scale, shirt);
+    for (final dir in [-1.0, 1.0]) {
+      final a = dir * (0.25 + arms * 2.4);
+      final ac = math.cos(a), as = math.sin(a);
+      final armUp = up * ac + side * (-as);
+      final armSide = side * ac + up * as;
+      boxAxes(
+        at(dir * 10, 31),
+        armSide,
+        armUp * -1,
+        fwd,
+        4.5 * scale,
+        15 * scale,
+        4.5 * scale,
+        shirt,
+      );
+    }
+    sphere(at(0, 40), 6 * scale, skin, lat: 5, lon: 8);
+  }
+
   /// Vertical cylinder; [base] = center of its bottom.
   void cylinder(
     V3 base,
