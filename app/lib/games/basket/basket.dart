@@ -11,6 +11,7 @@ import '../common/game_sim.dart';
 import '../common/game_types.dart';
 import '../common/mini_game_definition.dart';
 import '../common/physics.dart';
+import '../common/render3d.dart';
 
 /// 7.4 Basket — 60 s of shooting, then 60 s of "moneyball" (moving hoop).
 class BasketGame extends MiniGameDefinition {
@@ -370,114 +371,182 @@ class BasketSim extends GameSim {
     'maxStreak': maxStreak,
   };
 
+  // ---------------------------------------------------------------- 3D
+
+  /// The simulation is a vertical plane (x, y down): drawn as the plane
+  /// z = 0 of a 3D gym, floor at y = 600.
+  static V3 _p(Offset o, [double z = 0]) => V3(o.dx, 600 - o.dy, z);
+
+  static final Camera3D _camera = Camera3D(
+    eye: const V3(165, 270, 660),
+    target: const V3(180, 235, 0),
+    fovDegrees: 56,
+    center: const Offset(180, 330),
+  );
+
+  @override
+  Camera3D get camera3d => _camera;
+
+  @override
+  Offset? touchToWorld(Offset screen) {
+    final p = _camera.unprojectToPlaneZ(screen);
+    return p == null ? null : Offset(p.x, 600 - p.y);
+  }
+
   @override
   void render(Canvas canvas) {
-    // Wall + parquet floor.
-    canvas.drawRect(
-      const Rect.fromLTWH(0, 0, 360, 600),
-      Paint()
-        ..shader = const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFF263238), Color(0xFF37474F)],
-        ).createShader(const Rect.fromLTWH(0, 0, 360, 600)),
+    drawSky(
+      canvas,
+      Arena.rect,
+      const Color(0xFF1C2833),
+      const Color(0xFF34495E),
     );
-    for (var i = 0; i < 9; i++) {
-      canvas.drawRect(
-        Rect.fromLTWH(i * 40.0, 600, 40, 40),
-        Paint()
-          ..color = i.isEven
-              ? const Color(0xFFC68E4E)
-              : const Color(0xFFB97F42),
-      );
-    }
-    // Shot spots.
+    final s = Scene3D(
+      _camera,
+      fogColor: const Color(0xFF2C3E50),
+      fogStart: 800,
+      fogEnd: 1900,
+      ambient: 0.55,
+    );
+    // Parquet, key paint, back wall with banners.
+    s.ground(
+      const Rect.fromLTRB(-260, -260, 620, 760),
+      (i, j) => tint(
+        i.isEven ? const Color(0xFFC68E4E) : const Color(0xFFB97F42),
+        (cellNoise(i, j, 4) - 0.5) * 0.08,
+      ),
+      cell: 26,
+    );
+    s.ground(
+      const Rect.fromLTRB(212, -70, 340, 120),
+      (i, j) => const Color(0xFFB03A2E),
+      cell: 64,
+      height: 0.3,
+      layer: Layer.surface,
+    );
     for (var i = 0; i < level.spots.length; i++) {
-      final s = level.spots[i];
-      canvas.drawCircle(
-        Offset(s.dx, 602),
-        i == _spotIndex % level.spots.length ? 6 : 3,
-        Paint()..color = const Color(0x99FFFFFF),
+      final sp = level.spots[i];
+      s.shadow(
+        Offset(sp.dx, 0),
+        i == _spotIndex % level.spots.length ? 7 : 4,
+        opacity: 0.8,
+        height: 0.5,
       );
     }
+    s.box(const V3(180, -1, -250), 900, 420, 10, const Color(0xFF2E4053));
     final h = hoopPos;
     final rim = _rimHalf;
-    // Pole + board.
-    canvas.drawRect(
-      Rect.fromLTWH(h.dx + rim + 14, h.dy - 20, 8, 640),
-      Paint()..color = const Color(0xFF90A4AE),
-    );
-    drawBox(
-      canvas,
-      Rect.fromCenter(
-        center: h.translate(rim + 10, -38),
-        width: 10,
-        height: 96,
-      ),
-      Colors.white,
-      radius: 2,
-    );
-    // Net.
-    final net = Paint()
-      ..color = Colors.white70
-      ..strokeWidth = 1.5;
-    for (var i = 0; i <= 6; i++) {
-      final x = h.dx - rim + i * rim / 3;
-      canvas.drawLine(
-        Offset(x, h.dy),
-        Offset(h.dx - rim * 0.6 + i * rim * 0.2, h.dy + 44),
-        net,
+    final hoop = _p(h);
+    // Pole, arm, backboard with its red square.
+    s
+      ..cylinder(
+        V3(hoop.x + rim + 30, 0, -40),
+        6,
+        hoop.y + 30,
+        const Color(0xFF90A4AE),
+        segments: 8,
+      )
+      ..box(
+        V3(hoop.x + rim + 20, hoop.y + 20, -20),
+        30,
+        6,
+        44,
+        const Color(0xFF90A4AE),
+      )
+      ..box(
+        V3(hoop.x + rim + 10, hoop.y - 10, 0),
+        4,
+        76,
+        92,
+        const Color(0xFFF5F5F5),
+      )
+      ..box(
+        V3(hoop.x + rim + 7.5, hoop.y + 4, 0),
+        1,
+        26,
+        32,
+        const Color(0xFFE8322F),
+      );
+    // Net (translucent strings) then the orange rim ring.
+    const segs = 16;
+    for (var k = 0; k < segs; k++) {
+      final a0 = k / segs * 2 * math.pi, a1 = (k + 1) / segs * 2 * math.pi;
+      V3 top(double a) =>
+          V3(hoop.x + math.cos(a) * rim, hoop.y, math.sin(a) * rim);
+      V3 bot(double a) => V3(
+        hoop.x + math.cos(a) * rim * 0.6,
+        hoop.y - 40,
+        math.sin(a) * rim * 0.6,
+      );
+      s.quad(
+        top(a0),
+        top(a0 + 0.06),
+        bot(a1 + 0.06),
+        bot(a1),
+        const Color(0x99FFFFFF),
+        doubleSided: true,
+        lit: false,
+      );
+      final p0 = top(a0), p1 = top(a1);
+      s.quad(
+        p0,
+        p1,
+        p1 + const V3(0, 3, 0),
+        p0 + const V3(0, 3, 0),
+        const Color(0xFFFF5722),
+        doubleSided: true,
       );
     }
-    // Ball (behind the rim front).
+    // Ball with seams, held by the shooter until the throw.
     final ball = _ball;
     if (ball != null) {
-      final p = ball.px;
-      drawBall(canvas, p, ballRadius, const Color(0xFFF57C00));
-      final seam = Paint()
-        ..color = const Color(0xFF4E2600)
-        ..strokeWidth = 1.5
-        ..style = PaintingStyle.stroke;
-      canvas
-        ..save()
-        ..translate(p.dx, p.dy)
-        ..rotate(ball.angle)
-        ..drawLine(
-          const Offset(-ballRadius, 0),
-          const Offset(ballRadius, 0),
-          seam,
-        )
-        ..drawArc(
-          Rect.fromCircle(center: Offset.zero, radius: ballRadius * 0.8),
-          -math.pi / 2,
-          math.pi,
-          false,
-          seam,
-        )
-        ..restore();
-    }
-    // Rim.
-    canvas.drawLine(
-      h.translate(-rim, 0),
-      h.translate(rim, 0),
-      Paint()
-        ..color = const Color(0xFFFF5722)
-        ..strokeWidth = 5
-        ..strokeCap = StrokeCap.round,
-    );
-    // Swipe trail.
-    if (_pointer != null && _samples.length > 1) {
-      final path = Path()..moveTo(_samples.first.$2.dx, _samples.first.$2.dy);
-      for (final s in _samples.skip(1)) {
-        path.lineTo(s.$2.dx, s.$2.dy);
+      final c = _p(ball.px);
+      if (!_inFlight) {
+        final scale = ((c.y - 8) / 46).clamp(0.9, 3.0);
+        s
+          ..figure(
+            V3(c.x - 4, 0, 10),
+            const Color(0xFFE8322F),
+            arms: 1,
+            scale: scale,
+            shorts: const Color(0xFFE8322F),
+          )
+          ..shadow(Offset(c.x - 4, 10), 10 * scale);
       }
-      canvas.drawPath(
-        path,
-        Paint()
-          ..color = const Color(0x88FFD23F)
-          ..strokeWidth = 6
-          ..style = PaintingStyle.stroke,
-      );
+      s
+        ..shadow(
+          Offset(c.x, 0),
+          ballRadius * (1 + c.y / 300),
+          opacity: 0.35 / (1 + c.y / 200),
+        )
+        ..sphere(
+          c,
+          ballRadius,
+          const Color(0xFFF57C00),
+          lat: 8,
+          lon: 14,
+          stripe: const Color(0xFF3E1F00),
+        );
+    }
+    s.render(canvas);
+    // Swipe trail (screen space).
+    if (_pointer != null && _samples.length > 1) {
+      final pts = [for (final (_, w) in _samples) _camera.project(_p(w))]
+          .whereType<Offset>()
+          .toList();
+      if (pts.length > 1) {
+        final path = Path()..moveTo(pts.first.dx, pts.first.dy);
+        for (final q in pts.skip(1)) {
+          path.lineTo(q.dx, q.dy);
+        }
+        canvas.drawPath(
+          path,
+          Paint()
+            ..color = const Color(0x88FFD23F)
+            ..strokeWidth = 6
+            ..style = PaintingStyle.stroke,
+        );
+      }
     }
     if (streak >= 3) {
       drawText(

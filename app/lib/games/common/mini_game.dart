@@ -61,14 +61,10 @@ class MiniGame extends FlameGame {
   /// Screen pointer (local to the GameWidget) → queued world input.
   void pointer(PointerPhase phase, int id, Offset local) {
     if (_finished) return;
-    var pos = (local - _offset) / _scale;
-    final cam = sim.camera3d;
-    if (cam != null) {
-      // 3D scene: the touch is where the finger points on the ground.
-      final g = cam.unprojectToGround(pos, sim.touchPlaneHeight);
-      pos = g ?? _lastGround[id] ?? pos;
-      _lastGround[id] = pos;
-    }
+    final screen = (local - _offset) / _scale;
+    // 3D scenes: the touch is where the finger points in the scene.
+    final pos = sim.touchToWorld(screen) ?? _lastGround[id] ?? screen;
+    _lastGround[id] = pos;
     _pending.add((phase, id, pos));
   }
 

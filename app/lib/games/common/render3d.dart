@@ -85,6 +85,16 @@ class Camera3D {
   /// Screen size of a length [size] placed at [p].
   double scaleAt(V3 p, double size) => size * _focal / math.max(near, depth(p));
 
+  /// Where a screen point hits the vertical plane z = [z] (3D point).
+  V3? unprojectToPlaneZ(Offset screen, [double z = 0]) {
+    final dir =
+        _f * _focal + _r * (screen.dx - _c.dx) - _u * (screen.dy - _c.dy);
+    if (dir.z.abs() < 1e-9) return null;
+    final t = (z - eye.z) / dir.z;
+    if (t <= 0) return null;
+    return eye + dir * t;
+  }
+
   /// Where a screen point hits the horizontal plane at [height], as a
   /// top-down world point (used to map touches onto the 3D scene).
   Offset? unprojectToGround(Offset screen, [double height = 0]) {

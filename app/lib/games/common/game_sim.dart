@@ -97,6 +97,16 @@ abstract class GameSim {
   /// Height of the plane touches are projected on (3D games).
   double get touchPlaneHeight => 0;
 
+  /// Maps a touch on the (letterboxed) screen to the simulation's world.
+  /// 2D games: identity; 3D games: the point under the finger on the
+  /// ground (override for other planes). Null = keep the last position.
+  Offset? touchToWorld(Offset screen) {
+    final cam = camera3d;
+    return cam == null
+        ? screen
+        : cam.unprojectToGround(screen, touchPlaneHeight);
+  }
+
   void cue({Sfx? sfx, Haptic? haptic}) =>
       cues.add(GameCue(sfx: sfx, haptic: haptic));
 
